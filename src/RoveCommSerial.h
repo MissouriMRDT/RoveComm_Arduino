@@ -8,46 +8,35 @@
 #include "RoveCommPacket.h"
 #include <Energia.h>
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class RoveCommSerial
 {
   private:
-    HardwareSerial _Ser_Tx;
-	HardwareSerial _Ser_Rx;
-	
-    //Called by overloaded write functions
-    void _write(  const uint8_t  data_type_length, const roveware::data_type_t data_type, 
+    HardwareSerial *_Serial;
+
+    void _write(  const uint8_t  data_type_length, const roveware::data_type_t data_type, // Called by overloaded write functions
                   const uint16_t data_id,    const uint8_t data_count, const void* data);
 
-  public:
-    /////begin///////////////////////////
-	void begin(HardwareSerial &S_Tx, HardwareSerial &S_Rx, int baud = 9600);
-    
-	/////Read/////////////////////
-	struct rovecomm_packet read();
-	
-	/////write////////////////////////////////////////////////////////////////////////
-	//Single-value write
-	//Overloaded for each data type
-    //Causes bug when doing:RoveComm.write(SINGLE_VALUE_EXAMPLE_ID, 1, analogRead(A0));
-	//void write(const uint16_t data_id, const int     data_count, const int      data);
+  public: 
+    void                   begin(HardwareSerial *SerialPtr, int baud = 9600);
+    bool                   available();
+    struct rovecomm_packet read();
+  
+    // Overloaded by each data type /////////////////////////////////////////////////
+    void write(const int      data_id, const int     data_count, const int      data);
     void write(const uint16_t data_id, const uint8_t data_count, const uint8_t  data);
     void write(const uint16_t data_id, const uint8_t data_count, const uint16_t data);
-    void write(const uint16_t data_id, const uint8_t data_count, const uint32_t data);
     void write(const uint16_t data_id, const uint8_t data_count, const int8_t   data);
     void write(const uint16_t data_id, const uint8_t data_count, const int16_t  data);
     void write(const uint16_t data_id, const uint8_t data_count, const int32_t  data);
-
-    //Array entry write
-	//Overloaded for each data type
-    void write(const uint16_t data_id, const int     data_count, const int      *data);
+    
+    // Overloaded for each data type Array entry write ///////////////////////////////
+    void write(const int      data_id, const int     data_count, const int      *data);
     void write(const uint16_t data_id, const uint8_t data_count, const uint8_t  *data);
     void write(const uint16_t data_id, const uint8_t data_count, const uint16_t *data);
-    void write(const uint16_t data_id, const uint8_t data_count, const uint32_t *data);
     void write(const uint16_t data_id, const uint8_t data_count, const int8_t   *data);
     void write(const uint16_t data_id, const uint8_t data_count, const int16_t  *data);
     void write(const uint16_t data_id, const uint8_t data_count, const int32_t  *data);
-  
 };
 
 #endif // RoveSerial_h
