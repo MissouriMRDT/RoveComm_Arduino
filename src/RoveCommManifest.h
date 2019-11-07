@@ -63,6 +63,7 @@
 //Command Types
 #define _TYPE_COMMAND     0*100
 #define _TYPE_TELEMETRY   1*100
+#define _TYPE_ERROR       2*100
 
 
 ///////////////////////////////////////////////////
@@ -647,11 +648,16 @@
 #define RC_ARMBOARD_IKVALUE_YAW_ENTRY		4
 #define RC_ARMBOARD_IKVALUE_ROLL_ENTRY		5
 
-//Arm Fault
-#define RC_ARMBOARD_ARMFAULT_DATAID      	06+_TYPE_TELEMETRY+_ARMBOARD_BOARDNUMBER
-#define RC_ARMBOARD_ARMFAULT_DATATYPE    	int16_t	
-#define RC_ARMBOARD_ARMFAULT_DATACOUNT  	1	//enum
-#define RC_ARMBOARD_ARMFAULT_HEADER			RC_ARMBOARD_ARMFAULT_DATAID,RC_ARMBOARD_ARMFAULT_DATACOUNT
+//Error//////////////////////////////////////////////////////////////////////////////////////////////
+//Arm Errors
+#define RC_ARMBOARD_ERRORS_DATAID      	        00+_TYPE_ERROR+_ARMBOARD_BOARDNUMBER
+#define RC_ARMBOARD_ERROR_DATATYPE    	        int16_t	
+#define RC_ARMBOARD_ERROR_DATACOUNT  	        2	//enum
+#define RC_ARMBOARD_ERROR_HEADER			    RC_ARMBOARD_ERRORS_DATAID,RC_ARMBOARD_ERROR_DATACOUNT
+#define RC_ARMBOARD_ERROR_TIMEOUT               0	//enum
+#define RC_ARMBOARD_ERROR_LIMIT_SWITCH_EXCEEDED 1	//enum
+#define RC_ARMBOARD_ERROR_ENCODER_FAULT  	    2	//enum
+
 
 ///////////////////////////////////////////////////
 //                SRASensorsBoard                //
