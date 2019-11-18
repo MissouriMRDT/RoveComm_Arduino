@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-int RoveCommEthernetPi::begin(const int board_ip_octet)
+int RoveCommEthernetPi::begin(const int board_ip_octet) //we dont actually use the 4th octect to describe the socket.
 {
 	int rv;
 
@@ -28,17 +28,20 @@ int RoveCommEthernetPi::begin(const int board_ip_octet)
 
 	if ((rv=getaddrinfo(std::nullptr, RC_ROVECOMM_ETHERNET_UDP_PORT, &hints, &this->servinfo) != 0) //if fail to generate the rest of the information to create a socket
 	{
+		//add at least a commented manual packing of servinfo, possibly actually manually pack.
+		//getaddrinfo returns 0 for success, anything else is an error
 		return 1; //quit with code 1 for error handling
 	}
 
-	for (p = this->servinfo, p != std::nullptr, p->ai_next)
+	for (this->p = this->servinfo; this->p != std::nullptr; this->p->ai_next) //not really sure why this is needed, but its good practice
 	{
-		if ((this->recvSock = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1)
+		//we should only have one entity in the servinfo linked list and then a nullptr
+		if ((this->recvSock = socket(this->p->ai_family, this->p->ai_socktype, this->p->ai_protocol)) == -1)
 		{
 			//handle non-socket error here
 			continue;
 		}
-		if (bind(this->recvSock, p->ai_addr, p->ai_addrlen) == -1)
+		if (bind(this->recvSock, this->p->ai_addr, this->p->ai_addrlen) == -1)
 		{
 			shutdown(this->recvSock, 2);
 			//handle non-bind error here
@@ -48,7 +51,7 @@ int RoveCommEthernetPi::begin(const int board_ip_octet)
 		break; //if we made a socket and bound successfully, end loop
 	}
 
-	if (p == std::nullptr)
+	if (this->p == std::nullptr)
 	{
 		//handle no socket error
 		return 2; // quit with code 2 for error handling
@@ -69,8 +72,10 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 
 	struct sockaddr_storage their_addr; //stores the addr we receive packets from
 	addrlen = sizeof(their_addr); //size of the their_addr struct
+	//add type to addrlen
 	int packet_size = recvfrom(this->recvSock, this->buf, MAXBUFLEN-1, 0, (struct sockaddr*)&their_addr, &addrlen); //see if we received a packet
-	if (packet_size != -1) //if we received a packet
+	//check and see if recvfrom actually returns packetwise or stream bytewise
+	if (packet_size != -1) //recvfrom will return -1 in the case of an error
 	{
 		uint8_t _packet[packet_size];
 		for (int i = 0; i < packet_size; i++) //convert the contents of the packet received by recvfrom to uint8's for use with the existing unpackPacket function
@@ -108,7 +113,7 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 							continue;
 						}
 					}
-					break; //break after we add the socket to the lists;
+					break; //break after we open the socket;
 				} //end elseif non-populated member in subscribers array
 			} //end for iteration over subscribers
 			if (this->p == nullptr)
@@ -119,9 +124,9 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 			{
 				this->sendSocks[i-1] = sockfd;
 				this->sendSocksInfo[i-1] = their_addr;
-			}
+			} //add the subscriber to the class storage
 		} // end Subscribe block
 
-		
+
 	} //end received packet
 } //end read function
