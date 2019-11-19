@@ -320,7 +320,7 @@ void RoveCommEthernetUdp::writeTo(         const uint16_t data_id,    const uint
                                                           IPAddress, port ); }
 
 void RoveCommEthernetUdp::writeTo(         const uint16_t data_id,    const uint8_t data_count, const uint32_t *data,
-                                           const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t  ip_octet_3, const uint8_t ip_octet_4, const uint16_t port )
+                                           const char* IPAddress, const uint16_t port )
 {                  this->_writeTo( 4, roveware::UINT32_T, data_id,                  data_count,        (void*) data,
                                                           IPAddress, port ); }
 
@@ -330,7 +330,7 @@ void RoveCommEthernetUdp::writeTo(         const uint16_t data_id,    const uint
                                                           IPAddress,   port ); }
 
 void RoveCommEthernetUdp::writeTo(         const uint16_t data_id,    const uint8_t data_count, const uint16_t *data,
-                                           const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t  ip_octet_3, const uint8_t ip_octet_4, const uint16_t port )
+                                           const char* IPAddress, const uint16_t port )
 {                  this->_writeTo( 2, roveware::UINT16_T, data_id,                  data_count,        (void*) data,
                                                           IPAddress,    port ); }
 
