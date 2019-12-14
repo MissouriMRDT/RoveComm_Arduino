@@ -6,6 +6,7 @@
 #include "RoveCommPacket.h"
 
 #define RC_ROVECOMM_ETHERNET_UDP_PORT      	 11000 // todo Skelton Port Masking
+#define RC_ROVECOMM_WIFI_UDP_PORT      	     11000 // todo Skelton Port Masking
 
 //IP Addresses
 #define RC_ROVECOMM_SUBNET_IP_FIRST_OCTET     192

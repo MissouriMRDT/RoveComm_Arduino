@@ -7,9 +7,10 @@
 
 //////////////////////////////////////////////////////
 #define ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS      10
-#define ROVECOMM_PACKET_MAX_DATA_COUNT        255
-#define ROVECOMM_PACKET_HEADER_SIZE    5
-#define ROVECOMM_VERSION    2
+#define ROVECOMM_WIFI_UDP_MAX_SUBSCRIBERS          10
+#define ROVECOMM_PACKET_MAX_DATA_COUNT             255
+#define ROVECOMM_PACKET_HEADER_SIZE                5
+#define ROVECOMM_VERSION                           2
 
 //////////////////////////////////////////////////////
 //Carrys RoveComm packet data
