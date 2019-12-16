@@ -3,18 +3,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include          <SPI.h>         // Energia/master/hardware/lm4f/libraries/SPI
-#include          <Energia.h>
 #include          <WiFiUdp.h>     
 
 WiFiUDP           WifiUdp;
 IPAddress RoveComm_WifiUdpSubscriberIps[ROVECOMM_WIFI_UDP_MAX_SUBSCRIBERS] = { INADDR_NONE };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void RoveCommWifiUdp::begin(const int board_ip_octet) 
-{
-  //begin using default IP Address
-  this->begin(RC_ROVECOMM_SUBNET_IP_FIRST_OCTET, RC_ROVECOMM_SUBNET_IP_SECOND_OCTET, RC_ROVECOMM_SUBNET_IP_THIRD_OCTET, (uint8_t)board_ip_octet);
-}
 void RoveCommWifiUdp::begin()
 { 
   WifiUdp.begin(RC_ROVECOMM_WIFI_UDP_PORT); 
@@ -137,11 +131,6 @@ void RoveCommWifiUdp::_writeTo(const uint8_t  data_type_length, const roveware::
 //Overloaded write////////////////////////////////////////////////////////////////////////////////////////////////////
 //Single-value write
 //handles the data->pointer conversion for user
-//void RoveCommWifiUdp::write(        const  uint16_t      data_id, const  int    data_count, const  int     data ) 
-//{                  int data_p[1];
-//                   data_p[0] = data;
-//                   this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data_p ); }
-//
 void RoveCommWifiUdp::write(        const uint16_t  data_id, const uint8_t data_count, const  int32_t data )
 {                  int32_t data_p[1];
                    data_p[0] = data;
@@ -172,9 +161,6 @@ void RoveCommWifiUdp::write(        const uint16_t  data_id, const uint8_t data_
                    data_p[0] = data;
                    this->_write( 1,  roveware::UINT8_T, data_id,               data_count,        (void*) data_p ); }
 //Array-Entry write///////////////////////////////////
-//void RoveCommWifiUdp::write(        const  int      data_id, const  int    data_count, const  int     *data ) 
-//{                  this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data ); }
-//
 void RoveCommWifiUdp::write(        const uint16_t  data_id, const uint8_t data_count, const  int32_t *data )
 {                  this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data ); }
 
@@ -195,12 +181,6 @@ void RoveCommWifiUdp::write(        const uint16_t  data_id, const uint8_t data_
 //Overloaded writeTo//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Single-value writeTo
 //handles the data->pointer conversion for user
-void RoveCommWifiUdp::writeTo(         const uint16_t data_id,    const uint8_t data_count, const int data,
-                                           const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port )
-{                  int data_p[1];
-                   data_p[0] = data;
-                   this->_writeTo( 4,  roveware::INT32_T, data_id,                  data_count,       (void*) data_p,
-                                                          ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, port ); }
 void RoveCommWifiUdp::writeTo(         const uint16_t data_id,    const uint8_t data_count, const int32_t data, //handling data->pointer conversion for user
                                            const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port )
 {                  int32_t data_p[1];
@@ -240,10 +220,6 @@ void RoveCommWifiUdp::writeTo(         const uint16_t data_id,    const uint8_t 
 ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, port ); }
 //Array-entry writeTo
 //handles the data->pointer conversion for user
-void RoveCommWifiUdp::writeTo(         const uint16_t data_id,    const uint8_t data_count, const int *data, //handling data->pointer conversion for user
-                                           const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port )
-{                  this->_writeTo( 4,  roveware::INT32_T, data_id,                  data_count,       (void*) data,
-                                                          ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, port ); }
 void RoveCommWifiUdp::writeTo(         const uint16_t data_id,    const uint8_t data_count, const int32_t *data,
                                            const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port )
 {                  this->_writeTo( 4,  roveware::INT32_T, data_id,                  data_count,       (void*) data,
