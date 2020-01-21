@@ -18,12 +18,13 @@
 #include "RoveCommManifest.h"
 #include "RoveCommPacket.h"
 
-#define MAXBUFLEN 512; //we can read up to MAXBUFLEN bytes
+#define MAXBUFLEN 512 //we can read up to MAXBUFLEN bytes
+#define udpPort "11000"
 
 class RoveCommEthernetPi
 {
 	private:
-
+	//char udpPort[2] = {0x2A, 0xFB};
 	char buf[MAXBUFLEN];
 	int recvSock; //set the read socket during initial setup
 	//make a struct with int,str for socket,ip instead of using sendSocks and sendSocksInfo
@@ -38,12 +39,14 @@ class RoveCommEthernetPi
 
 	void _write( const uint8_t data_type_length, const roveware::data_type_t data_type, const uint16_t data_id, const uint8_t data_count, const void* data);
 
+	void _writeto(const uint8_t data_type_length, const roveware::data_type_t data_type, const uint16_t data_id, const uint8_t data_count, const void* data, const char* IPAddress, const uint16_t port);
+
 	public:
 
 	struct rovecomm_packet read();
 
 	//begin
-	int begin(const int board_ip_octect);
+	int begin();
 
 	//overloaded write one element functions
 	void write(const uint16_t data_id, const uint8_t data_count, const uint8_t data);
@@ -54,13 +57,27 @@ class RoveCommEthernetPi
 	void write(const uint16_t data_id, const uint8_t data_count, const int32_t data);
 
 	//overloaded write array functions
-	void write(const uint16_t data_id, const uint8_t data_count, const int *data);
+	//void write(const uint16_t data_id, const uint8_t data_count, const int *data);
 	void write(const uint16_t data_id, const uint8_t data_count, const uint8_t *data);
 	void write(const uint16_t data_id, const uint8_t data_count, const uint16_t *data);
 	void write(const uint16_t data_id, const uint8_t data_count, const uint32_t *data);
 	void write(const uint16_t data_id, const uint8_t data_count, const int8_t *data);
 	void write(const uint16_t data_id, const uint8_t data_count, const int16_t *data);
 	void write(const uint16_t data_id, const uint8_t data_count, const int32_t *data);
+
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const uint8_t data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const uint16_t data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const uint32_t data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const int8_t data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const int16_t data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const int32_t data, const char* IPAddress, const uint16_t port);
+
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const uint8_t *data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const uint16_t *data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const uint32_t *data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const int8_t *data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const int16_t *data, const char* IPAddress, const uint16_t port);
+	void writeTo(const uint16_t data_id, const uint8_t data_count, const int32_t *data, const char* IPAddress, const uint16_t port);
 
 };
 
