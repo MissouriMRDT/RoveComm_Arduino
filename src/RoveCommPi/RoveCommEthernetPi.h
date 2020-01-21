@@ -19,7 +19,7 @@
 #include "RoveCommPacket.h"
 
 #define MAXBUFLEN 512 //we can read up to MAXBUFLEN bytes
-#define udpPort "11000"
+#define udpPort "11000" //redefined here from the RoveCommManifest as Linux C++ requires a const char* instead of an integer for the port number.
 
 class RoveCommEthernetPi
 {
