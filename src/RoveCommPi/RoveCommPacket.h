@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include "RoveCommManifest.h"
 
-#include <stdio.h> //TODO: try removing these includes and see if we can still compile since they're already included in RoveCommEthernetPi.h
+#include <stdio.h> //Removing the includes breaks compilation
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>

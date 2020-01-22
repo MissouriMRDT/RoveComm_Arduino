@@ -17,7 +17,7 @@
 int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describe the socket.
 {
 	int rv;
-	this->servinfo = new addrinfo;
+	//this->servinfo = new addrinfo;
 
 	memset(&this->hints, 0, sizeof(hints));
 	this->hints.ai_family = AF_INET; // use IPv4
@@ -29,10 +29,10 @@ int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describ
 		//this->subscriberList[i] = std::pair<int,std::string>(0,"0.0.0.0");
 		this->subscriberList[i] = nullptr;
 	}
-	
-	if ((rv=getaddrinfo(nullptr, udpPort, &hints, &servinfo)) != 0) //if we fail to generate the rest of the information to create a socket
+
+	if ((this->rv=getaddrinfo(nullptr, udpPort, &hints, &servinfo)) != 0) //if we fail to generate the rest of the information to create a socket
 	{
-		
+
 		//add at least a commented manual packing of servinfo, possibly actually manually pack.
 		//getaddrinfo returns 0 for success, anything else is an error
 		return 1; //quit with code 1 for error handling
@@ -64,11 +64,12 @@ int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describ
 		return 2; // quit with code 2 for error handling
 	}
 
-	
-	
-    fcntl(this->recvSock, F_SETFL, O_NONBLOCK); //set the socket into non-blocking mode so that the readfrom call in RoveComm.Read() returns 0 if there isn't a packet to read instead of hanging
-	//freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
 
+
+  fcntl(this->recvSock, F_SETFL, O_NONBLOCK); //set the socket into non-blocking mode so that the readfrom call in RoveComm.Read() returns 0 if there isn't a packet to read instead of blocking
+	freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
+	//freeaddrinfo(p);
+	//;
 	return 0; //listener socket successfully created
 }
 
@@ -78,7 +79,7 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 	uint16_t data_id = 0;
 	roveware::data_type_t data_type;
 	uint8_t data_count = 0; //packet stuff from TIVA implementation
-
+	//this->servinfo = new addrinfo;
 	struct sockaddr_in their_addr; //stores the addr we receive packets from
 	socklen_t addrlen = sizeof(their_addr); //size of the their_addr struct
     memset(this->buf, 0, sizeof(this->buf)); // reset the incoming buffer to 0's every time to ensure we dont read erroneous data on different sized packets
@@ -132,7 +133,7 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 				{
 					break; //if the subscriber entry already exists, don't duplicate it;
 				} //end elseif for not overwriting existing members
-				
+
 			} //end for iteration over subscribers
 			if (this->p == nullptr)
 			{
@@ -159,21 +160,39 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 							this->subscriberList[j + 1] = nullptr;
 						} //move this into the i loop when I have time to test and validate
 					}
-					
+
 				} //end if matching
 			} //end primary loop over subscriberList
 		} //end unsubscribe request
 		else if (packet.data_id == RC_ROVECOMM_PING_DATA_ID)
 		{
-			this->writeTo(RC_ROVECOMM_PING_REPLY_DATA_ID, (uint8_t)1, (uint8_t)1, theirAddress, udpPort);
-		    
+			this->writeTo(RC_ROVECOMM_PING_REPLY_DATA_ID, (uint8_t)1, (uint8_t)1, theirAddress, RC_ROVECOMM_ETHERNET_UDP_PORT);
+
 			//this->_writeto(RC_ROVECOMM_PING_REPLY_DATA_ID, ); //finish implementation
 		}
 
 	} //end received packet
-	
+	freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
+
 	return packet;
 } //end read function
+
+RoveCommEthernetPi::~RoveCommEthernetPi()
+{
+	for (int i = 0; i < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; i++)
+	{
+		if (this->subscriberList[i] != nullptr)
+		{
+			delete this->subscriberList[i];
+			this->subscriberList[i] = nullptr;
+		}
+		//delete[] &this->subscriberList;
+		//freeaddrinfo(this->servinfo);
+		//;
+		shutdown(this->recvSock, SHUT_RDWR);
+	}
+
+}
 
 void RoveCommEthernetPi::_write(const uint8_t data_type_length, const roveware::data_type_t data_type, const uint16_t data_id, const uint8_t data_count, const void* data)
 {
@@ -192,6 +211,7 @@ void RoveCommEthernetPi::_write(const uint8_t data_type_length, const roveware::
 			sendto(this->recvSock, buf2, buffLen, 0, this->subscriberList[i]->ai_addr, this->subscriberList[i]->ai_addrlen);
 		}
 	} //end for loop for sending packets to subscribers
+	delete buf2;
 } //end _write
 
 void RoveCommEthernetPi::_writeto(const uint8_t data_type_length, const roveware::data_type_t data_type, const uint16_t data_id, const uint8_t data_count, const void* data, const char* IPAddress, const uint16_t port)
@@ -203,7 +223,7 @@ void RoveCommEthernetPi::_writeto(const uint8_t data_type_length, const roveware
 	{
 		buf[i] = (char) _packet.bytes[i]; //populate a char array with the information to write, C++ likes chars and not uint8's
 	} //end converting packet from uint8's to chars for Linux C++ Socket compliance
-
+	this->servinfo = new addrinfo;
 	int rv;
 	memset(&this->hints, 0, sizeof(this->hints));
 	this->hints.ai_family = AF_INET;
@@ -220,6 +240,9 @@ void RoveCommEthernetPi::_writeto(const uint8_t data_type_length, const roveware
 	{
 		//failed to send message, add handling later
 	}
+	//freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
+
+	delete buf2;
 } //end _writeto function
 
 

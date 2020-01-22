@@ -27,6 +27,7 @@ class RoveCommEthernetPi
 	//char udpPort[2] = {0x2A, 0xFB};
 	char buf[MAXBUFLEN];
 	int recvSock; //set the read socket during initial setup
+	int rv;
 	//make a struct with int,str for socket,ip instead of using sendSocks and sendSocksInfo
 	//int sendSocks[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = {0}; //produce one send socket per subscriber
 	//struct sockaddr_in sendSocksInfo[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = {0}; //keep this to easily access the IP's of subscribers
@@ -47,7 +48,7 @@ class RoveCommEthernetPi
 
 	//begin
 	int begin();
-
+  ~RoveCommEthernetPi();
 	//overloaded write one element functions
 	void write(const uint16_t data_id, const uint8_t data_count, const uint8_t data);
 	void write(const uint16_t data_id, const uint8_t data_count, const uint16_t data);
