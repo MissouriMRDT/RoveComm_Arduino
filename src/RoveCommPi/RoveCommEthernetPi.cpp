@@ -63,13 +63,11 @@ int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describ
 		//handle no socket error
 		return 2; // quit with code 2 for error handling
 	}
-
-
-
-  fcntl(this->recvSock, F_SETFL, O_NONBLOCK); //set the socket into non-blocking mode so that the readfrom call in RoveComm.Read() returns 0 if there isn't a packet to read instead of blocking
-	freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
+	
+	fcntl(this->recvSock, F_SETFL, O_NONBLOCK); //set the socket into non-blocking mode so that the readfrom call in RoveComm.Read() returns 0 if there isn't a packet to read instead of blocking
+	//freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
 	//freeaddrinfo(p);
-	//;
+	
 	return 0; //listener socket successfully created
 }
 
@@ -86,8 +84,15 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 	int packet_size = recvfrom(this->recvSock, this->buf, MAXBUFLEN-1, 0, (sockaddr*)&their_addr, &addrlen); //see if we received a packet
 	//check and see if recvfrom actually returns packetwise or stream bytewise
 	//recvfrom does acquire the oldest packet in the ethernet buffer for the proper socket.
-	std::string stringAdd = inet_ntoa(their_addr.sin_addr); //determine the IP address we received the packet from. This needs to be done here as we cant check inet_ntoa() == inet_ntoa() because it overwrites the same memory location and always returns true
-	const char* theirAddress = stringAdd.c_str(); //turn the IP address into a const char pointer to make the underlying socket code work
+	//std::string stringAdd = inet_ntoa(their_addr.sin_addr); //determine the IP address we received the packet from. This needs to be done here as we cant check inet_ntoa() == inet_ntoa() because it overwrites the same memory location and always returns true
+	//const char* theirAddress = stringAdd.c_str(); //turn the IP address into a const char pointer to make the underlying socket code work
+	char* recvAdd = inet_ntoa(their_addr.sin_addr);
+	size_t len = strlen(recvAdd) + 1;
+	char* theirAddress = new char[len];
+	for (int i = 0; i < len; i++)
+	{
+		theirAddress[i] = recvAdd[i];
+	}
 	if (packet_size != -1) //recvfrom will return -1 in the case of an error
 	{
 		uint8_t _packet[packet_size];
@@ -126,10 +131,11 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 					}*/
 					//fix the thing;
 					//this->subscriberList[i] = std::pair<int,std::string>(sockfd, inet_ntoa(their_addr.sin_addr.s_addr)); //add the subscriber to the list
-					this->subscriberList[i] = this->servinfo;
+					this->subscriberList[i] = new addrinfo;
+					*this->subscriberList[i] = *this->servinfo;
 					break; //break after we add the subscriber to the subscriber list
 				} //end if non-populated member in subscribers array
-				else if (inet_ntoa(((struct sockaddr_in *)this->subscriberList[i]->ai_addr)->sin_addr) == stringAdd)
+				else if (strcmp(inet_ntoa(((struct sockaddr_in *)this->subscriberList[i]->ai_addr)->sin_addr),theirAddress) == 0)
 				{
 					break; //if the subscriber entry already exists, don't duplicate it;
 				} //end elseif for not overwriting existing members
@@ -145,20 +151,19 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 		{
 			for (int i =0; i < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; i++)
 			{
-				if (inet_ntoa(((struct sockaddr_in *)this->subscriberList[i]->ai_addr)->sin_addr) != stringAdd)
+				if (strcmp(inet_ntoa(((struct sockaddr_in *)this->subscriberList[i]->ai_addr)->sin_addr),theirAddress) != 0)
 				{
 					continue;
 				}
-				if (inet_ntoa(((struct sockaddr_in *)this->subscriberList[i]->ai_addr)->sin_addr) == stringAdd)
+				if (strcmp(inet_ntoa(((struct sockaddr_in *)this->subscriberList[i]->ai_addr)->sin_addr),theirAddress) == 0)
 				{
+					delete this->subscriberList[i];
 					this->subscriberList[i] = nullptr; //come back and fix this to move things up the list and reinitialize the other parts.
-					for (int j = i; j < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; j++)
+					for (int j = i; j + 1 < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; j++)
 					{
-						if (j + 1 < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS)
-						{
-							this->subscriberList[j] = this->subscriberList[j + 1];
-							this->subscriberList[j + 1] = nullptr;
-						} //move this into the i loop when I have time to test and validate
+						this->subscriberList[j] = this->subscriberList[j + 1];
+						this->subscriberList[j + 1] = nullptr;
+						//move this into the i loop when I have time to test and validate
 					}
 
 				} //end if matching
@@ -172,8 +177,11 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 		}
 
 	} //end received packet
-	freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
-
+	//freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
+	if (theirAddress != nullptr)
+	{
+		delete[] theirAddress;
+	}
 	return packet;
 } //end read function
 
@@ -210,8 +218,9 @@ void RoveCommEthernetPi::_write(const uint8_t data_type_length, const roveware::
 		{
 			sendto(this->recvSock, buf2, buffLen, 0, this->subscriberList[i]->ai_addr, this->subscriberList[i]->ai_addrlen);
 		}
+		
 	} //end for loop for sending packets to subscribers
-	delete buf2;
+	delete[] buf2;
 } //end _write
 
 void RoveCommEthernetPi::_writeto(const uint8_t data_type_length, const roveware::data_type_t data_type, const uint16_t data_id, const uint8_t data_count, const void* data, const char* IPAddress, const uint16_t port)
