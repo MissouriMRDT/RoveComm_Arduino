@@ -21,20 +21,12 @@
 #define MAXBUFLEN 512 //we can read up to MAXBUFLEN bytes
 #define udpPort "11000" //redefined here from the RoveCommManifest as Linux C++ requires a const char* instead of an integer for the port number.
 
-class RoveCommEthernetPi
+class RoveCommEthernetPi //this implementation is structured in the same way as the tiva implementation to improve simplicity when people need to work on both systems.
 {
 	private:
-	//char udpPort[2] = {0x2A, 0xFB};
 	char buf[MAXBUFLEN];
 	int recvSock; //set the read socket during initial setup
 	int rv;
-	//make a struct with int,str for socket,ip instead of using sendSocks and sendSocksInfo
-	//int sendSocks[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = {0}; //produce one send socket per subscriber
-	//struct sockaddr_in sendSocksInfo[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = {0}; //keep this to easily access the IP's of subscribers
-	//TODO: test this and make sure it works
-	//using a std::pair to store an (int, string) tuple for subscriber list
-	//std::pair<int,std::string> subscriberList[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS];
-	//nope, I'm a big dummy and forgot we need to feed an ai_addr object to the send function
 	struct addrinfo *subscriberList[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS];
 	struct addrinfo hints, *servaddr, *servinfo, *p;
 

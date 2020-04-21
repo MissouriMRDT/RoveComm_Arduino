@@ -17,7 +17,6 @@
 int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describe the socket.
 {
 	int rv;
-	//this->servinfo = new addrinfo;
 
 	memset(&this->hints, 0, sizeof(hints));
 	this->hints.ai_family = AF_INET; // use IPv4
@@ -26,7 +25,6 @@ int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describ
 
 	for (int i = 0; i < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; i++)
 	{
-		//this->subscriberList[i] = std::pair<int,std::string>(0,"0.0.0.0");
 		this->subscriberList[i] = nullptr;
 	}
 
@@ -41,7 +39,7 @@ int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describ
 	//for (this->p = this->servinfo; this->p != nullptr; this->p->ai_next) //not really sure why this is needed, but its good practice
 	while (p != nullptr)
 	{
-		//we should only have one entity in the servinfo linked list and then a nullptr
+		//we should only have one entity in the servinfo linked list and then a nullptr in our simple case
 		if ((this->recvSock = socket(this->p->ai_family, this->p->ai_socktype, this->p->ai_protocol)) == -1)
 		{
 			//handle non-socket error here
@@ -65,8 +63,6 @@ int RoveCommEthernetPi::begin() //we dont actually use the 4th octect to describ
 	}
 	
 	fcntl(this->recvSock, F_SETFL, O_NONBLOCK); //set the socket into non-blocking mode so that the readfrom call in RoveComm.Read() returns 0 if there isn't a packet to read instead of blocking
-	//freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
-	//freeaddrinfo(p);
 	
 	return 0; //listener socket successfully created
 }
@@ -77,15 +73,10 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 	uint16_t data_id = 0;
 	roveware::data_type_t data_type;
 	uint8_t data_count = 0; //packet stuff from TIVA implementation
-	//this->servinfo = new addrinfo;
 	struct sockaddr_in their_addr; //stores the addr we receive packets from
 	socklen_t addrlen = sizeof(their_addr); //size of the their_addr struct
     memset(this->buf, 0, sizeof(this->buf)); // reset the incoming buffer to 0's every time to ensure we dont read erroneous data on different sized packets
 	int packet_size = recvfrom(this->recvSock, this->buf, MAXBUFLEN-1, 0, (sockaddr*)&their_addr, &addrlen); //see if we received a packet
-	//check and see if recvfrom actually returns packetwise or stream bytewise
-	//recvfrom does acquire the oldest packet in the ethernet buffer for the proper socket.
-	//std::string stringAdd = inet_ntoa(their_addr.sin_addr); //determine the IP address we received the packet from. This needs to be done here as we cant check inet_ntoa() == inet_ntoa() because it overwrites the same memory location and always returns true
-	//const char* theirAddress = stringAdd.c_str(); //turn the IP address into a const char pointer to make the underlying socket code work
 	char* recvAdd = inet_ntoa(their_addr.sin_addr);
 	size_t len = strlen(recvAdd) + 1;
 	char* theirAddress = new char[len];
@@ -121,16 +112,7 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 						//this means we couldn't prepare for a socket to be built pointing at sourceIP:RC_ROVECOMM_ETHERNET_UDP_PORT
 						//this means that our pointer doesn't actually work for sending data to the target IP address, this is not an issue on the current Rover network but might need to be fixed if architecture changes.
 					}
-					/*for (this->p = this->servinfo; this->p != nullptr; this->p = this->p->ai_next)
-					{
-						if ((sockfd  = socket(this->p->ai_family, this->p->ai_socktype, this->p->ai_protocol)) == -1)
-						{
-							//sockfd.close();
-							continue;
-						}
-					}*/
-					//fix the thing;
-					//this->subscriberList[i] = std::pair<int,std::string>(sockfd, inet_ntoa(their_addr.sin_addr.s_addr)); //add the subscriber to the list
+					
 					this->subscriberList[i] = new addrinfo;
 					*this->subscriberList[i] = *this->servinfo;
 					break; //break after we add the subscriber to the subscriber list
@@ -171,13 +153,12 @@ struct rovecomm_packet RoveCommEthernetPi::read()
 		} //end unsubscribe request
 		else if (packet.data_id == RC_ROVECOMM_PING_DATA_ID)
 		{
-			this->writeTo(RC_ROVECOMM_PING_REPLY_DATA_ID, (uint8_t)1, (uint8_t)1, theirAddress, RC_ROVECOMM_ETHERNET_UDP_PORT);
+			this->writeTo(RC_ROVECOMM_PING_REPLY_DATA_ID, (uint8_t)1, (uint8_t)1, theirAddress, RC_ROVECOMM_ETHERNET_UDP_PORT); //this should match the current specification for pings
 
 			//this->_writeto(RC_ROVECOMM_PING_REPLY_DATA_ID, ); //finish implementation
 		}
 
 	} //end received packet
-	//freeaddrinfo(this->servinfo); // we don't need servinfo anymore, free it
 	if (theirAddress != nullptr)
 	{
 		delete[] theirAddress;
@@ -194,11 +175,8 @@ RoveCommEthernetPi::~RoveCommEthernetPi()
 			delete this->subscriberList[i];
 			this->subscriberList[i] = nullptr;
 		}
-		//delete[] &this->subscriberList;
-		//freeaddrinfo(this->servinfo);
-		//;
-		shutdown(this->recvSock, SHUT_RDWR);
 	}
+	shutdown(this->recvSock, SHUT_RDWR);
 
 }
 
@@ -262,7 +240,7 @@ void RoveCommEthernetPi::_writeto(const uint8_t data_type_length, const roveware
 //void RoveCommEthernetPi::write(        const  uint16_t      data_id, const  int    data_count, const  int     data )
 //{                  int data_p[1];
 //                   data_p[0] = data;
-//                   this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data_p ); }
+//                   this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data_p ); } //C++ allows an int32_t to be called with int
 //
 void RoveCommEthernetPi::write(        const uint16_t  data_id, const uint8_t data_count, const  int32_t data )
 {                  int32_t data_p[1];
@@ -295,7 +273,7 @@ void RoveCommEthernetPi::write(        const uint16_t  data_id, const uint8_t da
                    this->_write( 1,  roveware::UINT8_T, data_id,               data_count,        (void*) data_p ); }
 //Array-Entry write///////////////////////////////////
 //void RoveCommEthernetPi::write(        const  int      data_id, const  int    data_count, const  int     *data )
-//{                  this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data ); }
+//{                  this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data ); } //C++ allows an int32_t to be called with int
 //
 void RoveCommEthernetPi::write(        const uint16_t  data_id, const uint8_t data_count, const  int32_t *data )
 {                  this->_write( 4,  roveware::INT32_T, data_id,               data_count,        (void*) data ); }
