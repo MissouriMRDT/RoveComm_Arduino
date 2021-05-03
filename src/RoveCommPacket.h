@@ -10,7 +10,7 @@
 #define ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS      10
 #define ROVECOMM_PACKET_MAX_DATA_COUNT        255
 #define ROVECOMM_PACKET_HEADER_SIZE    5
-#define ROVECOMM_VERSION    2
+#define ROVECOMM_VERSION    3
 
 //////////////////////////////////////////////////////
 //Carrys RoveComm packet data
@@ -18,7 +18,7 @@
 struct rovecomm_packet
 {
   uint16_t data_id;
-  uint8_t data_count;
+  uint16_t data_count;
   uint8_t data_type;
   char data[ROVECOMM_PACKET_MAX_DATA_COUNT*4];
 };  
@@ -42,7 +42,7 @@ namespace roveware
     uint8_t bytes[ROVECOMM_PACKET_HEADER_SIZE + sizeof(int) * ROVECOMM_PACKET_MAX_DATA_COUNT];
   };
 
-  struct _packet        packPacket(const uint16_t data_id, const uint8_t data_count, const data_type_t data_type, const void* data);
+  struct _packet        packPacket(const uint16_t data_id, const uint16_t data_count, const data_type_t data_type, const void* data);
 
   //for UDP packets, of known size
   struct rovecomm_packet unpackPacket(uint8_t  _packet[]);
