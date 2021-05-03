@@ -29,6 +29,7 @@ namespace roveware
   //DataType RoveComm encoding
   enum data_type_t { INT8_T=0, UINT8_T=1, INT16_T=2, UINT16_T=3, INT32_T=4, UINT32_T=5, FLOAT=6};
 
+  uint8_t data_type_size[7] = {1, 1, 2, 2, 4, 4, 4};
   ////////////////////////////////////////////////
   // The RoveComm udp packet header is 5 bytes long:
   // uint8_t  rovecomm_version
@@ -39,7 +40,7 @@ namespace roveware
   //Carrys Udp packet data
   struct _packet
   {
-    uint8_t bytes[ROVECOMM_PACKET_HEADER_SIZE + sizeof(int) * ROVECOMM_PACKET_MAX_DATA_COUNT];
+    uint8_t* bytes;
   };
 
   struct _packet        packPacket(const uint16_t data_id, const uint16_t data_count, const data_type_t data_type, const void* data);

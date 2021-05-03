@@ -114,6 +114,7 @@ void RoveCommEthernetUdp::_write(const uint8_t data_type_length, const roveware:
       EthernetUdp.endPacket();
     }
   }
+  delete[] _packet.bytes;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +131,7 @@ void RoveCommEthernetUdp::_writeTo(const uint8_t data_type_length, const rovewar
   EthernetUdp.beginPacket(WriteToIp, port);
   EthernetUdp.write(      _packet.bytes, (ROVECOMM_PACKET_HEADER_SIZE + (data_type_length * data_count)));
   EthernetUdp.endPacket(); 
+  delete[] _packet.bytes;
 }
 
 void RoveCommEthernetUdp::_writeTo(const uint8_t  data_type_length, const roveware::data_type_t data_type,
@@ -142,7 +144,8 @@ void RoveCommEthernetUdp::_writeTo(const uint8_t  data_type_length, const rovewa
   //Write to that IP
   EthernetUdp.beginPacket(ipaddress, port);
   EthernetUdp.write(      _packet.bytes, (ROVECOMM_PACKET_HEADER_SIZE + (data_type_length * data_count)));
-  EthernetUdp.endPacket(); 
+  EthernetUdp.endPacket();
+  delete[] _packet.bytes; 
 }
 //Overloaded write////////////////////////////////////////////////////////////////////////////////////////////////////
 //Single-value write
