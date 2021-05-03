@@ -130,60 +130,60 @@ namespace roveware
     { 
       for(int i = 0; i < data_count*4; i+=4)
       {
-        rovecomm_packet.data[i] = _packet_bytes[5+i+3];
-        rovecomm_packet.data[i+1] = _packet_bytes[5+i+2];
-        rovecomm_packet.data[i+2] = _packet_bytes[5+i+1];
-        rovecomm_packet.data[i+3] = _packet_bytes[5+i];
+        rovecomm_packet.data[i] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+3];
+        rovecomm_packet.data[i+1] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+2];
+        rovecomm_packet.data[i+2] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+1];
+        rovecomm_packet.data[i+3] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i];
       }        
     } 
     else if(data_type ==  UINT32_T )
     { 
       for(int i = 0; i < data_count*4; i+=4)
       {
-        rovecomm_packet.data[i] = _packet_bytes[5+i+3];
-        rovecomm_packet.data[i+1] = _packet_bytes[5+i+2];
-        rovecomm_packet.data[i+2] = _packet_bytes[5+i+1];
-        rovecomm_packet.data[i+3] = _packet_bytes[5+i];
+        rovecomm_packet.data[i] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+3];
+        rovecomm_packet.data[i+1] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+2];
+        rovecomm_packet.data[i+2] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+1];
+        rovecomm_packet.data[i+3] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i];
       }        
     } 
     else if(data_type ==  INT16_T)
     { 
       for(int i = 0; i < data_count*2; i+=2)
       {
-        rovecomm_packet.data[i] = _packet_bytes[5+i+1];
-        rovecomm_packet.data[i+1] = _packet_bytes[5+i];
+        rovecomm_packet.data[i] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+1];
+        rovecomm_packet.data[i+1] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i];
       }
     }
     else if(data_type == UINT16_T)
     { 
       for(int i = 0; i < data_count*2; i+=2)
       {
-        rovecomm_packet.data[i] = _packet_bytes[5+i+1];
-        rovecomm_packet.data[i+1] = _packet_bytes[5+i];
+        rovecomm_packet.data[i] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+1];
+        rovecomm_packet.data[i+1] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i];
       }
     } 
     else if(data_type ==  INT8_T )
     {
       for(int i = 0; i < data_count; i++)
       {
-        rovecomm_packet.data[i] = _packet_bytes[5+i];
+        rovecomm_packet.data[i] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i];
       }
     } 
     else if(data_type ==  UINT8_T )
     {
       for(int i = 0; i < data_count; i++)
       {
-        rovecomm_packet.data[i] = _packet_bytes[5+i];
+        rovecomm_packet.data[i] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i];
       }    
     } 
     else if(data_type ==  FLOAT )
     {
       for(int i = 0; i < data_count*4; i+=4)
       {
-        rovecomm_packet.data[i] = _packet_bytes[5+i+3];
-        rovecomm_packet.data[i+1] = _packet_bytes[5+i+2];
-        rovecomm_packet.data[i+2] = _packet_bytes[5+i+1];
-        rovecomm_packet.data[i+3] = _packet_bytes[5+i];
+        rovecomm_packet.data[i] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+3];
+        rovecomm_packet.data[i+1] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+2];
+        rovecomm_packet.data[i+2] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i+1];
+        rovecomm_packet.data[i+3] = _packet_bytes[ROVECOMM_PACKET_HEADER_SIZE+i];
       }    
     } 
     else
@@ -200,10 +200,10 @@ namespace roveware
   {
 
     //array of bytes that form the header
-    uint8_t header[5];
+    uint8_t header[ROVECOMM_PACKET_HEADER_SIZE];
 
     //read in the header (standard size of 5 bytes)
-    for(uint8_t i = 0; i < 5; i++)
+    for(uint8_t i = 0; i < ROVECOMM_PACKET_HEADER_SIZE; i++)
       {
       header[i] = client.read();
       }
