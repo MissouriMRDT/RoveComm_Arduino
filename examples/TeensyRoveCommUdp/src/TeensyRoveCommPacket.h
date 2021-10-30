@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "TeensyRoveCommManifest.h"
-#include "Ethernet.h"
+#include "NativeEthernet.h"
 
 //////////////////////////////////////////////////////
 #define ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS      10
@@ -21,7 +21,7 @@ struct rovecomm_packet
   uint8_t data_count;
   uint8_t data_type;
   char data[ROVECOMM_PACKET_MAX_DATA_COUNT*4];
-};  
+};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace roveware
@@ -32,7 +32,7 @@ namespace roveware
   ////////////////////////////////////////////////
   // The RoveComm udp packet header is 5 bytes long:
   // uint8_t  rovecomm_version
-  // uint16_t data_id   
+  // uint16_t data_id
   // uint8_t  data_type
   // uint8_t  data_count
 

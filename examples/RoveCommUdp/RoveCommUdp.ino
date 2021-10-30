@@ -31,6 +31,9 @@ void loop()
 {
   packet = RoveComm.read();
 
+  Serial.println("A:");
+  Serial.println(MAX_CLIENTS);
+
   Serial.println("Data id: ");
   Serial.println(packet.data_id);
 
