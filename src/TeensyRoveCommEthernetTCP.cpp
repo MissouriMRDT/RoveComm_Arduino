@@ -1,17 +1,16 @@
-#include "RoveCommEthernetTCP.h"
-#include "RoveCommPacket.h"
+#include "TeensyRoveCommEthernetTCP.h"
+#include "TeensyRoveCommPacket.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include          <SPI.h>         // Energia/master/hardware/lm4f/libraries/SPI
-#include          <Energia.h>
-#include          <Ethernet.h>
+#include          <NativeEthernet.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP)
 {
     //Set IP
-    Ethernet.enableActivityLed();
-    Ethernet.enableLinkLed(); 
+    Ethernet.hardwareStatus();
+    Ethernet.linkStatus();
 
     //Set up Ethernet
     Ethernet.begin(   0, IP);
@@ -28,8 +27,8 @@ void RoveCommEthernetTCP::begin(EthernetServer *TServer)
     TCPServer->begin();
 }
 
-struct rovecomm_packet RoveCommEthernetTCP::read() 
-{ 
+struct rovecomm_packet RoveCommEthernetTCP::read()
+{
   //Create new RoveCommPacket
   rovecomm_packet packet = { 0 };
 
@@ -37,17 +36,17 @@ struct rovecomm_packet RoveCommEthernetTCP::read()
   //however there is no guarantee that the client returned has data to be read, therefore we do a full
   //circuit of the array and stop at the client that has data to be returned.
 
-  for(uint8_t i = 0; i < MAX_CLIENTS; i++) 
+  for(uint8_t i = 0; i < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; i++)
   {
     EthernetClient client = TCPServer->available();
 
-    if(client.available() > 0) 
+    if(client.available() > 0)
     {
       packet = roveware::unpackPacket(client);
       return packet;
     }
   }
-  
+
   //return an empty packet
   packet.data_id = RC_ROVECOMM_NO_DATA_DATA_ID;
   packet.data_count = 0;
@@ -56,12 +55,12 @@ struct rovecomm_packet RoveCommEthernetTCP::read()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RoveCommEthernetTCP::_writeReliable(const uint8_t data_type_length, const roveware::data_type_t data_type, const uint16_t data_id, const uint8_t data_count, const void* data)
-{ 
+{
   //Creat packed udp packet
   struct roveware::_packet _packet = roveware::packPacket(data_id, data_count, data_type, data);
 
   //write to all available clients
-  TCPServer->write( _packet.bytes, (ROVECOMM_PACKET_HEADER_SIZE + (data_type_length * data_count))); 
+  TCPServer->write( _packet.bytes, (ROVECOMM_PACKET_HEADER_SIZE + (data_type_length * data_count)));
 }
 
 //Overloaded writeReliable////////////////////////////////////////////////////////////////////////////////////////////////////

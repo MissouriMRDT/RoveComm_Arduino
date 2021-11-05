@@ -32,7 +32,6 @@ void setup()
 
 void loop() 
 {
-  delay(10); ///aaAAAAaAaAaA
   packet = RoveComm.read();
   if(packet.data_id != 6){
     Serial.println("Data id: ");
@@ -41,7 +40,7 @@ void loop()
   
   switch(packet.data_id)
   {
-    case 6:
+    case RC_ROVECOMM_NO_DATA_DATA_ID : //Do nothing if no data has been received
       break;
       
     case RC_DRIVEBOARD_DRIVEINDIVIDUAL_DATA_ID:

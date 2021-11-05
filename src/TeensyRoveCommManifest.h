@@ -1,8 +1,8 @@
-#ifndef RoveCommManifest_h
-#define RoveCommManifest_h
+#ifndef TeensyRoveCommManifest_h
+#define TeensyRoveCommManifest_h
 
 #include <stdint.h>
-#include"RoveCommPacket.h"
+#include"TeensyRoveCommPacket.h"
 
 #define RC_DRIVEBOARD_FOURTHOCTET                 134       
 #define RC_ROVECOMM_DRIVEBOARD_PORT               11004     
