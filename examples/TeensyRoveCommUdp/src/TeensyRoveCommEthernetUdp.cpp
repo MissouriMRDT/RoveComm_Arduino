@@ -8,6 +8,8 @@
 EthernetUDP        EthernetUdp;
 IPAddress RoveComm_EthernetUdpSubscriberIps[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = { INADDR_NONE };
 
+#define MAX_CLIENTS 8 //MAX_CLIENTS from Energia/Tiva libraries. We have no idea why it is 8 or if it should even be 8.
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RoveCommEthernetUdp::begin(const int board_ip_octet)
 {
@@ -44,8 +46,6 @@ struct rovecomm_packet RoveCommEthernetUdp::read()
   rovecomm_packet.data_count =  0;
 
   int packet_size = EthernetUdp.parsePacket();
-  Serial.println("Packet size: "); //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-  Serial.println(packet_size);
   if (packet_size > 0)
   {
 
@@ -56,12 +56,6 @@ struct rovecomm_packet RoveCommEthernetUdp::read()
     EthernetUdp.read(_packet, packet_size);
     IPAddress ReadFromIp = EthernetUdp.remoteIP();
 
-    Serial.println("Packet:"); //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    for(int i = 0; i < 32; i++){
-      Serial.print(_packet[i]);
-    }
-    Serial.println("");
-
 	//Unpack RoveComm Packet
     rovecomm_packet = roveware::unpackPacket(_packet);
 
@@ -69,7 +63,7 @@ struct rovecomm_packet RoveCommEthernetUdp::read()
 	//Subscribe Request
     if (rovecomm_packet.data_id == RC_ROVECOMM_SUBSCRIBE_DATA_ID)
     {
-      for (int i=0; i < 8; i++) //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      for (int i=0; i < MAX_CLIENTS; i++) //See comment on MAX_CLIENTS definition
       {
 		//Break if already subscribed
         if (RoveComm_EthernetUdpSubscriberIps[i] == ReadFromIp)
@@ -113,7 +107,7 @@ void RoveCommEthernetUdp::_write(const uint8_t data_type_length, const roveware:
   //Creat packed udp packet
   struct roveware::_packet _packet = roveware::packPacket(data_id, data_count, data_type, data);
   //Send packet to everyone in subscribers
-  for (int i=0; i < 8; i++) //BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+  for (int i=0; i < MAX_CLIENTS; i++) //See comment for definition of MAX_CLIENTS
   {
     if (!(RoveComm_EthernetUdpSubscriberIps[i] == INADDR_NONE))
     {
