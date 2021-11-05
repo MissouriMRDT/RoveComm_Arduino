@@ -3,15 +3,14 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include          <SPI.h>         // Energia/master/hardware/lm4f/libraries/SPI
-#include          <Arduino.h>
 #include          <NativeEthernet.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP)
 {
     //Set IP
-    //Ethernet.enableActivityLed();
-    //Ethernet.enableLinkLed();
+    Ethernet.hardwareStatus();
+    Ethernet.linkStatus();
 
     //Set up Ethernet
     Ethernet.begin(   0, IP);

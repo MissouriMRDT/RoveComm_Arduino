@@ -37,9 +37,6 @@ void loop()
 
   switch(packet.data_id)
   {
-    case 6:
-      //Serial.println(":)");
-      break;
     case RC_DRIVEBOARD_DRIVEINDIVIDUAL_DATA_ID:
       Serial.println("We received an individual wheel drive command");
       break;

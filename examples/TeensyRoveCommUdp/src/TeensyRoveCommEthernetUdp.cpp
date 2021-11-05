@@ -3,7 +3,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include          <SPI.h>         // Energia/master/hardware/lm4f/libraries/SPI
-#include          <Arduino.h>
 #include          <NativeEthernet.h>
 #include          <NativeEthernetUdp.h> // EthernetClass Ethernet; => Energia alloc instance on Ethernet.cpp
 EthernetUDP        EthernetUdp;
@@ -47,9 +46,6 @@ struct rovecomm_packet RoveCommEthernetUdp::read()
   int packet_size = EthernetUdp.parsePacket();
   Serial.println("Packet size: "); //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
   Serial.println(packet_size);
-  if(packet_size == 0){
-    packet_size = 255; //EEEEeeEEEEEE1!!
-  }
   if (packet_size > 0)
   {
 

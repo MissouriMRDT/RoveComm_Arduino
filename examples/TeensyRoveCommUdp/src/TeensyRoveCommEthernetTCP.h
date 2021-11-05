@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <Arduino.h>
 #include <NativeEthernet.h>
 
 #include "TeensyRoveCommManifest.h"

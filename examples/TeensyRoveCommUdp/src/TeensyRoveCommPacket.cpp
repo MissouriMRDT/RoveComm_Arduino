@@ -5,7 +5,6 @@
 #include <stdarg.h>
 #include <string.h>
 
-#include "Arduino.h"
 #include "NativeEthernet.h"
 
 #include "TeensyRoveCommPacket.h"
