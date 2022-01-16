@@ -1,5 +1,5 @@
-#include "TeensyRoveCommSerial.h"
-#include "TeensyRoveCommPacket.h"
+#include "RoveCommSerial.h"
+#include "RoveCommPacket.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include          <SPI.h>         // Energia/master/hardware/lm4f/libraries/SPI

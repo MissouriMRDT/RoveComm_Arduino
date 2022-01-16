@@ -1,7 +1,7 @@
 
 //Example of receiving and writing rovecomm data for a mock driveboard
 
-#include "src\TeensyRoveComm.h"
+#include "..\..\src\srcTeensy\TeensyRoveComm.h"
 
 RoveCommEthernet RoveComm;
 RoveCommEthernetUdp Udp;

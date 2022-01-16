@@ -1,21 +1,21 @@
-#ifndef TeensyRoveCommEthernet_h
-#define TeensyRoveCommEthernet_h
+#ifndef RoveCommEthernet_h
+#define RoveCommEthernet_h
 
 #include <stdint.h>
 #include <stddef.h>
-#include <NativeEthernet.h>
+#include <Ethernet.h>
 
-#include "TeensyRoveCommManifest.h"
-#include "TeensyRoveCommPacket.h"
-#include "TeensyRoveCommEthernetTCP.h"
-#include "TeensyRoveCommEthernetUdp.h"
+#include "RoveCommManifest.h"
+#include "RoveCommPacket.h"
+#include "../RoveCommEthernetTCP/RoveCommEthernetTCP.h"
+#include "../RoveCommEthernetUDP/RoveCommEthernetUdp.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class RoveCommEthernet
 {
   private:
     uint8_t num_clients = 0;
-
+    
   public:
     RoveCommEthernetTCP   TCP;
     RoveCommEthernetUdp   UDP;
@@ -68,22 +68,22 @@ class RoveCommEthernet
     void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint8_t  data,
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint16_t data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint16_t data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint32_t data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint32_t data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int8_t   data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int8_t   data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int16_t  data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int16_t  data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int32_t  data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int32_t  data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const float  data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const float  data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
     //Array entry write
@@ -94,22 +94,22 @@ class RoveCommEthernet
     void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint8_t  *data,
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint16_t *data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint16_t *data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint32_t *data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const uint32_t *data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int8_t   *data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int8_t   *data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int16_t  *data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int16_t  *data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int32_t  *data,
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const int32_t  *data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-    void writeTo(const uint16_t data_id,    const uint8_t data_count, const float  *data,
+    
+    void writeTo(const uint16_t data_id,    const uint8_t data_count, const float  *data, 
                  const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
 
     /////writeReliable/////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,12 @@
-#ifndef TeensyRoveCommEthernetTCP_h
-#define TeensyRoveCommEthernetTCP_h
+#ifndef RoveCommEthernetTCP_h
+#define RoveCommEthernetTCP_h
 
 #include <stdint.h>
 #include <stddef.h>
-#include <NativeEthernet.h>
+#include <Ethernet.h>
 
-#include "TeensyRoveCommManifest.h"
-#include "TeensyRoveCommPacket.h"
+#include "RoveCommManifest.h"
+#include "RoveCommPacket.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class RoveCommEthernetTCP
@@ -45,7 +45,7 @@ class RoveCommEthernetTCP
     void writeReliable(const uint16_t data_id, const uint8_t data_count, const float    *data);
   private:
     //Called by overloaded writeReliable functions
-    void _writeReliable(const uint8_t  data_type_length, const roveware::data_type_t data_type,
+    void _writeReliable(const uint8_t  data_type_length, const roveware::data_type_t data_type, 
                         const uint16_t data_id, const uint8_t data_count, const void* data);
 
 };
