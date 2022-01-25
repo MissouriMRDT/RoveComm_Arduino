@@ -4,7 +4,12 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "RoveCommManifest.h"
-#include "Ethernet.h"
+
+#if defined(ENERGIA)
+#include <Ethernet.h>
+#elif defined(ARDUINO) && (ARDUINO>100)
+#include <NativeEthernet.h>
+#endif
 
 //////////////////////////////////////////////////////
 #define ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS      10

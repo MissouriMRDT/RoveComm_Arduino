@@ -3,8 +3,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include          <SPI.h>         // Energia/master/hardware/lm4f/libraries/SPI
-#include          <Ethernet.h>
-#include          <EthernetUdp.h> // EthernetClass Ethernet; => Energia alloc instance on Ethernet.cpp
 EthernetUDP        EthernetUdp; 
 IPAddress RoveComm_EthernetUdpSubscriberIps[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = { INADDR_NONE };
 
@@ -14,6 +12,8 @@ void RoveCommEthernetUdp::begin(const int board_ip_octet)
   //begin using default IP Address
   this->begin(RC_ROVECOMM_SUBNET_IP_FIRST_OCTET, RC_ROVECOMM_SUBNET_IP_SECOND_OCTET, RC_ROVECOMM_SUBNET_IP_THIRD_OCTET, (uint8_t)board_ip_octet);
 }
+
+#if defined(ENERGIA)
 void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4)
 { 
   //Set IP
@@ -26,6 +26,21 @@ void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet
   EthernetUdp.begin(RC_ROVECOMM_ETHERNET_UDP_PORT); 
   delay(1);
 }
+
+#elif defined(ARDUINO) && (ARDUINO>100)
+void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4)
+{ 
+  //Set IP
+  IPAddress LocalIp(ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4);
+
+  Ethernet.hardwareStatus();
+  Ethernet.linkStatus();
+  //Set up Ethernet Udp
+  Ethernet.begin(   0, LocalIp);
+  EthernetUdp.begin(RC_ROVECOMM_ETHERNET_UDP_PORT); 
+  delay(1);
+}
+#endif
 
 void RoveCommEthernetUdp::begin() 
 {
@@ -106,7 +121,7 @@ void RoveCommEthernetUdp::_write(const uint8_t data_type_length, const roveware:
   //Send packet to everyone in subscribers
   for (int i=0; i < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; i++)
   {
-    if (RoveComm_EthernetUdpSubscriberIps[i] != INADDR_NONE)
+    if (!(RoveComm_EthernetUdpSubscriberIps[i] == INADDR_NONE))
     {       
       EthernetUdp.beginPacket(RoveComm_EthernetUdpSubscriberIps[i], RC_ROVECOMM_ETHERNET_UDP_PORT);
       EthernetUdp.write(      _packet.bytes, (ROVECOMM_PACKET_HEADER_SIZE + (data_type_length * data_count))); 

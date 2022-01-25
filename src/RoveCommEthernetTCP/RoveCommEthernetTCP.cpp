@@ -3,22 +3,35 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 #include          <SPI.h>         // Energia/master/hardware/lm4f/libraries/SPI
-#include          <Ethernet.h>
 
+#if defined(ENERGIA)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP)
 {
     //Set IP
     Ethernet.enableActivityLed();
     Ethernet.enableLinkLed(); 
-
     //Set up Ethernet
     Ethernet.begin(   0, IP);
-
     //Set up server, and start listening for clients
     TCPServer = TServer;
     TCPServer->begin();
 }
+
+#elif defined(ARDUINO) && (ARDUINO>100)
+#define MAX_CLIENTS   8
+void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP)
+{
+    //Set IP
+    Ethernet.hardwareStatus();
+    Ethernet.linkStatus();
+    //Set up Ethernet
+    Ethernet.begin(   0, IP);
+    //Set up server, and start listening for clients
+    TCPServer = TServer;
+    TCPServer->begin();
+}
+#endif
 
 void RoveCommEthernetTCP::begin(EthernetServer *TServer)
 {

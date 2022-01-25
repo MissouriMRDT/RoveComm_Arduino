@@ -3,7 +3,12 @@
 
 #include <stdint.h>
 #include <stddef.h>
+
+#if defined(ENERGIA)
 #include <Ethernet.h>
+#elif defined(ARDUINO) && (ARDUINO>100)
+#include <NativeEthernet.h>
+#endif
 
 #include "RoveCommManifest.h"
 #include "RoveCommPacket.h"
