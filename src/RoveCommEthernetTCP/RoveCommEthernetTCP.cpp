@@ -23,7 +23,7 @@ void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP)
     Ethernet.hardwareStatus();
     Ethernet.linkStatus();
     //Set up Ethernet
-    Ethernet.begin(   0, IP);
+    Ethernet.begin(   IP, IP); // The 4th octet is used as the MAC address for the Teensy to avoid confusion
     //Set up server, and start listening for clients
     TCPServer = TServer;
     TCPServer->begin();

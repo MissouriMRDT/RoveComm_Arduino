@@ -35,7 +35,7 @@ void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet
   Ethernet.hardwareStatus();
   Ethernet.linkStatus();
   //Set up Ethernet Udp
-  Ethernet.begin(   0, LocalIp);
+  Ethernet.begin(   ip_octet_4, LocalIp);  // The 4th octet is used as the MAC address for the Teensy to avoid confusion
   EthernetUdp.begin(RC_ROVECOMM_ETHERNET_UDP_PORT); 
   delay(1);
 }
