@@ -90,7 +90,9 @@ if __name__ == "__main__":
     for board in this.manifest:
         ip = this.manifest[board]["Ip"]
         port = this.manifest[board]["Port"]
+        mac = this.manifest[board]["MAC"]
         fourth_octet = ip.replace("192.168.1.", "")
+        last_byte = mac.replace("222.173.190.168.1", "")
 
         # The < character indicates something is left aligned, in this case we are assuming that the name
         # plus #define is less than or equal to 50 characters and the PORT/IP less than 10
@@ -98,6 +100,7 @@ if __name__ == "__main__":
             f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_FOURTHOCTET':<50}{fourth_octet:<10}\n"
         )
         this.header_file.write(f"{define_prefix+' RC_ROVECOMM_'+board.upper()+'BOARD'+'_PORT':<50}{str(port):<10}\n")
+        this.header_file.write(f"{define_prefix+' RC_ROVECOMM_'+board.upper()+'BOARD'+'_MAC':<50}{str(mac):<10}\n")
 
         this.header_file.write("\n")
 
