@@ -22,11 +22,19 @@ class RoveCommEthernetUdp
     
     struct rovecomm_packet read();
 
+    #if defined(ENERGIA)
     /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Overloaded begin
 	//Default ip address = 192.168.1.XXX
 	void begin(const int board_ip_octet);
 	void begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4);
+    #elif defined(ARDUINO) && (ARDUINO>100)
+    /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Overloaded begin
+	//Default ip address = 192.168.1.XXX
+	void begin(const int board_ip_octet, const uint8_t board_mac);
+	void begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint8_t board_mac);
+    #endif
     void begin();
 
 	/////write////////////////////////////////////////////////////////////////////////

@@ -1,10 +1,10 @@
 #include "RoveCommEthernetUdp.h"
 #include "RoveCommPacket.h"
 
+#if defined(ENERGIA)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 EthernetUDP        EthernetUdp; 
 IPAddress RoveComm_EthernetUdpSubscriberIps[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = { INADDR_NONE };
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RoveCommEthernetUdp::begin(const int board_ip_octet) 
 {
@@ -12,7 +12,6 @@ void RoveCommEthernetUdp::begin(const int board_ip_octet)
   this->begin(RC_ROVECOMM_SUBNET_IP_FIRST_OCTET, RC_ROVECOMM_SUBNET_IP_SECOND_OCTET, RC_ROVECOMM_SUBNET_IP_THIRD_OCTET, (uint8_t)board_ip_octet);
 }
 
-#if defined(ENERGIA)
 void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4)
 { 
   //Set IP
@@ -27,15 +26,25 @@ void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet
 }
 
 #elif defined(ARDUINO) && (ARDUINO>100)
-void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4)
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+EthernetUDP        EthernetUdp; 
+IPAddress RoveComm_EthernetUdpSubscriberIps[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS] = { INADDR_NONE };
+void RoveCommEthernetUdp::begin(const int board_ip_octet, const uint8_t board_mac) 
+{
+  //begin using default IP Address
+  this->begin(RC_ROVECOMM_SUBNET_IP_FIRST_OCTET, RC_ROVECOMM_SUBNET_IP_SECOND_OCTET, RC_ROVECOMM_SUBNET_IP_THIRD_OCTET, (uint8_t)board_ip_octet, board_mac);
+}
+
+void RoveCommEthernetUdp::begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint8_t board_mac)
 { 
   //Set IP
   IPAddress LocalIp(ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4);
+  uint8_t mac[6] = { (uint8_t)RC_ROVECOMM_SUBNET_MAC_FIRST_BYTE, (uint8_t)RC_ROVECOMM_SUBNET_MAC_SECOND_BYTE, (uint8_t)RC_ROVECOMM_SUBNET_MAC_THIRD_BYTE, (uint8_t)RC_ROVECOMM_SUBNET_MAC_FOURTH_BYTE, (uint8_t)RC_ROVECOMM_SUBNET_MAC_FIFTH_BYTE, board_mac};
 
   Ethernet.hardwareStatus();
   Ethernet.linkStatus();
   //Set up Ethernet Udp
-  Ethernet.begin(   ip_octet_4, LocalIp);  // The 4th octet is used as the MAC address for the Teensy to avoid confusion
+  Ethernet.begin(mac, LocalIp);  // The 4th octet is used as the MAC address for the Teensy to avoid confusion
   EthernetUdp.begin(RC_ROVECOMM_ETHERNET_UDP_PORT); 
   delay(1);
 }

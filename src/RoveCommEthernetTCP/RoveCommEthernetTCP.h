@@ -20,7 +20,11 @@ class RoveCommEthernetTCP
     EthernetServer *TCPServer;
 
     /////begin////////////////////////////////////////////////////////////////////////
+    #if defined(ENERGIA)
     void begin(EthernetServer *TServer, IPAddress IP);
+    #elif defined(ARDUINO) && (ARDUINO>100)
+    void begin(EthernetServer *TServer, IPAddress IP, uint8_t* mac);
+    #endif
     void begin(EthernetServer *TServer);
 
     /////read////////////////////////////////////////////////////////////////////////

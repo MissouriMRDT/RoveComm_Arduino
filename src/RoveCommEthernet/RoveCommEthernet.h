@@ -31,6 +31,7 @@ class RoveCommEthernet
     //checks all ongoing connections for incoming packets and returns the first one as a parsed rovecomm packet
     struct rovecomm_packet read();
 
+    #if defined(ENERGIA)
     /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Overloaded begin
     //Default ip address = 192.168.1.XXX
@@ -38,6 +39,16 @@ class RoveCommEthernet
     //to securely communicate with it
     void begin(const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer* TCPServer);
     void begin(const uint8_t ip_octet_4, EthernetServer* TCPServer);
+
+    #elif defined(ARDUINO) && (ARDUINO>100)
+    /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Overloaded begin
+    //Default ip address = 192.168.1.XXX
+    //This TCP server will be configured with an IP and port from the RoveComm manifest and allow other boards and base-station
+    //to securely communicate with it
+    void begin(const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer* TCPServer, const uint8_t board_mac);
+    void begin(const uint8_t ip_octet_4, EthernetServer* TCPServer, const uint8_t board_mac);
+    #endif
 
     /////write////////////////////////////////////////////////////////////////////////
     //Single-value write

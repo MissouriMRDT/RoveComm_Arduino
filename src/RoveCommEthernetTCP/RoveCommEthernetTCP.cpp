@@ -17,13 +17,13 @@ void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP)
 
 #elif defined(ARDUINO) && (ARDUINO>100)
 #define MAX_CLIENTS   8
-void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP)
+void RoveCommEthernetTCP::begin(EthernetServer *TServer, IPAddress IP, uint8_t* mac)
 {
     //Set IP
     Ethernet.hardwareStatus();
     Ethernet.linkStatus();
     //Set up Ethernet
-    Ethernet.begin(   IP, IP); // The 4th octet is used as the MAC address for the Teensy to avoid confusion
+    Ethernet.begin( mac, IP); // The 4th octet is used as the MAC address for the Teensy to avoid confusion
     //Set up server, and start listening for clients
     TCPServer = TServer;
     TCPServer->begin();
