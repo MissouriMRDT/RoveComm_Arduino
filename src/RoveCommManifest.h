@@ -6,51 +6,67 @@
 
 #define RC_DRIVEBOARD_FOURTHOCTET                 134       
 #define RC_ROVECOMM_DRIVEBOARD_PORT               11004     
+#define RC_ROVECOMM_DRIVEBOARD_MAC                134       
 
 #define RC_BMSBOARD_FOURTHOCTET                   133       
 #define RC_ROVECOMM_BMSBOARD_PORT                 11003     
+#define RC_ROVECOMM_BMSBOARD_MAC                  133       
 
 #define RC_POWERBOARD_FOURTHOCTET                 132       
 #define RC_ROVECOMM_POWERBOARD_PORT               11002     
+#define RC_ROVECOMM_POWERBOARD_MAC                132       
 
 #define RC_BLACKBOXBOARD_FOURTHOCTET              146       
 #define RC_ROVECOMM_BLACKBOXBOARD_PORT            11015     
+#define RC_ROVECOMM_BLACKBOXBOARD_MAC             146       
 
 #define RC_NAVBOARD_FOURTHOCTET                   136       
 #define RC_ROVECOMM_NAVBOARD_PORT                 11006     
+#define RC_ROVECOMM_NAVBOARD_MAC                  136       
 
 #define RC_GIMBALBOARD_FOURTHOCTET                135       
 #define RC_ROVECOMM_GIMBALBOARD_PORT              11005     
+#define RC_ROVECOMM_GIMBALBOARD_MAC               135       
 
 #define RC_MULTIMEDIABOARD_FOURTHOCTET            140       
 #define RC_ROVECOMM_MULTIMEDIABOARD_PORT          11010     
+#define RC_ROVECOMM_MULTIMEDIABOARD_MAC           140       
 
 #define RC_ARMBOARD_FOURTHOCTET                   131       
 #define RC_ROVECOMM_ARMBOARD_PORT                 11001     
+#define RC_ROVECOMM_ARMBOARD_MAC                  131       
 
 #define RC_SCIENCEACTUATIONBOARD_FOURTHOCTET      137       
 #define RC_ROVECOMM_SCIENCEACTUATIONBOARD_PORT    11007     
+#define RC_ROVECOMM_SCIENCEACTUATIONBOARD_MAC     137       
 
 #define RC_SCIENCESENSORSBOARD_FOURTHOCTET        138       
 #define RC_ROVECOMM_SCIENCESENSORSBOARD_PORT      11008     
+#define RC_ROVECOMM_SCIENCESENSORSBOARD_MAC       138       
 
 #define RC_AUTONOMYBOARD_FOURTHOCTET              139       
 #define RC_ROVECOMM_AUTONOMYBOARD_PORT            11009     
+#define RC_ROVECOMM_AUTONOMYBOARD_MAC             139       
 
 #define RC_CAMERA1BOARD_FOURTHOCTET               141       
 #define RC_ROVECOMM_CAMERA1BOARD_PORT             11011     
+#define RC_ROVECOMM_CAMERA1BOARD_MAC              141       
 
 #define RC_CAMERA2BOARD_FOURTHOCTET               142       
 #define RC_ROVECOMM_CAMERA2BOARD_PORT             11012     
+#define RC_ROVECOMM_CAMERA2BOARD_MAC              142       
 
 #define RC_PRCONTROLLERBOARD_FOURTHOCTET          143       
 #define RC_ROVECOMM_PRCONTROLLERBOARD_PORT        11013     
+#define RC_ROVECOMM_PRCONTROLLERBOARD_MAC         143       
 
 #define RC_HEATERBOARD_FOURTHOCTET                144       
 #define RC_ROVECOMM_HEATERBOARD_PORT              11014     
+#define RC_ROVECOMM_HEATERBOARD_MAC               144       
 
-#define RC_MICROPIBOARD_FOURTHOCTET               142       
+#define RC_MICROPIBOARD_FOURTHOCTET               145       
 #define RC_ROVECOMM_MICROPIBOARD_PORT             11015     
+#define RC_ROVECOMM_MICROPIBOARD_MAC              145       
 
 
 
@@ -59,6 +75,13 @@
 #define RC_ROVECOMM_SUBNET_IP_FIRST_OCTET         192       
 #define RC_ROVECOMM_SUBNET_IP_SECOND_OCTET        168       
 #define RC_ROVECOMM_SUBNET_IP_THIRD_OCTET         1         
+
+
+#define RC_ROVECOMM_SUBNET_MAC_FIRST_BYTE         222       
+#define RC_ROVECOMM_SUBNET_MAC_SECOND_BYTE        173       
+#define RC_ROVECOMM_SUBNET_MAC_THIRD_BYTE         190       
+#define RC_ROVECOMM_SUBNET_MAC_FOURTH_BYTE        168       
+#define RC_ROVECOMM_SUBNET_MAC_FIFTH_BYTE         1         
 
 
 ///////////////////////////////////////////////////
@@ -112,22 +135,22 @@
 #define RC_BMSBOARD_BMSSTOP_DATA_TYPE                                 uint8_t   
 
 ////////////////////Telemetry
-//[Main] (A)
+//Total Current
 #define RC_BMSBOARD_PACKI_MEAS_DATA_ID                                2100      
 #define RC_BMSBOARD_PACKI_MEAS_DATA_COUNT                             1         
 #define RC_BMSBOARD_PACKI_MEAS_DATA_TYPE                              float     
 
-//[Pack_Out] (V)
+//Pack Voltage
 #define RC_BMSBOARD_PACKV_MEAS_DATA_ID                                2101      
 #define RC_BMSBOARD_PACKV_MEAS_DATA_COUNT                             1         
 #define RC_BMSBOARD_PACKV_MEAS_DATA_TYPE                              float     
 
-//[C1-G, C2-1, C3-2, C4-3, C5-4, C6-5, C7-6, C8-7] (V)
+//C1-G, C2-1, C3-2, C4-3, C5-4, C6-5, C7-6, C8-7
 #define RC_BMSBOARD_CELLV_MEAS_DATA_ID                                2102      
 #define RC_BMSBOARD_CELLV_MEAS_DATA_COUNT                             8         
 #define RC_BMSBOARD_CELLV_MEAS_DATA_TYPE                              float     
 
-//[Temp] (degC)
+//Temperature
 #define RC_BMSBOARD_TEMP_MEAS_DATA_ID                                 2103      
 #define RC_BMSBOARD_TEMP_MEAS_DATA_COUNT                              1         
 #define RC_BMSBOARD_TEMP_MEAS_DATA_TYPE                               float     
@@ -160,63 +183,63 @@
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//[(0-Disable, 1-Enable)], [M1, M2, M3, M4, M5, M6 Spare (Bitmask)]
+//M1, M2, M3, M4, M5, M6, Spare
 #define RC_POWERBOARD_MOTORBUSENABLE_DATA_ID                          3000      
 #define RC_POWERBOARD_MOTORBUSENABLE_DATA_COUNT                       1         
 #define RC_POWERBOARD_MOTORBUSENABLE_DATA_TYPE                        uint8_t   
 
-//[(0-Disable, 1-Enable)], [Gimbal-Act, Aux1(Aux_Logic on Board), Aux2(Spare on Board), Multimedia, Aux-Logic(Science-Act on board) (Bitmask)]
+//Gimbal-Act, Aux_Logic (Aux1), Spare (Aux2), Multimedia, Science-Act (AuxLogic)
 #define RC_POWERBOARD_TWELVEVACTBUSENABLE_DATA_ID                     3001      
 #define RC_POWERBOARD_TWELVEVACTBUSENABLE_DATA_COUNT                  1         
 #define RC_POWERBOARD_TWELVEVACTBUSENABLE_DATA_TYPE                   uint8_t   
 
-//[(0-Disable, 1-Enable)], [Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Spare(Science-Sensor on board) (Bitmask)]
+//Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Science-Sensor (Spare)
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLE_DATA_ID                   3002      
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLE_DATA_COUNT                1         
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLE_DATA_TYPE                 uint8_t   
 
-//[(0-Disable, 1-Enable)], [POE, TwelveVolt, Aux, Spare (Bitmask)]
+//POE, TwelveVolt, Aux, Spare
 #define RC_POWERBOARD_THIRTYVBUSENABLE_DATA_ID                        3003      
 #define RC_POWERBOARD_THIRTYVBUSENABLE_DATA_COUNT                     1         
 #define RC_POWERBOARD_THIRTYVBUSENABLE_DATA_TYPE                      uint8_t   
 
 ////////////////////Telemetry
-//[(0-Disabled, 1-Enabled)], [M1, M2, M3, M4, M5, M6 Spare (Bitmask)]
+//M1, M2, M3, M4, M5, M6, Spare
 #define RC_POWERBOARD_MOTORBUSENABLED_DATA_ID                         3100      
 #define RC_POWERBOARD_MOTORBUSENABLED_DATA_COUNT                      1         
 #define RC_POWERBOARD_MOTORBUSENABLED_DATA_TYPE                       uint8_t   
 
-//[(0-Disabled, 1-Enabled)], [Gimbal-Act, Aux1(Aux_Logic on Board), Aux2(Spare on Board), Multimedia, Aux-Logic(Science-Act on board) (Bitmask)]
+//Gimbal-Act, Aux_Logic (Aux1), Spare (Aux2), Multimedia, Science-Act (AuxLogic)
 #define RC_POWERBOARD_TWELVEVACTBUSENABLED_DATA_ID                    3101      
 #define RC_POWERBOARD_TWELVEVACTBUSENABLED_DATA_COUNT                 1         
 #define RC_POWERBOARD_TWELVEVACTBUSENABLED_DATA_TYPE                  uint8_t   
 
-//[(0-Disabled, 1-Enabled)], [Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Spare(Science-Sensor on board) (Bitmask)]
+//Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Science-Sensor (Spare)
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLED_DATA_ID                  3102      
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLED_DATA_COUNT               1         
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLED_DATA_TYPE                uint8_t   
 
-//[(0-Disabled, 1-Enabled)], [POE, TwelveVolt, Aux, Spare (Bitmask)]
+//POE, TwelveVolt, Aux, Spare
 #define RC_POWERBOARD_THIRTYVENABLED_DATA_ID                          3103      
 #define RC_POWERBOARD_THIRTYVENABLED_DATA_COUNT                       1         
 #define RC_POWERBOARD_THIRTYVENABLED_DATA_TYPE                        uint8_t   
 
-//[M1, M2, M3, M4, M5, M6, Spare] (A)
+//M1, M2, M3, M4, M5, M6, Spare
 #define RC_POWERBOARD_MOTORBUSCURRENT_DATA_ID                         3104      
 #define RC_POWERBOARD_MOTORBUSCURRENT_DATA_COUNT                      7         
 #define RC_POWERBOARD_MOTORBUSCURRENT_DATA_TYPE                       float     
 
-//[Gimbal-Act, Aux1(Aux_Logic on Board), Aux2(Spare on Board), Multimedia, Aux-Logic(Science-Act on board)] (A)
+//Gimbal-Act, Aux_Logic (Aux1), Spare (Aux2), Multimedia, Science-Act (AuxLogic)
 #define RC_POWERBOARD_TWELVEVACTBUSCURRENT_DATA_ID                    3105      
 #define RC_POWERBOARD_TWELVEVACTBUSCURRENT_DATA_COUNT                 5         
 #define RC_POWERBOARD_TWELVEVACTBUSCURRENT_DATA_TYPE                  float     
 
-//[Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Spare(Science-Sensor on board)] (A)
+//Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Science-Sensor (Spare)
 #define RC_POWERBOARD_TWELVEVLOGICBUSCURRENT_DATA_ID                  3106      
 #define RC_POWERBOARD_TWELVEVLOGICBUSCURRENT_DATA_COUNT               8         
 #define RC_POWERBOARD_TWELVEVLOGICBUSCURRENT_DATA_TYPE                float     
 
-//[POE, TwelveVolt, Aux, Spare] (A)
+//POE, TwelveVolt, Aux, Spare
 #define RC_POWERBOARD_THIRTYVBUSCURRENT_DATA_ID                       3107      
 #define RC_POWERBOARD_THIRTYVBUSCURRENT_DATA_COUNT                    4         
 #define RC_POWERBOARD_THIRTYVBUSCURRENT_DATA_TYPE                     float     
@@ -584,12 +607,12 @@ enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL};
 //[Lat, Lon]
 #define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_ID                         11003     
 #define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_COUNT                      2         
-#define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_TYPE                       double  
+#define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_TYPE                       double    
 
 //[Lat, Lon]
 #define RC_AUTONOMYBOARD_ADDGATELEG_DATA_ID                           11004     
 #define RC_AUTONOMYBOARD_ADDGATELEG_DATA_COUNT                        2         
-#define RC_AUTONOMYBOARD_ADDGATELEG_DATA_TYPE                         double  
+#define RC_AUTONOMYBOARD_ADDGATELEG_DATA_TYPE                         double    
 
 //
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_ID                       11005     
