@@ -273,11 +273,6 @@ namespace roveware
     uint16_t data_count = (header[3] << 8)
                        | header[4];
     data_type_t data_type  =  (data_type_t)header[5];
-    #if defined(ENERGIA)
-    char data[ROVECOMM_PACKET_MAX_DATA_COUNT*sizeof(uint8_t)/3];  //Tiva can only support 21,000 uint8_t at once due to memory issues
-    #elif defined(ARDUINO) && (ARDUINO>100)
-    char data[ROVECOMM_PACKET_MAX_DATA_COUNT*sizeof(uint8_t)/2];  //Teensy can only support 32,000 uint8_t at once due to memory issues
-    #endif
 
     //Unpack data based on data_type
     if(data_type ==  INT32_T)
