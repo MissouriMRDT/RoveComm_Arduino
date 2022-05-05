@@ -46,8 +46,8 @@ class RoveCommEthernet
     //Default ip address = 192.168.1.XXX
     //This TCP server will be configured with an IP and port from the RoveComm manifest and allow other boards and base-station
     //to securely communicate with it
-    void begin(const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer* TCPServer, const uint8_t board_mac);
-    void begin(const uint8_t ip_octet_4, EthernetServer* TCPServer, const uint8_t board_mac);
+    void begin(const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint8_t board_mac);
+    void begin(const uint8_t ip_octet_4, const uint8_t board_mac);
     #endif
 
     /////write////////////////////////////////////////////////////////////////////////

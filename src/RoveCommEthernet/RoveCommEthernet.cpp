@@ -20,20 +20,16 @@ void RoveCommEthernet::begin(const uint8_t  ip_octet_1, const uint8_t ip_octet_2
 }
 #elif defined(ARDUINO) && (ARDUINO>100)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void RoveCommEthernet::begin(const uint8_t ip_octet_4, EthernetServer* TCPServer, const uint8_t board_mac)
+void RoveCommEthernet::begin(const uint8_t ip_octet_4, const uint8_t board_mac)
 { 
   //start UDP client and assigning board IP
   UDP.begin(RC_ROVECOMM_SUBNET_IP_FIRST_OCTET, RC_ROVECOMM_SUBNET_IP_SECOND_OCTET, RC_ROVECOMM_SUBNET_IP_THIRD_OCTET, ip_octet_4, board_mac);
-  //initializing the TCP server with the correct port
-  TCP.begin(TCPServer);
 }
 
-void RoveCommEthernet::begin(const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer* TCPServer, const uint8_t board_mac)
+void RoveCommEthernet::begin(const uint8_t  ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint8_t board_mac)
 { 
   //start UDP client and assigning board IP
   UDP.begin(ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, board_mac);
-  //initializing the TCP server with the correct port
-  TCP.begin(TCPServer);
 }
 #endif
 /////////////////////////////////////////////////////////////////////////////////
