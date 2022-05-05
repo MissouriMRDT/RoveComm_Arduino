@@ -1,6 +1,7 @@
-#include <SPI.h>
-#include <Ethernet.h>
 #include "RoveComm.h"
+#if defined(ARDUINO_TEENSY41) 
+#include <TimerOne.h>
+#endif
 //rovecomm and packet instances
 RoveCommEthernet RoveComm;
 rovecomm_packet packet; 

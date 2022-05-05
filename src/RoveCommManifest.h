@@ -188,17 +188,17 @@
 #define RC_POWERBOARD_MOTORBUSENABLE_DATA_COUNT                       1         
 #define RC_POWERBOARD_MOTORBUSENABLE_DATA_TYPE                        uint8_t   
 
-//Gimbal-Act, Aux_Logic (Aux1), Spare (Aux2), Multimedia, Science-Act (AuxLogic)
+//Aux
 #define RC_POWERBOARD_TWELVEVACTBUSENABLE_DATA_ID                     3001      
 #define RC_POWERBOARD_TWELVEVACTBUSENABLE_DATA_COUNT                  1         
 #define RC_POWERBOARD_TWELVEVACTBUSENABLE_DATA_TYPE                   uint8_t   
 
-//Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Science-Sensor (Spare)
+//Gimbal, Drive, Multi, Nav, Cam1, Cam2, BBB, Spare 12V
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLE_DATA_ID                   3002      
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLE_DATA_COUNT                1         
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLE_DATA_TYPE                 uint8_t   
 
-//POE, TwelveVolt, Aux, Spare
+//Spare 30V
 #define RC_POWERBOARD_THIRTYVBUSENABLE_DATA_ID                        3003      
 #define RC_POWERBOARD_THIRTYVBUSENABLE_DATA_COUNT                     1         
 #define RC_POWERBOARD_THIRTYVBUSENABLE_DATA_TYPE                      uint8_t   
@@ -209,17 +209,17 @@
 #define RC_POWERBOARD_MOTORBUSENABLED_DATA_COUNT                      1         
 #define RC_POWERBOARD_MOTORBUSENABLED_DATA_TYPE                       uint8_t   
 
-//Gimbal-Act, Aux_Logic (Aux1), Spare (Aux2), Multimedia, Science-Act (AuxLogic)
+//Aux
 #define RC_POWERBOARD_TWELVEVACTBUSENABLED_DATA_ID                    3101      
 #define RC_POWERBOARD_TWELVEVACTBUSENABLED_DATA_COUNT                 1         
 #define RC_POWERBOARD_TWELVEVACTBUSENABLED_DATA_TYPE                  uint8_t   
 
-//Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Science-Sensor (Spare)
+//Gimbal, Drive, Multi, Nav, Cam1, Cam2, BBB, Spare 12V
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLED_DATA_ID                  3102      
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLED_DATA_COUNT               1         
 #define RC_POWERBOARD_TWELVEVLOGICBUSENABLED_DATA_TYPE                uint8_t   
 
-//POE, TwelveVolt, Aux, Spare
+//Spare 30V
 #define RC_POWERBOARD_THIRTYVENABLED_DATA_ID                          3103      
 #define RC_POWERBOARD_THIRTYVENABLED_DATA_COUNT                       1         
 #define RC_POWERBOARD_THIRTYVENABLED_DATA_TYPE                        uint8_t   
@@ -229,17 +229,17 @@
 #define RC_POWERBOARD_MOTORBUSCURRENT_DATA_COUNT                      7         
 #define RC_POWERBOARD_MOTORBUSCURRENT_DATA_TYPE                       float     
 
-//Gimbal-Act, Aux_Logic (Aux1), Spare (Aux2), Multimedia, Science-Act (AuxLogic)
+//Aux
 #define RC_POWERBOARD_TWELVEVACTBUSCURRENT_DATA_ID                    3105      
-#define RC_POWERBOARD_TWELVEVACTBUSCURRENT_DATA_COUNT                 5         
+#define RC_POWERBOARD_TWELVEVACTBUSCURRENT_DATA_COUNT                 1         
 #define RC_POWERBOARD_TWELVEVACTBUSCURRENT_DATA_TYPE                  float     
 
-//Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Science-Sensor (Spare)
+//Gimbal, Drive, Multi, Nav, Cam1, Cam2, BBB, Spare 12V
 #define RC_POWERBOARD_TWELVEVLOGICBUSCURRENT_DATA_ID                  3106      
 #define RC_POWERBOARD_TWELVEVLOGICBUSCURRENT_DATA_COUNT               8         
 #define RC_POWERBOARD_TWELVEVLOGICBUSCURRENT_DATA_TYPE                float     
 
-//POE, TwelveVolt, Aux, Spare
+//Spare 30V
 #define RC_POWERBOARD_THIRTYVBUSCURRENT_DATA_ID                       3107      
 #define RC_POWERBOARD_THIRTYVBUSCURRENT_DATA_COUNT                    4         
 #define RC_POWERBOARD_THIRTYVBUSCURRENT_DATA_TYPE                     float     
@@ -250,17 +250,17 @@
 #define RC_POWERBOARD_MOTORBUSOVERCURRENT_DATA_COUNT                  1         
 #define RC_POWERBOARD_MOTORBUSOVERCURRENT_DATA_TYPE                   uint8_t   
 
-//[(0-undermaxcurrent, 1-overcurrent)] [Gimbal-Act, Aux1(Aux_Logic on Board), Aux2(Spare on Board), Multimedia, Aux-Logic(Science-Act on board) (Bitmask)]
+//[(0-undermaxcurrent, 1-overcurrent)] [Aux (Bitmask)]
 #define RC_POWERBOARD_TWELVEVACTBUSOVERCURRENT_DATA_ID                3201      
 #define RC_POWERBOARD_TWELVEVACTBUSOVERCURRENT_DATA_COUNT             1         
 #define RC_POWERBOARD_TWELVEVACTBUSOVERCURRENT_DATA_TYPE              uint8_t   
 
-//[(0-undermaxcurrent, 1-overcurrent)] [POE, TwelveVolt, Aux, Spare (Bitmask)]
+//[(0-undermaxcurrent, 1-overcurrent)] [Spare (Bitmask)]
 #define RC_POWERBOARD_THIRTYVBUSOVERCURRENT_DATA_ID                   3202      
 #define RC_POWERBOARD_THIRTYVBUSOVERCURRENT_DATA_COUNT                1         
 #define RC_POWERBOARD_THIRTYVBUSOVERCURRENT_DATA_TYPE                 uint8_t   
 
-//[(0-undermaxcurrent, 1-overcurrent)] [Gimbal-Log, Drive-Log, NetworkSwitch, Nav, Cam1, Cam2, BBB, Spare(Science-Sensor on board) (Bitmask)]
+//[(0-undermaxcurrent, 1-overcurrent)] [Gimbal, Drive, Multi, Nav, Cam1, Cam2, BBB, Spare (Bitmask)]
 #define RC_POWERBOARD_TWELVEVLOGICBUSOVERCURRENT_DATA_ID              3203      
 #define RC_POWERBOARD_TWELVEVLOGICBUSOVERCURRENT_DATA_COUNT           1         
 #define RC_POWERBOARD_TWELVEVLOGICBUSOVERCURRENT_DATA_TYPE            uint8_t   
@@ -369,8 +369,14 @@
 #define RC_MULTIMEDIABOARD_STATEDISPLAY_DATA_COUNT                    1         
 #define RC_MULTIMEDIABOARD_STATEDISPLAY_DATA_TYPE                     uint8_t   
 
+//Set Brightness (0-255)
+#define RC_MULTIMEDIABOARD_BRIGHTNESS_DATA_ID                         7004      
+#define RC_MULTIMEDIABOARD_BRIGHTNESS_DATA_COUNT                      1         
+#define RC_MULTIMEDIABOARD_BRIGHTNESS_DATA_TYPE                       uint8_t   
+
 ////////////////////Enums
 enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL}; 
+enum MULTIMEDIABOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS}; 
 
 
 ///////////////////////////////////////////////////
@@ -433,11 +439,6 @@ enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL};
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                    1         
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                     uint8_t   
 
-//[1-Base, 2-Elbow, 3-Wrist]
-#define RC_ARMBOARD_REBOOTODRIVE_DATA_ID                              8011      
-#define RC_ARMBOARD_REBOOTODRIVE_DATA_COUNT                           1         
-#define RC_ARMBOARD_REBOOTODRIVE_DATA_TYPE                            uint8_t   
-
 //Prompt arm for J1-6 positions
 #define RC_ARMBOARD_REQUESTJOINTPOSITIONS_DATA_ID                     8012      
 #define RC_ARMBOARD_REQUESTJOINTPOSITIONS_DATA_COUNT                  1         
@@ -497,9 +498,9 @@ enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL};
 #define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_DATA_COUNT                1         
 #define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_DATA_TYPE                 int16_t   
 
-//[Water 1, Water 2, Water 3] (0, 1000) (m%)
+//Water solenoid #[9, 8, 7, 6, 5, 4, 3, 2, 1] (0-Closed, 1-Open)
 #define RC_SCIENCEACTUATIONBOARD_WATER_DATA_ID                        9001      
-#define RC_SCIENCEACTUATIONBOARD_WATER_DATA_COUNT                     3         
+#define RC_SCIENCEACTUATIONBOARD_WATER_DATA_COUNT                     1         
 #define RC_SCIENCEACTUATIONBOARD_WATER_DATA_TYPE                      uint16_t  
 
 //[Zoop-axis Top, Zoop-axis Bottom, Xoop-axis Left, Xoop-axis Right, Sensor Axis Top, Sensor Axis Bottom] (0-Turn off Limit Switch Override, 1-Turn on Limit Switch Override) (bitmasked)
@@ -517,10 +518,20 @@ enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL};
 #define RC_SCIENCEACTUATIONBOARD_ZOOPAXIS_DATA_COUNT                  1         
 #define RC_SCIENCEACTUATIONBOARD_ZOOPAXIS_DATA_TYPE                   int16_t   
 
-//[Position] (0,180) (degrees)
+//[Position] (0 Open, 1, Closed)
 #define RC_SCIENCEACTUATIONBOARD_SCOOPGRABBER_DATA_ID                 9005      
 #define RC_SCIENCEACTUATIONBOARD_SCOOPGRABBER_DATA_COUNT              1         
-#define RC_SCIENCEACTUATIONBOARD_SCOOPGRABBER_DATA_TYPE               int16_t   
+#define RC_SCIENCEACTUATIONBOARD_SCOOPGRABBER_DATA_TYPE               uint8_t   
+
+//[Position] (0, Group 1, 2, or 3)
+#define RC_SCIENCEACTUATIONBOARD_GOTOPOSITION_DATA_ID                 9006      
+#define RC_SCIENCEACTUATIONBOARD_GOTOPOSITION_DATA_COUNT              1         
+#define RC_SCIENCEACTUATIONBOARD_GOTOPOSITION_DATA_TYPE               uint8_t   
+
+//Degrees 0-180
+#define RC_SCIENCEACTUATIONBOARD_INCREMENTALSCOOP_DATA_ID             9007      
+#define RC_SCIENCEACTUATIONBOARD_INCREMENTALSCOOP_DATA_COUNT          1         
+#define RC_SCIENCEACTUATIONBOARD_INCREMENTALSCOOP_DATA_TYPE           int8_t    
 
 ////////////////////Telemetry
 //[scoop z-pos, scoop x-pos, sensor z-axis] (absolute position 0-360)
@@ -557,10 +568,10 @@ enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL};
 #define RC_SCIENCESENSORSBOARD_FLUOROMETERDATA_DATA_COUNT             3         
 #define RC_SCIENCESENSORSBOARD_FLUOROMETERDATA_DATA_TYPE              float     
 
-//[Gass concentration %, Temperature (C)]
-#define RC_SCIENCESENSORSBOARD_METHANE_DATA_ID                        10101     
-#define RC_SCIENCESENSORSBOARD_METHANE_DATA_COUNT                     2         
-#define RC_SCIENCESENSORSBOARD_METHANE_DATA_TYPE                      float     
+//[Gas concentration (ppm), Temperature (C)]
+#define RC_SCIENCESENSORSBOARD_CH3_DATA_ID                            10101     
+#define RC_SCIENCESENSORSBOARD_CH3_DATA_COUNT                         2         
+#define RC_SCIENCESENSORSBOARD_CH3_DATA_TYPE                          float     
 
 //[CO2 Concentration (ppm)]
 #define RC_SCIENCESENSORSBOARD_CO2_DATA_ID                            10102     
@@ -573,9 +584,9 @@ enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL};
 #define RC_SCIENCESENSORSBOARD_O2_DATA_TYPE                           float     
 
 //[concentration (ppm)]
-#define RC_SCIENCESENSORSBOARD_CH3_DATA_ID                            10104     
-#define RC_SCIENCESENSORSBOARD_CH3_DATA_COUNT                         1         
-#define RC_SCIENCESENSORSBOARD_CH3_DATA_TYPE                          float     
+#define RC_SCIENCESENSORSBOARD_NO_DATA_ID                             10104     
+#define RC_SCIENCESENSORSBOARD_NO_DATA_COUNT                          1         
+#define RC_SCIENCESENSORSBOARD_NO_DATA_TYPE                           float     
 
 //[ NO2 volume (ppm)]
 #define RC_SCIENCESENSORSBOARD_NO2_DATA_ID                            10105     
@@ -651,7 +662,7 @@ enum MULTIMEDIABOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL};
 #define RC_HEATERBOARD_THERMOVALUES_DATA_COUNT                        3         
 #define RC_HEATERBOARD_THERMOVALUES_DATA_TYPE                         float     
 
-//[1, 2, 3] (0-Disabled, 1-Enabled)
+//Heater #[3, 2, 1] (0-Disabled, 1-Enabled)
 #define RC_HEATERBOARD_HEATERENABLED_DATA_ID                          15101     
 #define RC_HEATERBOARD_HEATERENABLED_DATA_COUNT                       1         
 #define RC_HEATERBOARD_HEATERENABLED_DATA_TYPE                        uint8_t   
