@@ -251,6 +251,12 @@
           "dataType": "UINT8_T",
           "dataCount": 1,
           "comments": "[Number of satellites]"
+        },
+        "AccelerometerData": {
+          "dataId": 5104,
+          "dataType": "FLOAT_T",
+          "dataCount": 3,
+          "comments": "[xAxis, yAxis, zAxis] Accel in m/s^2"
         }
       },
       "Error": {
