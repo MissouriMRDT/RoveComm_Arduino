@@ -26,9 +26,9 @@
   "headerLength": 6,
   "RovecommManifest": {
     "Drive": {
-      "Ip": "192.168.2.103",
+      "Ip": "103",
       "Port": 11004,
-      "MAC": "222.173.192.168.2.103",
+      "MAC": "103",
       "Commands": {
         "DriveLeftRight": {
           "dataId": 1000,
@@ -60,9 +60,9 @@
       "Error": {}
     },
     "BMS": {
-      "Ip": "192.168.2.100",
+      "Ip": "100",
       "Port": 11003,
-      "MAC": "222.173.192.168.2.100",
+      "MAC": "100",
       "Commands": {
         "BMSStop": {
           "dataId": 2000,
@@ -125,9 +125,9 @@
       }
     },
     "Power": {
-      "Ip": "192.168.2.101",
+      "Ip": "101",
       "Port": 11002,
-      "MAC": "222.173.192.168.2.101",
+      "MAC": "101",
       "Commands": {
         "MotorBusEnable": {
           "dataId": 3000,
@@ -208,9 +208,9 @@
       }
     },
     "Blackbox": {
-      "Ip": "192.168.2.102",
+      "Ip": "102",
       "Port": 11015,
-      "MAC": "222.173.192.168.2.102",
+      "MAC": "102",
       "Commands": {},
       "Telemetry": {
         "BlackboxListening": {
@@ -223,9 +223,9 @@
       "Error": {}
     },
     "Nav": {
-      "Ip": "192.168.2.104",
+      "Ip": "104",
       "Port": 11006,
-      "MAC": "222.173.192.168.2.104",
+      "MAC": "104",
       "Commands": {},
       "Telemetry": {
         "GPSLatLon": {
@@ -269,9 +269,9 @@
       }
     },
     "Gimbal": {
-      "Ip": "192.168.2.106",
+      "Ip": "106",
       "Port": 11005,
-      "MAC": "222.173.192.168.2.106",
+      "MAC": "106",
       "Commands": {
         "LeftDriveGimbalIncrement": {
           "dataId": 6000,
@@ -308,9 +308,9 @@
       "Error": {}
     },
     "Multimedia": {
-      "Ip": "192.168.2.105",
+      "Ip": "105",
       "Port": 11010,
-      "MAC": "222.173.192.168.2.105",
+      "MAC": "105",
       "Commands": {
         "LEDRGB": {
           "dataId": 7000,
@@ -357,9 +357,9 @@
       }
     },
     "Arm": {
-      "Ip": "192.168.2.107",
+      "Ip": "107",
       "Port": 11001,
-      "MAC": "222.173.192.168.2.107",
+      "MAC": "107",
       "Commands": {
         "ArmVelocityControl": {
           "dataId": 8000,
@@ -488,9 +488,9 @@
       }
     },
     "ScienceActuation": {
-      "Ip": "192.168.2.108",
+      "Ip": "108",
       "Port": 11007,
-      "MAC": "222.173.192.168.2.108",
+      "MAC": "108",
       "Commands": {
         "SensorAxis": {
           "dataId": 9000,
@@ -571,9 +571,9 @@
       }
     },
     "ScienceSensors": {
-      "Ip": "192.168.3.101",
+      "Ip": "101",
       "Port": 11008,
-      "MAC": "222.173.192.168.3.101",
+      "MAC": "101",
       "Commands": {
         "FluorometerLEDs": {
           "dataId": 10000,
@@ -629,9 +629,9 @@
       "Error": {}
     },
     "Autonomy": {
-      "Ip": "192.168.3.100",
+      "Ip": "100",
       "Port": 11009,
-      "MAC": "222.173.192.168.3.100",
+      "MAC": "100",
       "Commands": {
         "StartAutonomy": {
           "dataId": 11000,
@@ -699,17 +699,17 @@
       "Error": {}
     },
     "Camera": {
-      "Ip": "192.168.4.100",
+      "Ip": "100",
       "Port": 11011,
-      "MAC": "222.173.192.168.4.100",
+      "MAC": "100",
       "Commands": {},
       "Telemetry": {},
       "Error": {}
     },
     "Heater": {
-      "Ip": "192.168.2.109",
+      "Ip": "109",
       "Port": 11014,
-      "MAC": "222.173.192.168.2.109",
+      "MAC": "109",
       "Commands": {
         "HeaterToggle": {
           "dataId": 15000,
@@ -742,9 +742,9 @@
       }
     },
     "SignalStack": {
-      "Ip": "192.168.3.102",
+      "Ip": "102",
       "Port": 11015,
-      "MAC": "222.173.192.168.3.102",
+      "MAC": "102",
       "Commands": {
         "SignalsRotate": {
           "dataId": 16000,
