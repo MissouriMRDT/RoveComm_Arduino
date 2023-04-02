@@ -21,8 +21,8 @@
   },
   "updateRate": 100,
   "ethernetUDPPort": 11000,
-  "subnetIP": [192, 168, 1],
-  "MACaddress": [222, 173, 190, 168, 1],
+  "subnetIP": [192, 168, 2],
+  "MACaddress": [222, 173, 192, 168, 2],
   "headerLength": 6,
   "RovecommManifest": {
     "Drive": {
