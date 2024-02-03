@@ -210,7 +210,7 @@
 #define RC_COREBOARD_DRIVEINDIVIDUAL_DATA_COUNT                       6         
 #define RC_COREBOARD_DRIVEINDIVIDUAL_DATA_TYPE                        float     
 
-//[0-Turn off Watchdog Override, 1-Turn on Watchdog Override]
+//[0-override off, 1-override on]
 #define RC_COREBOARD_WATCHDOGOVERRIDE_DATA_ID                         3002      
 #define RC_COREBOARD_WATCHDOGOVERRIDE_DATA_COUNT                      1         
 #define RC_COREBOARD_WATCHDOGOVERRIDE_DATA_TYPE                       uint8_t   
@@ -450,7 +450,7 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE                    uint8_t   
 
 ////////////////////Error
-//[WatchDogStatus] (0-Not Triggered, 1-Triggered) 
+//(1-Watchdog timeout, 0-OK)
 #define RC_ARMBOARD_WATCHDOGSTATUS_DATA_ID                            8200      
 #define RC_ARMBOARD_WATCHDOGSTATUS_DATA_COUNT                         1         
 #define RC_ARMBOARD_WATCHDOGSTATUS_DATA_TYPE                          uint8_t   
@@ -507,10 +507,15 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_SCIENCEACTUATIONBOARD_MICROSCOPE_DATA_COUNT                1         
 #define RC_SCIENCEACTUATIONBOARD_MICROSCOPE_DATA_TYPE                 uint8_t   
 
-//Water pump (0-Off, 1-On)
-#define RC_SCIENCEACTUATIONBOARD_WATERPUMP_DATA_ID                    9009      
-#define RC_SCIENCEACTUATIONBOARD_WATERPUMP_DATA_COUNT                 1         
-#define RC_SCIENCEACTUATIONBOARD_WATERPUMP_DATA_TYPE                  uint8_t   
+//Motor decipercent [-1000, 1000]
+#define RC_SCIENCEACTUATIONBOARD_PROBOSCIS_DATA_ID                    9009      
+#define RC_SCIENCEACTUATIONBOARD_PROBOSCIS_DATA_COUNT                 1         
+#define RC_SCIENCEACTUATIONBOARD_PROBOSCIS_DATA_TYPE                  int16_t   
+
+//[0-override off, 1-override on]
+#define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_ID             9010      
+#define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_COUNT          1         
+#define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_TYPE           uint8_t   
 
 ////////////////////Telemetry
 //[ScoopAxis, SensorAxis] (in)
@@ -522,6 +527,17 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_ID         9101      
 #define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_COUNT      1         
 #define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE       uint8_t   
+
+//[Temperature, Humidity] (degrees C, relative humidity %)
+#define RC_SCIENCEACTUATIONBOARD_ENVIRONMENTALDATA_DATA_ID            9102      
+#define RC_SCIENCEACTUATIONBOARD_ENVIRONMENTALDATA_DATA_COUNT         2         
+#define RC_SCIENCEACTUATIONBOARD_ENVIRONMENTALDATA_DATA_TYPE          float     
+
+////////////////////Error
+//(1-Watchdog timeout, 0-OK)
+#define RC_SCIENCEACTUATIONBOARD_WATCHDOGSTATUS_DATA_ID               9200      
+#define RC_SCIENCEACTUATIONBOARD_WATCHDOGSTATUS_DATA_COUNT            1         
+#define RC_SCIENCEACTUATIONBOARD_WATCHDOGSTATUS_DATA_TYPE             uint8_t   
 
 
 
