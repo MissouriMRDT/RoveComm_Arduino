@@ -378,19 +378,19 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_INCREMENTPOSITION_DATA_COUNT                      6         
 #define RC_ARMBOARD_INCREMENTPOSITION_DATA_TYPE                       float     
 
-//[X, Y, Z, Y, P, R] (in, in, in, deg, deg, deg)
+//[X, Y, Z, P, R] (in, in, in, deg, deg)
 #define RC_ARMBOARD_SETIK_DATA_ID                                     8003      
-#define RC_ARMBOARD_SETIK_DATA_COUNT                                  6         
+#define RC_ARMBOARD_SETIK_DATA_COUNT                                  5         
 #define RC_ARMBOARD_SETIK_DATA_TYPE                                   float     
 
-//[X, Y, Z, Y, P, R] (in, in, in, deg, deg, deg)
+//[X, Y, Z, P, R] (in, in, in, deg, deg)
 #define RC_ARMBOARD_INCREMENTIK_ROVERRELATIVE_DATA_ID                 8004      
-#define RC_ARMBOARD_INCREMENTIK_ROVERRELATIVE_DATA_COUNT              6         
+#define RC_ARMBOARD_INCREMENTIK_ROVERRELATIVE_DATA_COUNT              5         
 #define RC_ARMBOARD_INCREMENTIK_ROVERRELATIVE_DATA_TYPE               float     
 
-//[X, Y, Z, Y, P, R] (in, in, in, deg, deg, deg)
+//[X, Y, Z, P, R] (in, in, in, deg, deg)
 #define RC_ARMBOARD_INCREMENTIK_WRISTRELATIVE_DATA_ID                 8005      
-#define RC_ARMBOARD_INCREMENTIK_WRISTRELATIVE_DATA_COUNT              6         
+#define RC_ARMBOARD_INCREMENTIK_WRISTRELATIVE_DATA_COUNT              5         
 #define RC_ARMBOARD_INCREMENTIK_WRISTRELATIVE_DATA_TYPE               float     
 
 //[0-disable, 1-enable]
@@ -403,9 +403,9 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_SOLENOID_DATA_COUNT                               1         
 #define RC_ARMBOARD_SOLENOID_DATA_TYPE                                uint8_t   
 
-//[Gripper1, Gripper2] Motor decipercent [-1000, 1000]
+//Controls the motor chosen by SelectGripper, Motor decipercent [-1000, 1000]
 #define RC_ARMBOARD_GRIPPER_DATA_ID                                   8008      
-#define RC_ARMBOARD_GRIPPER_DATA_COUNT                                2         
+#define RC_ARMBOARD_GRIPPER_DATA_COUNT                                1         
 #define RC_ARMBOARD_GRIPPER_DATA_TYPE                                 int16_t   
 
 //[0-override off, 1-override on]
@@ -418,30 +418,25 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                    1         
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                     uint8_t   
 
-//Prompt arm for position data
-#define RC_ARMBOARD_REQUESTPOSITIONS_DATA_ID                          8011      
-#define RC_ARMBOARD_REQUESTPOSITIONS_DATA_COUNT                       1         
-#define RC_ARMBOARD_REQUESTPOSITIONS_DATA_TYPE                        uint8_t   
+//[X, Y1, Y2, Z, Pitch, Roll1, Roll2] (1-calibrate, 0-no action) (bitmasked)
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                          8011      
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_COUNT                       1         
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_TYPE                        uint8_t   
 
-//Prompt arm for XYZPYR data
-#define RC_ARMBOARD_REQUESTCOORDINATES_DATA_ID                        8012      
-#define RC_ARMBOARD_REQUESTCOORDINATES_DATA_COUNT                     1         
-#define RC_ARMBOARD_REQUESTCOORDINATES_DATA_TYPE                      uint8_t   
-
-//[Positions, Coordinates] (bitmasked) [1-Enable, 0-Disable]
-#define RC_ARMBOARD_TOGGLETELEMETRY_DATA_ID                           8013      
-#define RC_ARMBOARD_TOGGLETELEMETRY_DATA_COUNT                        1         
-#define RC_ARMBOARD_TOGGLETELEMETRY_DATA_TYPE                         uint8_t   
+//0-Gripper1, 1-Gripper2
+#define RC_ARMBOARD_SELECTGRIPPER_DATA_ID                             8012      
+#define RC_ARMBOARD_SELECTGRIPPER_DATA_COUNT                          1         
+#define RC_ARMBOARD_SELECTGRIPPER_DATA_TYPE                           uint8_t   
 
 ////////////////////Telemetry
-//[X, Y, Z, Pitch, Roll1, Roll2] (in, in, in, deg, deg, deg)
+//[X, Y1, Y2, Z, Pitch, Roll1, Roll2] (in, in, in, in, deg, deg, deg)
 #define RC_ARMBOARD_POSITIONS_DATA_ID                                 8100      
-#define RC_ARMBOARD_POSITIONS_DATA_COUNT                              6         
+#define RC_ARMBOARD_POSITIONS_DATA_COUNT                              7         
 #define RC_ARMBOARD_POSITIONS_DATA_TYPE                               float     
 
-//[X, Y, Z, Y, P, R] (in, in, in, deg, deg, deg)
+//[X, Y, Z, P, R] (in, in, in, deg, deg, deg)
 #define RC_ARMBOARD_COORDINATES_DATA_ID                               8101      
-#define RC_ARMBOARD_COORDINATES_DATA_COUNT                            6         
+#define RC_ARMBOARD_COORDINATES_DATA_COUNT                            5         
 #define RC_ARMBOARD_COORDINATES_DATA_TYPE                             float     
 
 //[X+, X-, Y1+, Y1-, Y2+, Y2-, Z+, Z-] (0-off, 1-on) (bitmasked)
@@ -517,10 +512,15 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_COUNT          1         
 #define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_TYPE           uint8_t   
 
+//[ScoopAxis, SensorAxis, Proboscis] (1-calibrate, 0-no action) (bitmasked)
+#define RC_SCIENCEACTUATIONBOARD_CALIBRATEENCODER_DATA_ID             9011      
+#define RC_SCIENCEACTUATIONBOARD_CALIBRATEENCODER_DATA_COUNT          1         
+#define RC_SCIENCEACTUATIONBOARD_CALIBRATEENCODER_DATA_TYPE           uint8_t   
+
 ////////////////////Telemetry
-//[ScoopAxis, SensorAxis] (in)
+//[ScoopAxis, SensorAxis, Proboscis] (in)
 #define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_ID                    9100      
-#define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_COUNT                 2         
+#define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_COUNT                 3         
 #define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_TYPE                  float     
 
 //[ScoopAxis+, ScoopAxis-, SensorAxis+, SensorAxis-] (0-off, 1-on) (bitmasked)
