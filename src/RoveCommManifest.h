@@ -26,7 +26,7 @@
 
 #define RC_SIGNALSTACKBOARD_FIRSTOCTET            192       
 #define RC_SIGNALSTACKBOARD_SECONDOCTET           168       
-#define RC_SIGNALSTACKBOARD_THIRDOCTET            3         
+#define RC_SIGNALSTACKBOARD_THIRDOCTET            100         
 #define RC_SIGNALSTACKBOARD_FOURTHOCTET           101       
 
 #define RC_ARMBOARD_FIRSTOCTET                    192       
