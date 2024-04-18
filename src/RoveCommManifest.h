@@ -352,6 +352,11 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_PMSBOARD_MISCCURRENT_DATA_COUNT                                      3         
 #define RC_PMSBOARD_MISCCURRENT_DATA_TYPE                                       float     
 
+//[Motor, Core, Aux, Network] (bitmasked) [1-Enabled, 0-Disabled]
+#define RC_PMSBOARD_BUSSTATUS_DATA_ID                                           4105      
+#define RC_PMSBOARD_BUSSTATUS_DATA_COUNT                                        1         
+#define RC_PMSBOARD_BUSSTATUS_DATA_TYPE                                         uint8_t   
+
 ////////////////////Error
 //Higher current draw than the battery can support. Rover will Reboot automatically
 #define RC_PMSBOARD_PACKOVERCURRENT_DATA_ID                                     4200      
