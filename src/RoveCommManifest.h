@@ -767,10 +767,10 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_RAMANSPECTROMETERBOARD_ENABLELEDS_DATA_COUNT                         1         
 #define RC_RAMANSPECTROMETERBOARD_ENABLELEDS_DATA_TYPE                          uint8_t   
 
-//Start a reading of the CCD
+//Start a reading of the CCD, with the provided integration time (milliseconds)
 #define RC_RAMANSPECTROMETERBOARD_REQUESTREADING_DATA_ID                        13001     
 #define RC_RAMANSPECTROMETERBOARD_REQUESTREADING_DATA_COUNT                     1         
-#define RC_RAMANSPECTROMETERBOARD_REQUESTREADING_DATA_TYPE                      uint8_t   
+#define RC_RAMANSPECTROMETERBOARD_REQUESTREADING_DATA_TYPE                      uint32_t  
 
 ////////////////////Telemetry
 //Array of CCD elements 1-500
@@ -810,10 +810,10 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_REFLECTANCESPECTROMETERBOARD_ENABLELEDS_DATA_COUNT                   1         
 #define RC_REFLECTANCESPECTROMETERBOARD_ENABLELEDS_DATA_TYPE                    uint8_t   
 
-//Start a reading of the CCD
+//Start a reading of the CCD, with the provided integration time (milliseconds)
 #define RC_REFLECTANCESPECTROMETERBOARD_REQUESTREADING_DATA_ID                  14001     
 #define RC_REFLECTANCESPECTROMETERBOARD_REQUESTREADING_DATA_COUNT               1         
-#define RC_REFLECTANCESPECTROMETERBOARD_REQUESTREADING_DATA_TYPE                uint8_t   
+#define RC_REFLECTANCESPECTROMETERBOARD_REQUESTREADING_DATA_TYPE                uint32_t  
 
 ////////////////////Telemetry
 //Array of CCD elements 1-288
@@ -839,10 +839,15 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_INSTRUMENTSBOARD_ENABLELEDS_DATA_COUNT                               1         
 #define RC_INSTRUMENTSBOARD_ENABLELEDS_DATA_TYPE                                uint8_t   
 
-//0-Raman, 1-Reflectance
-#define RC_INSTRUMENTSBOARD_REQUESTREADING_DATA_ID                              16001     
-#define RC_INSTRUMENTSBOARD_REQUESTREADING_DATA_COUNT                           1         
-#define RC_INSTRUMENTSBOARD_REQUESTREADING_DATA_TYPE                            uint8_t   
+//Start a Raman reading, with the provided integration time (milliseconds)
+#define RC_INSTRUMENTSBOARD_REQUESTRAMANREADING_DATA_ID                         16001     
+#define RC_INSTRUMENTSBOARD_REQUESTRAMANREADING_DATA_COUNT                      1         
+#define RC_INSTRUMENTSBOARD_REQUESTRAMANREADING_DATA_TYPE                       uint32_t  
+
+//Start a Reflectance reading, with the provided integration time (milliseconds)
+#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_ID                   16002     
+#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_COUNT                1         
+#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_TYPE                 uint32_t  
 
 ////////////////////Telemetry
 //Raman CCD elements 1-500
