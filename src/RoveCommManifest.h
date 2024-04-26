@@ -280,6 +280,11 @@
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_COUNT                                 1         
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_TYPE                                  uint8_t   
 
+//[Roll, Pitch] (degrees - from horizontal)
+#define RC_COREBOARD_IMUDATA_DATA_ID                                            3013      
+#define RC_COREBOARD_IMUDATA_DATA_COUNT                                         2         
+#define RC_COREBOARD_IMUDATA_DATA_TYPE                                          float     
+
 ////////////////////Telemetry
 //[LF, LM, LR, RF, RM, RR] (-1, 1)-> (-100%, 100%)
 #define RC_COREBOARD_DRIVESPEEDS_DATA_ID                                        3100      
