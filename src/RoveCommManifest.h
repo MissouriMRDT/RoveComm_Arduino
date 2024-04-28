@@ -4,16 +4,6 @@
 #include <stdint.h>
 #include"RoveCommPacket.h"
 
-#define RC_BMSBOARD_FIRSTOCTET                              192       
-#define RC_BMSBOARD_SECONDOCTET                             168       
-#define RC_BMSBOARD_THIRDOCTET                              2         
-#define RC_BMSBOARD_FOURTHOCTET                             100       
-
-#define RC_POWERBOARD_FIRSTOCTET                            192       
-#define RC_POWERBOARD_SECONDOCTET                           168       
-#define RC_POWERBOARD_THIRDOCTET                            2         
-#define RC_POWERBOARD_FOURTHOCTET                           101       
-
 #define RC_COREBOARD_FIRSTOCTET                             192       
 #define RC_COREBOARD_SECONDOCTET                            168       
 #define RC_COREBOARD_THIRDOCTET                             2         
@@ -64,16 +54,6 @@
 #define RC_CAMERA2BOARD_THIRDOCTET                          4         
 #define RC_CAMERA2BOARD_FOURTHOCTET                         101       
 
-#define RC_RAMANSPECTROMETERBOARD_FIRSTOCTET                192       
-#define RC_RAMANSPECTROMETERBOARD_SECONDOCTET               168       
-#define RC_RAMANSPECTROMETERBOARD_THIRDOCTET                3         
-#define RC_RAMANSPECTROMETERBOARD_FOURTHOCTET               102       
-
-#define RC_REFLECTANCESPECTROMETERBOARD_FIRSTOCTET          192       
-#define RC_REFLECTANCESPECTROMETERBOARD_SECONDOCTET         168       
-#define RC_REFLECTANCESPECTROMETERBOARD_THIRDOCTET          3         
-#define RC_REFLECTANCESPECTROMETERBOARD_FOURTHOCTET         103       
-
 #define RC_IRSPECTROMETERBOARD_FIRSTOCTET                   192       
 #define RC_IRSPECTROMETERBOARD_SECONDOCTET                  168       
 #define RC_IRSPECTROMETERBOARD_THIRDOCTET                   3         
@@ -105,109 +85,6 @@
 #define RC_ROVECOMM_UNSUBSCRIBE_DATA_ID                     4         
 #define RC_ROVECOMM_INVALID_VERSION_DATA_ID                 5         
 #define RC_ROVECOMM_NO_DATA_DATA_ID                         6         
-
-
-///////////////////////////////////////////////////
-////////////        BMSBOARD            ///////////         
-///////////////////////////////////////////////////
-
-////////////////////Commands
-//Power rover off but keep BMS active
-#define RC_BMSBOARD_ESTOP_DATA_ID                                               1000      
-#define RC_BMSBOARD_ESTOP_DATA_COUNT                                            1         
-#define RC_BMSBOARD_ESTOP_DATA_TYPE                                             uint8_t   
-
-//Power rover and BMS off
-#define RC_BMSBOARD_SUICIDE_DATA_ID                                             1001      
-#define RC_BMSBOARD_SUICIDE_DATA_COUNT                                          1         
-#define RC_BMSBOARD_SUICIDE_DATA_TYPE                                           uint8_t   
-
-//Cycle rover power off and back on
-#define RC_BMSBOARD_REBOOT_DATA_ID                                              1002      
-#define RC_BMSBOARD_REBOOT_DATA_COUNT                                           1         
-#define RC_BMSBOARD_REBOOT_DATA_TYPE                                            uint8_t   
-
-////////////////////Telemetry
-//Total current draw from battery
-#define RC_BMSBOARD_PACKCURRENT_DATA_ID                                         1100      
-#define RC_BMSBOARD_PACKCURRENT_DATA_COUNT                                      1         
-#define RC_BMSBOARD_PACKCURRENT_DATA_TYPE                                       float     
-
-//Pack voltage
-#define RC_BMSBOARD_PACKVOLTAGE_DATA_ID                                         1101      
-#define RC_BMSBOARD_PACKVOLTAGE_DATA_COUNT                                      1         
-#define RC_BMSBOARD_PACKVOLTAGE_DATA_TYPE                                       float     
-
-//C1, C2, C3, C4, C5, C6, C7, C8
-#define RC_BMSBOARD_CELLVOLTAGE_DATA_ID                                         1102      
-#define RC_BMSBOARD_CELLVOLTAGE_DATA_COUNT                                      8         
-#define RC_BMSBOARD_CELLVOLTAGE_DATA_TYPE                                       float     
-
-//Temperature inside battery pack
-#define RC_BMSBOARD_PACKTEMP_DATA_ID                                            1103      
-#define RC_BMSBOARD_PACKTEMP_DATA_COUNT                                         1         
-#define RC_BMSBOARD_PACKTEMP_DATA_TYPE                                          float     
-
-////////////////////Error
-//Higher current draw than the battery can support. Rover will Reboot automatically
-#define RC_BMSBOARD_OVERCURRENT_DATA_ID                                         1200      
-#define RC_BMSBOARD_OVERCURRENT_DATA_COUNT                                      1         
-#define RC_BMSBOARD_OVERCURRENT_DATA_TYPE                                       uint8_t   
-
-//(bitmasked) [1-Undervolt, 0-OK]. Rover will EStop automatically
-#define RC_BMSBOARD_CELLUNDERVOLTAGE_DATA_ID                                    1201      
-#define RC_BMSBOARD_CELLUNDERVOLTAGE_DATA_COUNT                                 1         
-#define RC_BMSBOARD_CELLUNDERVOLTAGE_DATA_TYPE                                  uint8_t   
-
-//(bitmasked) [1-Critical, 0-OK]. Rover will Suicide automatically
-#define RC_BMSBOARD_CELLCRITICAL_DATA_ID                                        1202      
-#define RC_BMSBOARD_CELLCRITICAL_DATA_COUNT                                     1         
-#define RC_BMSBOARD_CELLCRITICAL_DATA_TYPE                                      uint8_t   
-
-//Pack overheat
-#define RC_BMSBOARD_PACKOVERHEAT_DATA_ID                                        1203      
-#define RC_BMSBOARD_PACKOVERHEAT_DATA_COUNT                                     1         
-#define RC_BMSBOARD_PACKOVERHEAT_DATA_TYPE                                      uint8_t   
-
-
-
-///////////////////////////////////////////////////
-////////////        POWERBOARD          ///////////         
-///////////////////////////////////////////////////
-
-////////////////////Commands
-//M1, M2, M3, M4, M5, M6, MSpare, Aux, HCSpare, Core, GPS, Router, Cam, LCSpare (bitmasked) [1-Enable, 0-No change]
-#define RC_POWERBOARD_ENABLEBUS_DATA_ID                                         2000      
-#define RC_POWERBOARD_ENABLEBUS_DATA_COUNT                                      1         
-#define RC_POWERBOARD_ENABLEBUS_DATA_TYPE                                       uint16_t  
-
-//M1, M2, M3, M4, M5, M6, MSpare, Aux, HCSpare, Core, GPS, Router, Cam, LCSpare (bitmasked) [1-Disable, 0-No change]
-#define RC_POWERBOARD_DISABLEBUS_DATA_ID                                        2001      
-#define RC_POWERBOARD_DISABLEBUS_DATA_COUNT                                     1         
-#define RC_POWERBOARD_DISABLEBUS_DATA_TYPE                                      uint16_t  
-
-//M1, M2, M3, M4, M5, M6, MSpare, Aux, HCSpare, Core, GPS, Router, Cam, LCSpare (bitmasked) [1-Enable, 0-Disable]
-#define RC_POWERBOARD_SETBUS_DATA_ID                                            2002      
-#define RC_POWERBOARD_SETBUS_DATA_COUNT                                         1         
-#define RC_POWERBOARD_SETBUS_DATA_TYPE                                          uint16_t  
-
-////////////////////Telemetry
-//M1, M2, M3, M4, M5, M6, MSpare, Aux, HCSpare, Core, GPS, Router, Cam, LCSpare (bitmasked) [1-Enabled, 0-Disabled]
-#define RC_POWERBOARD_BUSSTATUS_DATA_ID                                         2100      
-#define RC_POWERBOARD_BUSSTATUS_DATA_COUNT                                      1         
-#define RC_POWERBOARD_BUSSTATUS_DATA_TYPE                                       uint16_t  
-
-//M1, M2, M3, M4, M5, M6, MSpare, Aux, HCSpare, Core, GPS, Router, Cam, LCSpare, NetSW1, NetSW2, NetSW3, POE
-#define RC_POWERBOARD_BUSCURRENT_DATA_ID                                        2101      
-#define RC_POWERBOARD_BUSCURRENT_DATA_COUNT                                     18        
-#define RC_POWERBOARD_BUSCURRENT_DATA_TYPE                                      float     
-
-////////////////////Error
-//M1, M2, M3, M4, M5, M6, MSpare, Aux, HCSpare, Core, GPS, Router, Cam, LCSpare, NetSW1, NetSW2, NetSW3, POE (bitmasked) [1-Overcurrent, 0-OK]
-#define RC_POWERBOARD_BUSOVERCURRENT_DATA_ID                                    2200      
-#define RC_POWERBOARD_BUSOVERCURRENT_DATA_COUNT                                 1         
-#define RC_POWERBOARD_BUSOVERCURRENT_DATA_TYPE                                  uint32_t  
-
 
 
 ///////////////////////////////////////////////////
@@ -280,16 +157,21 @@
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_COUNT                                 1         
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_TYPE                                  uint8_t   
 
-//[Roll, Pitch] (degrees - from horizontal)
-#define RC_COREBOARD_IMUDATA_DATA_ID                                            3013      
-#define RC_COREBOARD_IMUDATA_DATA_COUNT                                         2         
-#define RC_COREBOARD_IMUDATA_DATA_TYPE                                          float     
-
 ////////////////////Telemetry
 //[LF, LM, LR, RF, RM, RR] (-1, 1)-> (-100%, 100%)
 #define RC_COREBOARD_DRIVESPEEDS_DATA_ID                                        3100      
 #define RC_COREBOARD_DRIVESPEEDS_DATA_COUNT                                     6         
 #define RC_COREBOARD_DRIVESPEEDS_DATA_TYPE                                      float     
+
+//[Roll, Pitch, Yaw] degrees
+#define RC_COREBOARD_IMUDATA_DATA_ID                                            3101      
+#define RC_COREBOARD_IMUDATA_DATA_COUNT                                         3         
+#define RC_COREBOARD_IMUDATA_DATA_TYPE                                          float     
+
+//[xAxis, yAxis, zAxis] Accel in m/s^2
+#define RC_COREBOARD_ACCELEROMETERDATA_DATA_ID                                  3102      
+#define RC_COREBOARD_ACCELEROMETERDATA_DATA_COUNT                               3         
+#define RC_COREBOARD_ACCELEROMETERDATA_DATA_TYPE                                float     
 
 ////////////////////Enums
 enum COREBOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL}; 
@@ -759,72 +641,6 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 ///////////////////////////////////////////////////
 ////////////        CAMERA2BOARD        ///////////         
 ///////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////
-////////////        RAMANSPECTROMETERBOARD///////////         
-///////////////////////////////////////////////////
-
-////////////////////Commands
-//[Green, Red] [1-Enabled, 0-Disabled] (bitmasked)
-#define RC_RAMANSPECTROMETERBOARD_ENABLELEDS_DATA_ID                            13000     
-#define RC_RAMANSPECTROMETERBOARD_ENABLELEDS_DATA_COUNT                         1         
-#define RC_RAMANSPECTROMETERBOARD_ENABLELEDS_DATA_TYPE                          uint8_t   
-
-//Start a reading of the CCD, with the provided integration time (milliseconds)
-#define RC_RAMANSPECTROMETERBOARD_REQUESTREADING_DATA_ID                        13001     
-#define RC_RAMANSPECTROMETERBOARD_REQUESTREADING_DATA_COUNT                     1         
-#define RC_RAMANSPECTROMETERBOARD_REQUESTREADING_DATA_TYPE                      uint32_t  
-
-////////////////////Telemetry
-//Array of CCD elements 1-500
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART1_DATA_ID                      13100     
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART1_DATA_COUNT                   500       
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART1_DATA_TYPE                    uint16_t  
-
-//Array of CCD elements 501-1000
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART2_DATA_ID                      13101     
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART2_DATA_COUNT                   500       
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART2_DATA_TYPE                    uint16_t  
-
-//Array of CCD elements 1001-1500
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART3_DATA_ID                      13102     
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART3_DATA_COUNT                   500       
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART3_DATA_TYPE                    uint16_t  
-
-//Array of CCD elements 1501-2000
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART4_DATA_ID                      13103     
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART4_DATA_COUNT                   500       
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART4_DATA_TYPE                    uint16_t  
-
-//Array of CCD elements 2001-2048
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART5_DATA_ID                      13104     
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART5_DATA_COUNT                   48        
-#define RC_RAMANSPECTROMETERBOARD_CCDREADING_PART5_DATA_TYPE                    uint16_t  
-
-
-
-///////////////////////////////////////////////////
-////////////        REFLECTANCESPECTROMETERBOARD///////////         
-///////////////////////////////////////////////////
-
-////////////////////Commands
-//[400nm, 465nm, 522nm, 530nm] [1-Enabled, 0-Disabled] (bitmasked)
-#define RC_REFLECTANCESPECTROMETERBOARD_ENABLELEDS_DATA_ID                      14000     
-#define RC_REFLECTANCESPECTROMETERBOARD_ENABLELEDS_DATA_COUNT                   1         
-#define RC_REFLECTANCESPECTROMETERBOARD_ENABLELEDS_DATA_TYPE                    uint8_t   
-
-//Start a reading of the CCD, with the provided integration time (milliseconds)
-#define RC_REFLECTANCESPECTROMETERBOARD_REQUESTREADING_DATA_ID                  14001     
-#define RC_REFLECTANCESPECTROMETERBOARD_REQUESTREADING_DATA_COUNT               1         
-#define RC_REFLECTANCESPECTROMETERBOARD_REQUESTREADING_DATA_TYPE                uint32_t  
-
-////////////////////Telemetry
-//Array of CCD elements 1-288
-#define RC_REFLECTANCESPECTROMETERBOARD_READING_DATA_ID                         14100     
-#define RC_REFLECTANCESPECTROMETERBOARD_READING_DATA_COUNT                      288       
-#define RC_REFLECTANCESPECTROMETERBOARD_READING_DATA_TYPE                       uint8_t   
 
 
 
