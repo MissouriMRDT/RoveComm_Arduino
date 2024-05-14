@@ -520,10 +520,10 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_COUNT                1         
 #define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE                 uint8_t   
 
-//[Temperature, Humidity] (degrees C, relative humidity %)
-#define RC_SCIENCEACTUATIONBOARD_ENVIRONMENTALDATA_DATA_ID                      9102      
-#define RC_SCIENCEACTUATIONBOARD_ENVIRONMENTALDATA_DATA_COUNT                   2         
-#define RC_SCIENCEACTUATIONBOARD_ENVIRONMENTALDATA_DATA_TYPE                    float     
+//[Humidity] (relative humidity %)
+#define RC_SCIENCEACTUATIONBOARD_HUMIDITY_DATA_ID                               9102      
+#define RC_SCIENCEACTUATIONBOARD_HUMIDITY_DATA_COUNT                            1         
+#define RC_SCIENCEACTUATIONBOARD_HUMIDITY_DATA_TYPE                             float     
 
 //(in/s)
 #define RC_SCIENCEACTUATIONBOARD_AUGERSPEED_DATA_ID                             9103      
@@ -595,9 +595,9 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_AUTONOMYBOARD_CURRENTSTATE_DATA_TYPE                                 uint8_t   
 
 //
-#define RC_AUTONOMYBOARD_REACHEDMARKER_DATA_ID                                  11101     
-#define RC_AUTONOMYBOARD_REACHEDMARKER_DATA_COUNT                               1         
-#define RC_AUTONOMYBOARD_REACHEDMARKER_DATA_TYPE                                uint8_t   
+#define RC_AUTONOMYBOARD_REACHEDGOAL_DATA_ID                                    11101     
+#define RC_AUTONOMYBOARD_REACHEDGOAL_DATA_COUNT                                 1         
+#define RC_AUTONOMYBOARD_REACHEDGOAL_DATA_TYPE                                  uint8_t   
 
 //String version of most current error log
 #define RC_AUTONOMYBOARD_CURRENTLOG_DATA_ID                                     11102     
@@ -618,6 +618,11 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_ID                                   12000     
 #define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_COUNT                                2         
 #define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_TYPE                                 uint8_t   
+
+//Take a picture with the current camera. [0] is the camera to take a picture with.
+#define RC_CAMERA1BOARD_TAKEPICTURE_DATA_ID                                     12001     
+#define RC_CAMERA1BOARD_TAKEPICTURE_DATA_COUNT                                  1         
+#define RC_CAMERA1BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
 ////////////////////Telemetry
 //Bitmask values for which cameras are able to stream. LSB is Camera 0, MSB is Camera 7.
@@ -641,6 +646,12 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 ///////////////////////////////////////////////////
 ////////////        CAMERA2BOARD        ///////////         
 ///////////////////////////////////////////////////
+
+////////////////////Commands
+//Take a picture with the current camera. [0] is the camera to take a picture with.
+#define RC_CAMERA2BOARD_TAKEPICTURE_DATA_ID                                     13001     
+#define RC_CAMERA2BOARD_TAKEPICTURE_DATA_COUNT                                  1         
+#define RC_CAMERA2BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
 
 
@@ -700,6 +711,11 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_INSTRUMENTSBOARD_REFLECTANCEREADING_DATA_ID                          16105     
 #define RC_INSTRUMENTSBOARD_REFLECTANCEREADING_DATA_COUNT                       288       
 #define RC_INSTRUMENTSBOARD_REFLECTANCEREADING_DATA_TYPE                        uint8_t   
+
+//[Temperature] (degrees C)
+#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_ID                                 16106     
+#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_COUNT                              1         
+#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_TYPE                               float     
 
 
 
