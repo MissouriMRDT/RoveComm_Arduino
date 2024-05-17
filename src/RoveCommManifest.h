@@ -157,6 +157,11 @@
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_COUNT                                 1         
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_TYPE                                  uint8_t   
 
+//Set the message to display on the lighting panel; null terminator ends string early
+#define RC_COREBOARD_LEDTEXT_DATA_ID                                            3013      
+#define RC_COREBOARD_LEDTEXT_DATA_COUNT                                         256       
+#define RC_COREBOARD_LEDTEXT_DATA_TYPE                                          char      
+
 ////////////////////Telemetry
 //[LF, LM, LR, RF, RM, RR] (-1, 1)-> (-100%, 100%)
 #define RC_COREBOARD_DRIVESPEEDS_DATA_ID                                        3100      
@@ -619,9 +624,9 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_COUNT                                2         
 #define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_TYPE                                 uint8_t   
 
-//Take a picture with the current camera. [0] is the camera to take a picture with.
+//Take a picture with the current camera. [0] is the camera to take a picture with. [1] tells the camera whether to restart the stream afterwards.
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_ID                                     12001     
-#define RC_CAMERA1BOARD_TAKEPICTURE_DATA_COUNT                                  1         
+#define RC_CAMERA1BOARD_TAKEPICTURE_DATA_COUNT                                  2         
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
 ////////////////////Telemetry
@@ -634,6 +639,11 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_ID                                12101     
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_COUNT                             4         
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_TYPE                              uint8_t   
+
+//Picture has been taken.
+#define RC_CAMERA1BOARD_PICTURETAKEN1_DATA_ID                                   12102     
+#define RC_CAMERA1BOARD_PICTURETAKEN1_DATA_COUNT                                1         
+#define RC_CAMERA1BOARD_PICTURETAKEN1_DATA_TYPE                                 uint8_t   
 
 ////////////////////Error
 //Camera has errored and stopped streaming. [0] is ID of camera as an integer (not bitmask).
@@ -648,10 +658,16 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//Take a picture with the current camera. [0] is the camera to take a picture with.
+//Take a picture with the current camera. [0] is the camera to take a picture with. [1] tells the camera whether to restart the stream afterwards.
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_ID                                     13001     
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_COUNT                                  1         
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
+
+////////////////////Telemetry
+//Picture has been taken.
+#define RC_CAMERA2BOARD_PICTURETAKEN2_DATA_ID                                   13100     
+#define RC_CAMERA2BOARD_PICTURETAKEN2_DATA_COUNT                                1         
+#define RC_CAMERA2BOARD_PICTURETAKEN2_DATA_TYPE                                 uint8_t   
 
 
 
