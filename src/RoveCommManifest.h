@@ -695,7 +695,12 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 //Start a Reflectance reading, with the provided integration time (milliseconds)
 #define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_ID                   16002     
 #define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_COUNT                1         
-#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_TYPE                 uint32_t  
+#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_TYPE                 uint32_t
+
+//Start a temperature reading
+#define RC_INSTRUMENTSBOARD_REQUESTTEMPREADING_DATA_ID                          16003
+#define RC_INSTRUMENTSBOARD_REQUESTTEMPREADING_DATA_COUNT                       1
+#define RC_INSTRUMENTSBOARD_REQUESTTEMPREADING_DATA_TYPE                        uint8_t
 
 ////////////////////Telemetry
 //Raman CCD elements 1-500
@@ -731,7 +736,7 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 //[Temperature] (degrees C)
 #define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_ID                                 16106     
 #define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_COUNT                              1         
-#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_TYPE                               float     
+#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_TYPE                               int8_t     
 
 
 
