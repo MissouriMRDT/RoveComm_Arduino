@@ -522,12 +522,17 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 //Request the humidity of the instrument
 #define RC_SCIENCEACTUATIONBOARD_REQUESTHUMIDITY_DATA_ID                        9012      
 #define RC_SCIENCEACTUATIONBOARD_REQUESTHUMIDITY_DATA_COUNT                     1         
-#define RC_SCIENCEACTUATIONBOARD_REQUESTHUMIDITY_DATA_TYPE                      uint8_t
+#define RC_SCIENCEACTUATIONBOARD_REQUESTHUMIDITY_DATA_TYPE                      uint8_t   
 
 //[Pan, Tilt](degrees -180-180)
-#define RC_SCIENCEACTUATIONBOARD_SCIENCEGIMBALINCREMENT_DATA_ID                 9013
-#define RC_SCIENCEACTUATIONBOARD_SCIENCEGIMBALINCREMENT_DATA_COUNT              2
-#define RC_SCIENCEACTUATIONBOARD_SCIENCEGIMBALINCREMENT_DATA_TYPE               int16_t
+#define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_ID                   9013      
+#define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_COUNT                2         
+#define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_TYPE                 int16_t   
+
+//[0-Disable, 1-Enable]
+#define RC_SCIENCEACTUATIONBOARD_ENABLECOOLER_DATA_ID                           9014      
+#define RC_SCIENCEACTUATIONBOARD_ENABLECOOLER_DATA_COUNT                        1         
+#define RC_SCIENCEACTUATIONBOARD_ENABLECOOLER_DATA_TYPE                         uint8_t   
 
 ////////////////////Telemetry
 //[ScoopAxis, SensorAxis] (in)
@@ -625,7 +630,7 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_AUTONOMYBOARD_CURRENTLOG_DATA_TYPE                                   char      
 
 ////////////////////Enums
-enum AUTONOMYBOARD_AUTONOMYSTATE {IDLE,NAVIGATING,SEARCHPATTERN,APPROACHINGMARKER,APPROACHINGOBJECT,VERIFYINGMARKER,VERIFYINGOBJECT,AVOIDANCE,REVERSING,STUCK}; 
+enum AUTONOMYBOARD_AUTONOMYSTATE {IDLE,NAVIGATING,SEARCHPATTERN,APPROACHINGMARKER,APPROACHINGOBJECT,VERIFYINGGPS,VERIFYINGMARKER,VERIFYINGOBJECT,AVOIDANCE,REVERSING,STUCK}; 
 enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR,CRITICAL}; 
 
 
@@ -643,6 +648,11 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_ID                                     12001     
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_COUNT                                  2         
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
+
+//Stop the current camera stream. [0] is the camera to stop streaming. [1] is whether to restart the stream.
+#define RC_CAMERA1BOARD_TOGGLESTREAM1_DATA_ID                                   12002     
+#define RC_CAMERA1BOARD_TOGGLESTREAM1_DATA_COUNT                                2         
+#define RC_CAMERA1BOARD_TOGGLESTREAM1_DATA_TYPE                                 uint8_t   
 
 ////////////////////Telemetry
 //Bitmask values for which cameras are able to stream. LSB is Camera 0, MSB is Camera 7.
@@ -677,6 +687,11 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_ID                                     13001     
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_COUNT                                  1         
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
+
+//Stop the current camera stream. [0] is the camera to stop streaming. [1] is whether to restart the stream.
+#define RC_CAMERA2BOARD_TOGGLESTREAM2_DATA_ID                                   13002     
+#define RC_CAMERA2BOARD_TOGGLESTREAM2_DATA_COUNT                                2         
+#define RC_CAMERA2BOARD_TOGGLESTREAM2_DATA_TYPE                                 uint8_t   
 
 ////////////////////Telemetry
 //Picture has been taken.
