@@ -37,7 +37,7 @@ def insert_packets(board, type):
     This inserts all Ids for a given type (Command, Telemetry, Error)
     Currently adds the comments, dataId, dataCount and dataType
     """
-    if (len(this.manifest[board][type]) > 0):
+    if (type in this.manifest[board] and len(this.manifest[board][type]) > 0):
         messages = this.manifest[board][type]
         this.header_file.write(f"////////////////////{type}\n")
 
@@ -53,13 +53,13 @@ def insert_packets(board, type):
 
             this.header_file.write(f"//{comments}\n")
             this.header_file.write(
-                f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_'+message.upper()+'_DATA_ID':<70}{dataId:<10}\n"
+                f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_'+message.upper()+'_DATA_ID':<80}{dataId:<10}\n"
             )
             this.header_file.write(
-                f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_'+message.upper()+'_DATA_COUNT':<70}{dataCount:<10}\n"
+                f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_'+message.upper()+'_DATA_COUNT':<80}{dataCount:<10}\n"
             )
             this.header_file.write(
-                f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_'+message.upper()+'_DATA_TYPE':<70}{dataType:<10}\n"
+                f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_'+message.upper()+'_DATA_TYPE':<80}{dataType:<10}\n"
             )
             this.header_file.write("\n")
 
@@ -99,16 +99,16 @@ if __name__ == "__main__":
         # The < character indicates something is left aligned, in this case we are assuming that the name
         # plus #define is less than or equal to 50 characters and the PORT/IP less than 10
         this.header_file.write(
-            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_FIRSTOCTET':<50}{ip_octs[0]:<10}\n"
+            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_FIRSTOCTET':<60}{ip_octs[0]:<10}\n"
         )
         this.header_file.write(
-            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_SECONDOCTET':<50}{ip_octs[1]:<10}\n"
+            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_SECONDOCTET':<60}{ip_octs[1]:<10}\n"
         )
         this.header_file.write(
-            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_THIRDOCTET':<50}{ip_octs[2]:<10}\n"
+            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_THIRDOCTET':<60}{ip_octs[2]:<10}\n"
         )
         this.header_file.write(
-            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_FOURTHOCTET':<50}{ip_octs[3]:<10}\n"
+            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_FOURTHOCTET':<60}{ip_octs[3]:<10}\n"
         )
         this.header_file.write("\n")
 
@@ -117,25 +117,25 @@ if __name__ == "__main__":
 
     # Insert the update rate and UDP port
     this.update_rate = this.manifest_file["updateRate"]
-    this.header_file.write(f"{define_prefix + ' ROVECOMM_UPDATE_RATE':<50}{this.update_rate:<10}\n")
+    this.header_file.write(f"{define_prefix + ' ROVECOMM_UPDATE_RATE':<60}{this.update_rate:<10}\n")
 
     this.udp_port = this.manifest_file["ethernetUDPPort"]
     this.tcp_port = this.manifest_file["ethernetTCPPort"]
-    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_ETHERNET_UDP_PORT':<50}{this.udp_port:<10}\n")
-    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_ETHERNET_TCP_PORT':<50}{this.tcp_port:<10}\n")
+    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_ETHERNET_UDP_PORT':<60}{this.udp_port:<10}\n")
+    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_ETHERNET_TCP_PORT':<60}{this.tcp_port:<10}\n")
 
     # Also grab the first 3 octets of the subnet IP
     # this.subnet_ip = this.manifest_file["subnetIP"]
-    # this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_IP_FIRST_OCTET':<50}{this.subnet_ip[0]:<10}\n")
-    # this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_IP_SECOND_OCTET':<50}{this.subnet_ip[1]:<10}\n")
-    # this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_IP_THIRD_OCTET':<50}{this.subnet_ip[2]:<10}\n")
+    # this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_IP_FIRST_OCTET':<60}{this.subnet_ip[0]:<10}\n")
+    # this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_IP_SECOND_OCTET':<60}{this.subnet_ip[1]:<10}\n")
+    # this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_IP_THIRD_OCTET':<60}{this.subnet_ip[2]:<10}\n")
 
     this.header_file.write("\n\n")
 
     # Grabs the first 5 bytes of the MAC address
     this.subnet_mac = this.manifest_file["MACaddressPrefix"]
-    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_MAC_FIRST_BYTE':<50}{this.subnet_mac[0]:<10}\n")
-    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_MAC_SECOND_BYTE':<50}{this.subnet_mac[1]:<10}\n")
+    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_MAC_FIRST_BYTE':<60}{this.subnet_mac[0]:<10}\n")
+    this.header_file.write(f"{define_prefix + ' RC_ROVECOMM_SUBNET_MAC_SECOND_BYTE':<60}{this.subnet_mac[1]:<10}\n")
 
     this.header_file.write("\n\n")
 
@@ -147,7 +147,7 @@ if __name__ == "__main__":
 
     for packet in this.system_packets:
         this.header_file.write(
-            f"{define_prefix + ' RC_ROVECOMM_'+packet.upper()+'_DATA_ID':<50}{this.system_packets[packet]:<10}\n"
+            f"{define_prefix + ' RC_ROVECOMM_'+packet.upper()+'_DATA_ID':<60}{this.system_packets[packet]:<10}\n"
         )
     this.header_file.write("\n\n")
 
