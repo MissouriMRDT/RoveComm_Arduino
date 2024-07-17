@@ -1,88 +1,85 @@
 //Example of receiving and writing rovecomm data for a mock driveboard
 
-#include "RoveComm.h"
-#if defined(ENERGIA)
-#include "RoveWatchdog.h"
-#elif defined(ARDUINO_TEENSY41) 
-#include <TimerOne.h>
-#endif
+#include <RoveComm.h>
 
+// create rovecomm context
 RoveCommEthernet RoveComm;
-rovecomm_packet packet;
+// packets can be quite large so better to keep just one around
+RoveCommPacket packet;
 
-int16_t motor_speed[6] = {-500, 200, 740, -720, 10, -182};
+int16_t motorSpeeds[RC_DRIVEBOARD_DRIVESPEEDS_DATA_COUNT] = {-500, 200, 740, -720, 10, -182};
 
-//declare the Ethernet Server in the top level sketch with the requisite port ID any time you want to use RoveComm
-EthernetServer TCPServer(RC_ROVECOMM_DRIVEBOARD_PORT);
-#if defined(ENERGIA)
-RoveWatchdog Watchdog;
-void setup() 
-{
-  Serial.begin(9600);
-  Watchdog.attach(Telemetry);
-  //Set up rovecomm with the correct IP and the TCP server
-  RoveComm.begin(RC_DRIVEBOARD_FOURTHOCTET, &TCPServer);
-  delay(100);
-  Watchdog.start(ROVECOMM_UPDATE_RATE);
-  Serial.println("Started: ");
+// we will set up a timer to periodically send the current drive speeds (not required)
+void telemetry() {
+    // send over UDP to all subscribed IP addresses
+    RoveComm.write(RC_DRIVEBOARD_DRIVESPEEDS_DATA_ID, RC_DRIVEBOARD_DRIVESPEEDS_DATA_COUNT, motorSpeeds);
 }
-void Telemetry()
-{
-    RoveComm.write(RC_DRIVEBOARD_DRIVESPEEDS_DATA_ID, RC_DRIVEBOARD_DRIVESPEEDS_DATA_COUNT, motor_speed);
-    Watchdog.clear();
+// the hardware timer that will call telemetry() using an interrupt
+#define TELEMETRY_PERIOD 150'000 // microseconds
+IntervalTimer Telemetry;
+
+void setup() {
+    // start up serial communication
+    Serial.begin(9600);
+
+    // initialize rovecomm
+    Serial.println("Initializing rovecomm...");
+    RoveComm.begin(RC_COREBOARD_IPADDRESS);
+    Serial.println("RoveComm initialized!");
+
+    Telemetry.begin(telemetry, TELEMETRY_PERIOD);
 }
-#elif defined(ARDUINO_TEENSY41) 
-void setup() 
-{
-  Serial.begin(9600);
-  Timer1.initialize(100000);
-  Timer1.attachInterrupt(Telemetry);
-  //Set up rovecomm with the correct IP and the TCP server
-  RoveComm.begin(RC_DRIVEBOARD_FOURTHOCTET, &TCPServer, RC_ROVECOMM_DRIVEBOARD_MAC);
-  delay(100);
-  Serial.println("Started: ");
-}
-void Telemetry()
-{
-    RoveComm.write(RC_DRIVEBOARD_DRIVESPEEDS_DATA_ID, RC_DRIVEBOARD_DRIVESPEEDS_DATA_COUNT, motor_speed);
-}
-#endif
 
-void loop() 
-{
-  packet = RoveComm.read();
+void loop() {
+    // read newest data into our packet variable
+    // if no data is available or there is no connection, the packet.dataId will be set to RC_ROVECOMM_NO_DATA_DATA_ID
+    // if a packet with an incorrect version makes it into the network, packet.dataID will be RC_ROVECOMM_INVALID_VERSION_DATA_ID
+    // as a convenience, RoveComm.read(packet) will return false if either of these error codes are returned
+    if (RoveComm.read(packet)) {
+        // Print the data id
+        Serial.printf("Received a packet with data id: %d\n", packet.dataId);
+    }
 
-  Serial.println("Data id: ");
-  Serial.println(packet.data_id);
+    // change behavior based on packet id
+    // you can find all known dataId's in RoveCommManifest.h
+    switch(packet.data_id) {
+        // because we declare a new variable inside this case block, we need to declare a scope for it
+        case RC_DRIVEBOARD_DRIVEINDIVIDUAL_DATA_ID:
+        {
+            // cast the packet to the correct data type
+            int16_t *speeds = (int16_t*)packet.data;
 
-  switch(packet.data_id)
-  {
-    case RC_DRIVEBOARD_DRIVEINDIVIDUAL_DATA_ID:
-      Serial.println("We received an individual wheel drive command");
-      break;
-    case RC_DRIVEBOARD_DRIVELEFTRIGHT_DATA_ID:
-      //cast the packet to the correct data type
-      int16_t* speeds;
-      speeds = (int16_t*)packet.data;
-      
-      //print out speeds nicely formatted
-      Serial.println("We received a left/right drive command:");
+            Serial.println("We received an individual wheel drive command:");
+            for (int i = 0; i < RC_DRIVEBOARD_DRIVESPEEDS_DATA_COUNT; i++) {
+                Serial.print(motorSpeeds[i]);
+                Serial.print(", ");
+            }
 
-      char buf[100];
-      sprintf(buf, "Left: %d, Right: %d", speeds[0], speeds[1]);
-      Serial.println(buf);
+            // set the motor speeds to the commanded speeds in RoveComm
+            motorSpeeds[0] = speeds[0];
+            motorSpeeds[1] = speeds[1];
+            motorSpeeds[2] = speeds[2];
+            motorSpeeds[3] = speeds[3];
+            motorSpeeds[4] = speeds[4];
+            motorSpeeds[5] = speeds[5];
+            break;
+        }
+        case RC_DRIVEBOARD_DRIVELEFTRIGHT_DATA_ID:
+        {
+            // cast the packet to the correct data type
+            int16_t *speeds = (int16_t*)packet.data;
 
-      //set the motor speeds to the commanded speeds in RoveComm
-      motor_speed[0] = speeds[0];
-      motor_speed[1] = speeds[0];
-      motor_speed[2] = speeds[0];
-      motor_speed[3] = speeds[1];
-      motor_speed[4] = speeds[1];
-      motor_speed[5] = speeds[1];
-      break;
-    default:
-      Serial.println("Unexpected data id: ");
-      Serial.println(packet.data_id);
-      break;
-  }
+            Serial.println("We received a left/right drive command:");
+            Serial.printf("Left: %d, Right: %d\n", speeds[0], speeds[1]);
+
+            // set the motor speeds to the commanded speeds in RoveComm
+            motorSpeeds[0] = speeds[0];
+            motorSpeeds[1] = speeds[0];
+            motorSpeeds[2] = speeds[0];
+            motorSpeeds[3] = speeds[1];
+            motorSpeeds[4] = speeds[1];
+            motorSpeeds[5] = speeds[1];
+            break;
+        }
+    }
 }

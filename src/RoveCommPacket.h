@@ -3,76 +3,77 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "RoveCommManifest.h"
 
-#if defined(ENERGIA)
-#include <Ethernet.h>
-#elif defined(ARDUINO) && (ARDUINO > 100)
-#include <NativeEthernet.h>
-#endif
+#include "RoveCommManifest.h"
+#include "Platform.h"
 
 //////////////////////////////////////////////////////
-#define ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS 10
-#define ROVECOMM_PACKET_MAX_DATA_COUNT 65535
+
+// User can define a different max data count before including RoveComm
+#ifndef ROVECOMM_PACKET_MAX_DATA_COUNT
+#if ROVECOMM_TIVA
+#define ROVECOMM_PACKET_MAX_DATA_COUNT (65535 / 2) // Tiva can only support 21,000 uint8_t at once due to memory issues
+#elif ROVECOMM_TEENSY
+#define ROVECOMM_PACKET_MAX_DATA_COUNT (65535 / 2)// Teensy can only support 32,000 uint8_t at once due to memory issues
+#endif
+#endif
+
 #define ROVECOMM_PACKET_HEADER_SIZE 6
 #define ROVECOMM_VERSION 3
 
 //////////////////////////////////////////////////////
-// Carrys RoveComm packet data
+// Carries RoveComm packet data
 // Used to return RoveComm::read() values as a struct
-struct rovecomm_packet
-{
-  uint16_t data_id;
-  uint16_t data_count;
-  uint8_t data_type;
-#if defined(ENERGIA)
-  char data[ROVECOMM_PACKET_MAX_DATA_COUNT / 3 * sizeof(uint8_t)]; // Tiva can only support 21,000 uint8_t at once due to memory issues
-#elif defined(ARDUINO) && (ARDUINO > 100)
-  char data[ROVECOMM_PACKET_MAX_DATA_COUNT / 2 * sizeof(uint8_t)];                                     // Teensy can only support 32,000 uint8_t at once due to memory issues
-#endif
+////////////////////////////////////////////////
+// The RoveComm udp packet header is 6 bytes long:
+// uint8_t  rovecomm version
+// uint16_t data id
+// uint16_t  data count
+// uint8_t  data type
+//////////////////////////////////////////////////////
+struct RoveCommPacket {
+  uint16_t dataId;
+  uint16_t dataCount;
+  uint8_t dataType;
+  uint8_t data[ROVECOMM_PACKET_MAX_DATA_COUNT];
+
+  // Prevent electricals from unknowingly copying a large packet buffer
+  // Nevermind as of C++ 20 this is no longer allowed
+  // RoveCommPacket(const RoveCommPacket& other) = delete; 
+  // RoveCommPacket& operator=(const RoveCommPacket& other) = delete; 
+
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-namespace roveware
-{
+namespace rovecomm {
   // DataType RoveComm encoding
-  enum data_type_t
-  {
-    INT8_T = 0,
-    UINT8_T = 1,
-    INT16_T = 2,
+  enum data_type_t {
+    INT8_T   = 0,
+    UINT8_T  = 1,
+    INT16_T  = 2,
     UINT16_T = 3,
-    INT32_T = 4,
+    INT32_T  = 4,
     UINT32_T = 5,
-    FLOAT = 6,
-    DOUBLE = 7,
-    CHAR = 8
+    FLOAT    = 6,
+    DOUBLE   = 7,
+    CHAR     = 8
   };
 
-  ////////////////////////////////////////////////
-  // The RoveComm udp packet header is 6 bytes long:
-  // uint8_t  rovecomm_version
-  // uint16_t data_id
-  // uint16_t  data_count
-  // uint8_t  data_type
+  // Get size of a RoveComm data type based on its enum value
+  size_t dataTypeSize(const data_type_t dataType);
 
-  // Carrys Udp packet data
-  struct _packet
-  {
-#if defined(ENERGIA)
-    uint8_t bytes[ROVECOMM_PACKET_HEADER_SIZE + sizeof(uint8_t) * ROVECOMM_PACKET_MAX_DATA_COUNT / 3]; // Tiva can only support 21,000 uint8_t at once due to memory issues
-#elif defined(ARDUINO) && (ARDUINO > 100)
-    uint8_t bytes[ROVECOMM_PACKET_HEADER_SIZE + sizeof(uint8_t) * ROVECOMM_PACKET_MAX_DATA_COUNT / 2]; // Teensy can only support 32,000 uint8_t at once due to memory issues
-#endif
-  };
+  // Buffer for reading packets
+  extern uint8_t *_readBuf;
+  extern uint8_t *_writeBuf;
 
-  struct _packet packPacket(const uint16_t data_id, const uint16_t data_count, const data_type_t data_type, const void *data);
+  // Pack a RoveCommPacket into the given buffer in network byte order
+  // Returns the number of bytes packed or 0 if the data is invalid
+  size_t packPacket(uint8_t *dest, uint16_t dataId, uint16_t dataCount, data_type_t dataType, const uint8_t *data);
 
-  // for UDP packets, of known size
-  struct rovecomm_packet unpackPacket(uint8_t _packet[]);
-  // for TCP, where we read streams of data, with size determined by parsing header
-  struct rovecomm_packet unpackPacket(EthernetClient client);
+  // Unpack a netowrk byte order buffer into a RoveCommPacket
+  // Returns true if the packet was successfully read, else false
+  bool unpackPacket(RoveCommPacket &dest, const uint8_t *buffer);
 
-} // end namespace/////////////////////////////////////////////////////////////////////////////////////////////////
+} // rovecomm
 
 #endif // ROVECOMM_PACKET_H

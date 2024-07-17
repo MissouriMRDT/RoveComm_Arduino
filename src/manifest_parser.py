@@ -8,7 +8,6 @@ header = """#ifndef RoveCommManifest_h
 #define RoveCommManifest_h
 
 #include <stdint.h>
-#include\"RoveCommPacket.h\"
 
 """
 
@@ -109,6 +108,9 @@ if __name__ == "__main__":
         )
         this.header_file.write(
             f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_FOURTHOCTET':<60}{ip_octs[3]:<10}\n"
+        )
+        this.header_file.write(
+            f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_IPADDRESS':<60}{'{'+ip.replace('.', ', ')+'}':<10}\n"
         )
         this.header_file.write("\n")
 

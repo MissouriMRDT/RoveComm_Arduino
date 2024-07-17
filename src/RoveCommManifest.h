@@ -1,68 +1,80 @@
-#ifndef RoveCommManifest_h
-#define RoveCommManifest_h
+#ifndef ROVECOMM_MANIFEST_H
+#define ROVECOMM_MANIFEST_H
 
 #include <stdint.h>
-#include"RoveCommPacket.h"
+#include <IPAddress.h>
 
 #define RC_COREBOARD_FIRSTOCTET                             192       
 #define RC_COREBOARD_SECONDOCTET                            168       
 #define RC_COREBOARD_THIRDOCTET                             2         
 #define RC_COREBOARD_FOURTHOCTET                            110       
+#define RC_COREBOARD_IPADDRESS                              {192, 168, 2, 110}
 
 #define RC_PMSBOARD_FIRSTOCTET                              192       
 #define RC_PMSBOARD_SECONDOCTET                             168       
 #define RC_PMSBOARD_THIRDOCTET                              2         
 #define RC_PMSBOARD_FOURTHOCTET                             102       
+#define RC_PMSBOARD_IPADDRESS                               {192, 168, 2, 102}
 
 #define RC_NAVBOARD_FIRSTOCTET                              192       
 #define RC_NAVBOARD_SECONDOCTET                             168       
 #define RC_NAVBOARD_THIRDOCTET                              2         
 #define RC_NAVBOARD_FOURTHOCTET                             104       
+#define RC_NAVBOARD_IPADDRESS                               {192, 168, 2, 104}
 
 #define RC_BASESTATIONNAVBOARD_FIRSTOCTET                   192       
 #define RC_BASESTATIONNAVBOARD_SECONDOCTET                  168       
 #define RC_BASESTATIONNAVBOARD_THIRDOCTET                   100       
 #define RC_BASESTATIONNAVBOARD_FOURTHOCTET                  112       
+#define RC_BASESTATIONNAVBOARD_IPADDRESS                    {192, 168, 100, 112}
 
 #define RC_SIGNALSTACKBOARD_FIRSTOCTET                      192       
 #define RC_SIGNALSTACKBOARD_SECONDOCTET                     168       
 #define RC_SIGNALSTACKBOARD_THIRDOCTET                      100       
 #define RC_SIGNALSTACKBOARD_FOURTHOCTET                     101       
+#define RC_SIGNALSTACKBOARD_IPADDRESS                       {192, 168, 100, 101}
 
 #define RC_ARMBOARD_FIRSTOCTET                              192       
 #define RC_ARMBOARD_SECONDOCTET                             168       
 #define RC_ARMBOARD_THIRDOCTET                              2         
 #define RC_ARMBOARD_FOURTHOCTET                             107       
+#define RC_ARMBOARD_IPADDRESS                               {192, 168, 2, 107}
 
 #define RC_SCIENCEACTUATIONBOARD_FIRSTOCTET                 192       
 #define RC_SCIENCEACTUATIONBOARD_SECONDOCTET                168       
 #define RC_SCIENCEACTUATIONBOARD_THIRDOCTET                 2         
 #define RC_SCIENCEACTUATIONBOARD_FOURTHOCTET                108       
+#define RC_SCIENCEACTUATIONBOARD_IPADDRESS                  {192, 168, 2, 108}
 
 #define RC_AUTONOMYBOARD_FIRSTOCTET                         192       
 #define RC_AUTONOMYBOARD_SECONDOCTET                        168       
 #define RC_AUTONOMYBOARD_THIRDOCTET                         3         
 #define RC_AUTONOMYBOARD_FOURTHOCTET                        100       
+#define RC_AUTONOMYBOARD_IPADDRESS                          {192, 168, 3, 100}
 
 #define RC_CAMERA1BOARD_FIRSTOCTET                          192       
 #define RC_CAMERA1BOARD_SECONDOCTET                         168       
 #define RC_CAMERA1BOARD_THIRDOCTET                          4         
 #define RC_CAMERA1BOARD_FOURTHOCTET                         100       
+#define RC_CAMERA1BOARD_IPADDRESS                           {192, 168, 4, 100}
 
 #define RC_CAMERA2BOARD_FIRSTOCTET                          192       
 #define RC_CAMERA2BOARD_SECONDOCTET                         168       
 #define RC_CAMERA2BOARD_THIRDOCTET                          4         
 #define RC_CAMERA2BOARD_FOURTHOCTET                         101       
+#define RC_CAMERA2BOARD_IPADDRESS                           {192, 168, 4, 101}
 
 #define RC_IRSPECTROMETERBOARD_FIRSTOCTET                   192       
 #define RC_IRSPECTROMETERBOARD_SECONDOCTET                  168       
 #define RC_IRSPECTROMETERBOARD_THIRDOCTET                   3         
 #define RC_IRSPECTROMETERBOARD_FOURTHOCTET                  104       
+#define RC_IRSPECTROMETERBOARD_IPADDRESS                    {192, 168, 3, 104}
 
 #define RC_INSTRUMENTSBOARD_FIRSTOCTET                      192       
 #define RC_INSTRUMENTSBOARD_SECONDOCTET                     168       
 #define RC_INSTRUMENTSBOARD_THIRDOCTET                      3         
 #define RC_INSTRUMENTSBOARD_FOURTHOCTET                     105       
+#define RC_INSTRUMENTSBOARD_IPADDRESS                       {192, 168, 3, 105}
 
 
 
@@ -770,4 +782,4 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 
 
 
-#endif // RoveCommManifest_h
+#endif // ROVECOMM_MANIFEST_H
