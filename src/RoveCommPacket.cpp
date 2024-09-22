@@ -327,7 +327,7 @@ namespace roveware
     } 
     else if(data_type == FLOAT )
     {
-      for ( int i=0; i < data_count*4; i++ )
+      for ( int i=0; i < data_count*4; i+=4 )
         { 
           rovecomm_packet.data[i + 3] = client.read();
           rovecomm_packet.data[i + 2] = client.read();
@@ -336,7 +336,7 @@ namespace roveware
         }
     } else if(data_type == DOUBLE )
     {
-      for ( int i=0; i < data_count*8; i++ )
+      for ( int i=0; i < data_count*8; i+=8 )
         { 
           rovecomm_packet.data[i + 7] = client.read();
           rovecomm_packet.data[i + 6] = client.read();
@@ -362,6 +362,7 @@ namespace roveware
     //Pack data into packet
     rovecomm_packet.data_count = data_count;
     rovecomm_packet.data_id    = data_id;
+    rovecomm_packet.data_type  = data_type;
     return rovecomm_packet;
   }
 }// end namespace/////////////////////////////////////////////////////////////////////////////////////////////////
