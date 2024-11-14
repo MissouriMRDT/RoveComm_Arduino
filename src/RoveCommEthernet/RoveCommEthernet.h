@@ -1,171 +1,122 @@
-#ifndef RoveCommEthernet_h
-#define RoveCommEthernet_h
+#ifndef ROVECOMM_ETHERNET_H
+#define ROVECOMM_ETHERNET_H
 
 #include <stdint.h>
 #include <stddef.h>
 
-#if defined(ENERGIA)
-#include "Ethernet.h"
-#elif defined(ARDUINO) && (ARDUINO > 100)
-#include "NativeEthernet.h"
+#include "Platform.h"
+#if ROVECOMM_TIVA
+#include <Ethernet.h>
+#elif ROVECOMM_TEENSY
+#include <NativeEthernet.h>
 #endif
 
 #include "RoveCommManifest.h"
 #include "RoveCommPacket.h"
-#include "../RoveCommEthernetTCP/RoveCommEthernetTCP.h"
-#include "../RoveCommEthernetUDP/RoveCommEthernetUdp.h"
+#include "RoveCommEthernetTCP.h"
+#include "RoveCommEthernetUDP.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class RoveCommEthernet
-{
-private:
-  uint8_t num_clients = 0;
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class RoveCommEthernet {
 public:
-  RoveCommEthernetTCP TCP;
-  RoveCommEthernetUdp UDP;
+    RoveCommEthernetTCP TCP;
+    RoveCommEthernetUDP UDP;
 
-  struct rovecomm_packet rovecomm_packet;
+    /////begin//////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Initiate RoveComm with the given address
+    void begin(IPAddress ip, uint16_t udpPort=RC_ROVECOMM_ETHERNET_UDP_PORT, uint16_t tcpPort=RC_ROVECOMM_ETHERNET_TCP_PORT);
+    void begin(IPAddress ip, uint8_t *mac, uint16_t udpPort=RC_ROVECOMM_ETHERNET_UDP_PORT, uint16_t tcpPort=RC_ROVECOMM_ETHERNET_TCP_PORT);
 
-  /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // checks all ongoing connections for incoming packets and returns the first one as a parsed rovecomm packet
-  struct rovecomm_packet read();
+    /////read///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Reads the latest TCP data and, if none, the latest UDP packet
+    // Returns true if a packet was read
+    // Returns false if no packet was read. The packet's dataId field will also be set to RC_ROVECOMM_NO_DATA_DATA_ID
+    bool read(RoveCommPacket &dest);
+    // Convenience method to follow old code pattern. Prefer read(packet) instead.
+    RoveCommPacket read() {
+        RoveCommPacket packet;
+        read(packet);
+        return packet;
+    }
 
-#if defined(ENERGIA)
-  /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // Overloaded begin
-  // Default ip address = 192.168.1.XXX
-  // This TCP server will be configured with an IP and port from the RoveComm manifest and allow other boards and base-station
-  // to securely communicate with it
-  void begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer *TCPServer);
-  void begin(const uint8_t ip_octet_4, EthernetServer *TCPServer);
+    ///// CONVENIENCE METHODS ////////////////////////////////////////////////////////////////////////////////////////////
 
-#elif defined(ARDUINO) && (ARDUINO > 100)
-  /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // Overloaded begin
-  // Default ip address = 192.168.1.XXX
-  // This TCP server will be configured with an IP and port from the RoveComm manifest and allow other boards and base-station
-  // to securely communicate with it
-  void begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer *TCPServer);
-  // void begin(const uint8_t ip_octet_4, EthernetServer *TCPServer, const uint8_t board_mac);
-#endif
+    /////write////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Array entry write
+    // Overloaded for each data type
+    void write(uint16_t dataId, uint16_t dataCount, const uint8_t  *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const uint16_t *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const uint32_t *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const int8_t   *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const int16_t  *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const int32_t  *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const float    *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const double   *data) { UDP.write(dataId, dataCount, data); }
+    void write(uint16_t dataId, uint16_t dataCount, const char     *data) { UDP.write(dataId, dataCount, data); }
+    // Single-value write
+    // Overloaded for each data type
+    void write(uint16_t dataId, uint8_t  data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, uint16_t data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, uint32_t data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, int8_t   data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, int16_t  data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, int32_t  data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, float    data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, double   data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, char     data) { write(dataId, 1, &data); }
 
-  /////write////////////////////////////////////////////////////////////////////////
-  // Single-value write
-  // Overloaded for each data type
-  // void write(const uint16_t data_id, const int     data_count, const int      data);
-  void write(const uint16_t data_id, const uint16_t data_count, const uint8_t data);
-  void write(const uint16_t data_id, const uint16_t data_count, const uint16_t data);
-  void write(const uint16_t data_id, const uint16_t data_count, const uint32_t data);
-  void write(const uint16_t data_id, const uint16_t data_count, const int8_t data);
-  void write(const uint16_t data_id, const uint16_t data_count, const int16_t data);
-  void write(const uint16_t data_id, const uint16_t data_count, const int32_t data);
-  void write(const uint16_t data_id, const uint16_t data_count, const float data);
-  void write(const uint16_t data_id, const uint16_t data_count, const double data);
-  void write(const uint16_t data_id, const uint16_t data_count, const char data);
+    /////writeTo//////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Array entry write
+    // Overloaded for each data type
+    void writeTo(uint16_t dataId, uint16_t dataCount, const uint8_t  *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const uint16_t *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const uint32_t *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const int8_t   *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const int16_t  *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const int32_t  *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const float    *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const double   *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t dataCount, const char     *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { UDP.writeTo(dataId, dataCount, data, ip, port); }
+    // Single-value writeTo
+    // Overloaded for each data type
+    void writeTo(uint16_t dataId, uint8_t  data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, uint32_t data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, int8_t   data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, int16_t  data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, int32_t  data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, float    data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, double   data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, char     data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
 
-  // Array entry write
-  // Overloaded for each data type
-  void write(const uint16_t data_id, const int data_count, const int *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const uint8_t *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const uint16_t *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const uint32_t *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const int8_t *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const int16_t *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const int32_t *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const float *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const double *data);
-  void write(const uint16_t data_id, const uint16_t data_count, const char *data);
+    /////writeReliable////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Array entry writeReliable which ensures delivery
+    // Overloaded for each data type
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint8_t  *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint16_t *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint32_t *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const int8_t   *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const int16_t  *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const int32_t  *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const float    *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const double   *data) { TCP.writeReliable(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const char     *data) { TCP.writeReliable(dataId, dataCount, data); }
+    // Single-value writeReliable which ensures delivery
+    // Overloaded for each data type
+    void writeReliable(uint16_t dataId, uint8_t  data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, uint16_t data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, uint32_t data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, int8_t   data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, int16_t  data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, int32_t  data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, float    data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, double   data) { writeReliable(dataId, 1, &data); }
+    void writeReliable(uint16_t dataId, char     data) { writeReliable(dataId, 1, &data); }
 
-  /////writeTo///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // Single-value writeTo
-  // Overloaded for each data type
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const uint8_t data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const uint16_t data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const uint32_t data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int8_t data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int16_t data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int32_t data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const float data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const double data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const char data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  // Array entry write
-  // Overloaded for each data type
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const uint8_t *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const uint16_t *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const uint32_t *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int8_t *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int16_t *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const int32_t *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const float *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const double *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  void writeTo(const uint16_t data_id, const uint16_t data_count, const char *data,
-               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port);
-
-  /////writeReliable/////////////////////////////////////////////////////////////////////////////////////////////////
-  // Single-value writeReliable which ensures delivery
-  // Overloaded for each data type
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const uint8_t data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const uint16_t data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const uint32_t data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const int8_t data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const int16_t data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const int32_t data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const float data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const double data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const char data);
-
-  // Array entry writeReliable which ensures delivery
-  // Overloaded for each data type
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const uint8_t *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const uint16_t *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const uint32_t *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const int8_t *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const int16_t *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const int32_t *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const float *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const double *data);
-  void writeReliable(const uint16_t data_id, const uint16_t data_count, const char *data);
+    friend class RoveCommEthernetUDP;
+    friend class RoveCommEthernetTCP;
 };
 
-#endif // RoveCommEthernet_h
+// extern RoveCommEthernet RoveComm;
+
+#endif // ROVECOMM_ETHERNET_H

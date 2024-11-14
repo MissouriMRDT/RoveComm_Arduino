@@ -1,378 +1,81 @@
-#include "RoveCommEthernet.h"
-#include "RoveCommPacket.h"
-
-#if defined(ENERGIA)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void RoveCommEthernet::begin(const uint8_t ip_octet_4, EthernetServer *TCPServer)
-{
-  // start UDP client and assigning board IP
-  UDP.begin(RC_ROVECOMM_SUBNET_IP_FIRST_OCTET, RC_ROVECOMM_SUBNET_IP_SECOND_OCTET, RC_ROVECOMM_SUBNET_IP_THIRD_OCTET, ip_octet_4);
-  // initializing the TCP server with the correct port
-  TCP.begin(TCPServer);
-}
-
-void RoveCommEthernet::begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer *TCPServer)
-{
-  // start UDP client and assigning board IP
-  UDP.begin(ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4);
-  // initializing the TCP server with the correct port
-  TCP.begin(TCPServer);
-}
-#elif defined(ARDUINO) && (ARDUINO > 100)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// void RoveCommEthernet::begin(const uint8_t ip_octet_4, EthernetServer* TCPServer, const uint8_t board_mac)
-// {
-//   //start UDP client and assigning board IP
-//   UDP.begin(RC_ROVECOMM_SUBNET_IP_FIRST_OCTET, RC_ROVECOMM_SUBNET_IP_SECOND_OCTET, RC_ROVECOMM_SUBNET_IP_THIRD_OCTET, ip_octet_4, board_mac);
-//   //initializing the TCP server with the correct port
-//   TCP.begin(TCPServer);
-// }
-
-void RoveCommEthernet::begin(const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, EthernetServer *TCPServer)
-{
-  // start UDP client and assigning board IP
-  UDP.begin(ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4);
-  // initializing the TCP server with the correct port
-  TCP.begin(TCPServer);
-}
+#include "Platform.h"
+#if ROVECOMM_TIVA
+#include <Ethernet.h>
+#elif ROVECOMM_TEENSY
+#include <NativeEthernet.h>
 #endif
-/////////////////////////////////////////////////////////////////////////////////
-struct rovecomm_packet RoveCommEthernet::read()
-{
-  // checks for TCP packets first, as they should be infrequent and require acks
-  rovecomm_packet = TCP.read();
-  if (rovecomm_packet.data_id != RC_ROVECOMM_NO_DATA_DATA_ID)
-  {
-    return rovecomm_packet;
-  }
 
-  // check for UDP packets if no TCP were read
-  rovecomm_packet = UDP.read();
-  if (rovecomm_packet.data_id != RC_ROVECOMM_NO_DATA_DATA_ID)
-  {
-    return rovecomm_packet;
-  }
+#include "RoveCommEthernet.h"
 
-  // otherwise just return no data
-  rovecomm_packet.data_id = RC_ROVECOMM_NO_DATA_DATA_ID;
-  rovecomm_packet.data_count = 0;
-  return rovecomm_packet;
+// User can declare their own instance, since you might want Wifi instead of Ethernet
+// RoveCommEthernet RoveComm;
+
+void RoveCommEthernet::begin(const IPAddress ip, uint8_t *mac, const uint16_t udpPort, const uint16_t tcpPort) {
+#if ROVECOMM_TIVA
+    // Set up Ethernet
+    Ethernet.enableActivityLed();
+    Ethernet.enableLinkLed();
+    Ethernet.begin(mac, ip);
+#elif ROVECOMM_TEENSY
+    // We can't use Ethernet.begin(mac, IP); because it is blocking in the Teensy implementation
+    // To get around this, we use Ethernet.begin(mac, 0, 0) which does the same thing as the other one
+    // but tries to get an IP automatically over DHCP. By setting the timeouts to be 0, we cut it off early.
+    // The annoying part is that we have to set the IP, gateway, dns, and subnet mask manually.
+    Ethernet.begin(mac, 0, 0);
+    // Set IP of this board
+    Ethernet.setLocalIP(ip);
+    // Assume the DNS server will be the machine on the same network as the local IP
+    // but with last octet being '1'
+    IPAddress dns = ip;
+    dns[3] = 1;
+    Ethernet.setDnsServerIP(ip);
+    // Assume the gateway will be the machine on the same network as the local IP
+    // but with last octet being '1'
+    IPAddress gateway = ip;
+    gateway[3] = 1;
+    Ethernet.setGatewayIP(gateway);
+#endif
+
+    // start UDP client and assigning board IP
+    UDP.begin(udpPort);
+    // initializing the TCP server with the correct port
+    TCP.begin(tcpPort);
 }
-
-/////write////////////////////////////////////////////////////////////////////////
-// Single-value write
-// Overloaded for each data type
-// Causes bug when doing:RoveComm.write(SINGLE_VALUE_EXAMPLE_ID, 1, analogRead(A0));
-// void write(const uint16_t data_id, const int     data_count, const int      data);
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const uint8_t data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const uint16_t data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const uint32_t data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const int8_t data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const int16_t data)
-{
-  UDP.write(data_id, data_count, data);
+void RoveCommEthernet::begin(const IPAddress ip, const uint16_t udpPort, const uint16_t tcpPort) {
+    uint8_t mac[6] = {
+        (uint8_t)RC_ROVECOMM_SUBNET_MAC_FIRST_BYTE,
+        (uint8_t)RC_ROVECOMM_SUBNET_MAC_SECOND_BYTE,
+        (uint8_t)ip[0],
+        (uint8_t)ip[1],
+        (uint8_t)ip[2],
+        (uint8_t)ip[3],
+    };
+    begin(ip, mac, udpPort, tcpPort);
 }
 
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const int32_t data)
-{
-  UDP.write(data_id, data_count, data);
-}
+bool RoveCommEthernet::read(RoveCommPacket &dest) {
+    // reset to no data
+    dest.dataId = RC_ROVECOMM_NO_DATA_DATA_ID;
+    dest.dataCount = 0;
 
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const float data)
-{
-  UDP.write(data_id, data_count, data);
-}
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const double data)
-{
-  UDP.write(data_id, data_count, data);
-}
+#if ROVECOMM_TEENSY
+    // Teensy implementation is set to not block on startup
+    if (Ethernet.linkStatus() != EthernetLinkStatus::LinkON) {
+        return false;
+    }
+#endif
 
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const char data)
-{
-  UDP.write(data_id, data_count, data);
-}
+    // checks for TCP packets first, as they should be infrequent and require acks
+    TCP.read(dest);
+    if (dest.dataId != RC_ROVECOMM_NO_DATA_DATA_ID && dest.dataId != RC_ROVECOMM_INVALID_VERSION_DATA_ID) {
+        return true;
+    }
 
-// Array entry write
-// Overloaded for each data type
-void RoveCommEthernet::write(const uint16_t data_id, const int data_count, const int *data)
-{
-  UDP.write(data_id, data_count, data);
-}
+    // check for UDP packets if no TCP were read
+    UDP.read(dest);
+    if (dest.dataId != RC_ROVECOMM_NO_DATA_DATA_ID && dest.dataId != RC_ROVECOMM_INVALID_VERSION_DATA_ID) {
+        return true;
+    }
 
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const uint8_t *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const uint16_t *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const uint32_t *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const int8_t *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const int16_t *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const int32_t *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const float *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const double *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-void RoveCommEthernet::write(const uint16_t data_id, const uint16_t data_count, const char *data)
-{
-  UDP.write(data_id, data_count, data);
-}
-
-/////writeTo///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Single-value writeTo
-// Overloaded for each data type
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const uint8_t data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const uint16_t data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const uint32_t data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int8_t data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int16_t data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int32_t data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const float data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const double data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const char data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-// Array entry write
-// Overloaded for each data type
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const uint8_t *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const uint16_t *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const uint32_t *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int8_t *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int16_t *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const int32_t *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const float *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const double *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-void RoveCommEthernet::writeTo(const uint16_t data_id, const uint16_t data_count, const char *data,
-                               const uint8_t ip_octet_1, const uint8_t ip_octet_2, const uint8_t ip_octet_3, const uint8_t ip_octet_4, const uint16_t port)
-{
-  UDP.writeTo(data_id, data_count, data, ip_octet_1, ip_octet_2, ip_octet_3, ip_octet_4, RC_ROVECOMM_ETHERNET_UDP_PORT);
-}
-
-// Overloaded writeReliable////////////////////////////////////////////////////////////////////////////////////////////////////
-// Single-value write
-// handles the data->pointer conversion for user
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const int32_t data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const uint32_t data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const int16_t data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const uint16_t data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const int8_t data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const uint8_t data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const float data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const double data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const char data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-// Array-Entry write///////////////////////////////////
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const int32_t *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const uint32_t *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const int16_t *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const uint16_t *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const int8_t *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const uint8_t *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const float *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const double *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
-}
-
-void RoveCommEthernet::writeReliable(const uint16_t data_id, const uint16_t data_count, const char *data)
-{
-  TCP.writeReliable(data_id, data_count, data);
+    return false;
 }

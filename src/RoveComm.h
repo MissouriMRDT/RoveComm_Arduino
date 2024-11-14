@@ -1,8 +1,8 @@
-#ifndef _RoveComm
-#define _RoveComm
+#ifndef ROVECOMM_H
+#define ROVECOMM_H
 
+#include "Platform.h"
+#include "RoveCommManifest.h"
 #include "RoveCommEthernet/RoveCommEthernet.h"
-#include "RoveCommEthernetUDP/RoveCommEthernetUdp.h"
-#include "RoveCommEthernetTCP/RoveCommEthernetTCP.h"
 
-#endif
+#endif // ROVECOMM_H
