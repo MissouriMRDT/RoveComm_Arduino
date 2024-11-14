@@ -16,16 +16,16 @@
 
 #define ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS 10
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class RoveCommEthernetUDP {
 public:
-    /////begin/////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////begin//////////////////////////////////////////////////////////////////////////////////////////////////////////
     void begin(uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT);
-    
-    /////read/////////////////////////////////////////////////////////////////////////
+
+    /////read///////////////////////////////////////////////////////////////////////////////////////////////////////////
     bool read(RoveCommPacket &dest);
 
-    /////write////////////////////////////////////////////////////////////////////////
+    /////write//////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Array entry write
     // Overloaded for each data type
     void write(uint16_t dataId, uint16_t dataCount, const uint8_t  *data) { _write(rovecomm::UINT8_T,  dataId, dataCount, data); }
@@ -39,18 +39,17 @@ public:
     void write(uint16_t dataId, uint16_t dataCount, const char     *data) { _write(rovecomm::CHAR,     dataId, dataCount, data); }
     // Single-value write
     // Overloaded for each data type
-    // void write(const uint16_t dataId, const int     dataCount, const int      data);
-    void write(uint16_t dataId, uint16_t dataCount, uint8_t  data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, uint16_t data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, uint32_t data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, int8_t   data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, int16_t  data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, int32_t  data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, float    data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, double   data) { write(dataId, dataCount, &data); }
-    void write(uint16_t dataId, uint16_t dataCount, char     data) { write(dataId, dataCount, &data); }
+    void write(uint16_t dataId, uint8_t  data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, uint16_t data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, uint32_t data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, int8_t   data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, int16_t  data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, int32_t  data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, float    data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, double   data) { write(dataId, 1, &data); }
+    void write(uint16_t dataId, char     data) { write(dataId, 1, &data); }
 
-    /////writeTo///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////writeTo////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Array entry write
     // Overloaded for each data type
     void writeTo(uint16_t dataId, uint16_t dataCount, const uint8_t  *data, IPAddress ip, uint16_t port) { _writeTo(rovecomm::UINT8_T,  dataId, dataCount, data, ip, port); }
@@ -64,15 +63,15 @@ public:
     void writeTo(uint16_t dataId, uint16_t dataCount, const char     *data, IPAddress ip, uint16_t port) { _writeTo(rovecomm::CHAR,     dataId, dataCount, data, ip, port); }
     // Single-value writeTo
     // Overloaded for each data type
-    void writeTo(uint16_t dataId, uint16_t dataCount, uint8_t  data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, uint16_t data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, uint32_t data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, int8_t   data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, int16_t  data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, int32_t  data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, float    data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, double   data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
-    void writeTo(uint16_t dataId, uint16_t dataCount, char     data, IPAddress ip, uint16_t port) { writeTo(dataId, dataCount, &data, ip, port); }
+    void writeTo(uint16_t dataId, uint8_t  data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, uint16_t data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, uint32_t data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, int8_t   data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, int16_t  data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, int32_t  data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, float    data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, double   data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
+    void writeTo(uint16_t dataId, char     data, IPAddress ip, uint16_t port) { writeTo(dataId, 1, &data, ip, port); }
 
 private:
     // EthernetUDP singleton

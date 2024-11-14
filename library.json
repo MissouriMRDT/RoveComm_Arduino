@@ -1,0 +1,18 @@
+{
+    "name": "RoveComm",
+    "author": "MST MRDT",
+    "version": "3.0.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MissouriMRDT/RoveComm_Arduino.git"
+    },
+    "description": "Communication protocol used by the Missouri S&T Mars Rover Design Team.",
+    "keywords": [ "rovecomm", "mrdt" ],
+    "frameworks": [ "arduino" ],
+    "platforms": [ "titiva", "teensy" ],
+    "headers": [ "RoveComm.h" ],
+    "dependencies": [],
+    "build": {
+        "libLDFMode": "chain+"
+    }
+}
