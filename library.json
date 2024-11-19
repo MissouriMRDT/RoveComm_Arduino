@@ -14,5 +14,17 @@
     "dependencies": [],
     "build": {
         "libLDFMode": "chain+"
-    }
+    },
+    "examples": [
+        {
+            "name": "RoveComm Ethernet TCP",
+            "base": "examples/RoveCommEthernetTCP",
+            "files": ["RoveCommEthernetTCP.h, RoveCommEthernetTCP.ino"]
+        },
+        {
+            "name": "RoveComm Ethernet UDP",
+            "base": "examples/RoveCommEthernetUDP",
+            "files": ["RoveCommEthernetUDP.h, RoveCommEthernetUDP.ino"]
+        }
+    ]
 }
