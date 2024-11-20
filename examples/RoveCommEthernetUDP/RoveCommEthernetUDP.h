@@ -1,8 +1,6 @@
 #ifndef ROVECOMM_UDP_H
 #define ROVECOMM_UDP_H
 
-#include <IntervalTimer.h>
-
 // in your header file, include RoveComm.h and declare an instance of RoveCommEthernet
 #include <RoveComm.h>
 // create rovecomm context

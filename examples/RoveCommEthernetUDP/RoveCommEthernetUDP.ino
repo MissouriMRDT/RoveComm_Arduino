@@ -5,7 +5,7 @@
 #include "RoveCommEthernetUDP.h"
 
 /***********************************************************************************************************************
- * When should you use TCP?
+ * When should you use UDP?
  * User Datagram Protocol (UDP) does not guarantee that all data is delivered and in the correct order. However, it is
  * easier to work with as it does not require a connection to be established and maintained. We use UDP for almost
  * everything, since our packets are small in size and can be resent if the rover doesn't respond.
@@ -76,11 +76,18 @@ void loop() {
     }
     }
 
+    driveRover();
+
     // if it has been more than 150 milliseconds
     if (millis() - lastTelemetry >= TELEMETRY_PERIOD) {
         telemetry();
         lastTelemetry = millis();
     }
+}
+
+void driveRover() {
+    // drive the rover
+    Serial.println("Driving the rover!");
 }
 
 void telemetry() {
