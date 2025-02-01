@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * NOTICE! 
+ * This file is auto generated and will be overwritten if edited
+ * and committed. To make changes, edit the manifest.json file or
+ * edit manifest_parser.py if it is a formatting issue.
+ ******************************************************************************/
+
 #ifndef ROVECOMM_MANIFEST_H
 #define ROVECOMM_MANIFEST_H
 
@@ -64,6 +71,12 @@
 #define RC_CAMERA2BOARD_FOURTHOCTET                         101       
 #define RC_CAMERA2BOARD_IPADDRESS                           {192, 168, 4, 101}
 
+#define RC_CAMERASERVERBOARD_FIRSTOCTET                     192       
+#define RC_CAMERASERVERBOARD_SECONDOCTET                    168       
+#define RC_CAMERASERVERBOARD_THIRDOCTET                     4         
+#define RC_CAMERASERVERBOARD_FOURTHOCTET                    102       
+#define RC_CAMERASERVERBOARD_IPADDRESS                      {192, 168, 4, 102}
+
 #define RC_IRSPECTROMETERBOARD_FIRSTOCTET                   192       
 #define RC_IRSPECTROMETERBOARD_SECONDOCTET                  168       
 #define RC_IRSPECTROMETERBOARD_THIRDOCTET                   3         
@@ -75,6 +88,12 @@
 #define RC_INSTRUMENTSBOARD_THIRDOCTET                      3         
 #define RC_INSTRUMENTSBOARD_FOURTHOCTET                     105       
 #define RC_INSTRUMENTSBOARD_IPADDRESS                       {192, 168, 3, 105}
+
+#define RC_ROVESOSIMULATORBOARD_FIRSTOCTET                  127       
+#define RC_ROVESOSIMULATORBOARD_SECONDOCTET                 0         
+#define RC_ROVESOSIMULATORBOARD_THIRDOCTET                  0         
+#define RC_ROVESOSIMULATORBOARD_FOURTHOCTET                 1         
+#define RC_ROVESOSIMULATORBOARD_IPADDRESS                   {127, 0, 0, 1}
 
 
 
@@ -377,75 +396,95 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//[X, Y1, Y2, Z, P, R] Motor decipercent [-1000, 1000]
-#define RC_ARMBOARD_OPENLOOP_DATA_ID                                            8000      
-#define RC_ARMBOARD_OPENLOOP_DATA_COUNT                                         6         
-#define RC_ARMBOARD_OPENLOOP_DATA_TYPE                                          int16_t   
+//[X, J2, J3, J4, P, R] Motor decipercent [-1000, 1000]
+#define RC_ARMBOARD_SETINDIVIDUALSPEEDS_DATA_ID                                 8000      
+#define RC_ARMBOARD_SETINDIVIDUALSPEEDS_DATA_COUNT                              6         
+#define RC_ARMBOARD_SETINDIVIDUALSPEEDS_DATA_TYPE                               int16_t   
 
-//[X, Y1, Y2, Z, P, R] (in, in, in, in, deg, deg)
-#define RC_ARMBOARD_SETPOSITION_DATA_ID                                         8001      
-#define RC_ARMBOARD_SETPOSITION_DATA_COUNT                                      6         
-#define RC_ARMBOARD_SETPOSITION_DATA_TYPE                                       float     
+//[JointID, Decipercent] Motor decipercent [-1000, 1000]
+#define RC_ARMBOARD_SETJOINTSPEED_DATA_ID                                       8001      
+#define RC_ARMBOARD_SETJOINTSPEED_DATA_COUNT                                    2         
+#define RC_ARMBOARD_SETJOINTSPEED_DATA_TYPE                                     int16_t   
 
-//[X, Y, Z, P, R] (in, in, in, deg, deg, deg)
-#define RC_ARMBOARD_INCREMENTPOSITION_DATA_ID                                   8002      
-#define RC_ARMBOARD_INCREMENTPOSITION_DATA_COUNT                                5         
-#define RC_ARMBOARD_INCREMENTPOSITION_DATA_TYPE                                 float     
+//[X, J2, J3, J4, P, R] (in, deg, deg, deg, deg, deg)
+#define RC_ARMBOARD_SETINDIVIDUALTARGETANGLES_DATA_ID                           8002      
+#define RC_ARMBOARD_SETINDIVIDUALTARGETANGLES_DATA_COUNT                        6         
+#define RC_ARMBOARD_SETINDIVIDUALTARGETANGLES_DATA_TYPE                         float     
 
-//[X, Y, Z, P, R] (in, in, in, deg, deg)
-#define RC_ARMBOARD_SETIK_DATA_ID                                               8003      
-#define RC_ARMBOARD_SETIK_DATA_COUNT                                            5         
-#define RC_ARMBOARD_SETIK_DATA_TYPE                                             float     
+//[JointID, Position] (in for id 0, deg otherwise)
+#define RC_ARMBOARD_SETJOINTTARGETANGLE_DATA_ID                                 8003      
+#define RC_ARMBOARD_SETJOINTTARGETANGLE_DATA_COUNT                              2         
+#define RC_ARMBOARD_SETJOINTTARGETANGLE_DATA_TYPE                               float     
 
-//[X, Y, Z, P, R] (in, in, in, deg, deg)
-#define RC_ARMBOARD_INCREMENTIK_ROVERRELATIVE_DATA_ID                           8004      
-#define RC_ARMBOARD_INCREMENTIK_ROVERRELATIVE_DATA_COUNT                        5         
-#define RC_ARMBOARD_INCREMENTIK_ROVERRELATIVE_DATA_TYPE                         float     
+//[X, J2, J3, J4, P, R] (in, deg, deg, deg, deg, deg)
+#define RC_ARMBOARD_INCREMENTINDIVIDUALTARGETANGLES_DATA_ID                     8004      
+#define RC_ARMBOARD_INCREMENTINDIVIDUALTARGETANGLES_DATA_COUNT                  6         
+#define RC_ARMBOARD_INCREMENTINDIVIDUALTARGETANGLES_DATA_TYPE                   float     
 
-//[X, Y, Z, P, R] (in, in, in, deg, deg)
-#define RC_ARMBOARD_INCREMENTIK_WRISTRELATIVE_DATA_ID                           8005      
-#define RC_ARMBOARD_INCREMENTIK_WRISTRELATIVE_DATA_COUNT                        5         
-#define RC_ARMBOARD_INCREMENTIK_WRISTRELATIVE_DATA_TYPE                         float     
+//[JointID, Angle] (in for id 0, deg otherwise)
+#define RC_ARMBOARD_INCREMENTJOINTTARGETANGLE_DATA_ID                           8005      
+#define RC_ARMBOARD_INCREMENTJOINTTARGETANGLE_DATA_COUNT                        2         
+#define RC_ARMBOARD_INCREMENTJOINTTARGETANGLE_DATA_TYPE                         float     
+
+//[X, Y, Z, J4, P, R] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_SETIKPOSITION_DATA_ID                                       8006      
+#define RC_ARMBOARD_SETIKPOSITION_DATA_COUNT                                    6         
+#define RC_ARMBOARD_SETIKPOSITION_DATA_TYPE                                     float     
+
+//[X, Y, Z, J4, P, R] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_INCREMENTIKPOSITION_DATA_ID                                 8007      
+#define RC_ARMBOARD_INCREMENTIKPOSITION_DATA_COUNT                              6         
+#define RC_ARMBOARD_INCREMENTIKPOSITION_DATA_TYPE                               float     
+
+//[J4, P, R] (deg, deg, deg)
+#define RC_ARMBOARD_SETLOCKMODEPOSITION_DATA_ID                                 8008      
+#define RC_ARMBOARD_SETLOCKMODEPOSITION_DATA_COUNT                              3         
+#define RC_ARMBOARD_SETLOCKMODEPOSITION_DATA_TYPE                               float     
+
+//[J4, P, R] (deg, deg, deg)
+#define RC_ARMBOARD_INCREMENTLOCKMODEPOSITION_DATA_ID                           8009      
+#define RC_ARMBOARD_INCREMENTLOCKMODEPOSITION_DATA_COUNT                        3         
+#define RC_ARMBOARD_INCREMENTLOCKMODEPOSITION_DATA_TYPE                         float     
 
 //[0-disable, 1-enable]
-#define RC_ARMBOARD_LASER_DATA_ID                                               8006      
+#define RC_ARMBOARD_LASER_DATA_ID                                               8010      
 #define RC_ARMBOARD_LASER_DATA_COUNT                                            1         
 #define RC_ARMBOARD_LASER_DATA_TYPE                                             uint8_t   
 
 //[0-retract, 1-extend]
-#define RC_ARMBOARD_SOLENOID_DATA_ID                                            8007      
+#define RC_ARMBOARD_SOLENOID_DATA_ID                                            8011      
 #define RC_ARMBOARD_SOLENOID_DATA_COUNT                                         1         
 #define RC_ARMBOARD_SOLENOID_DATA_TYPE                                          uint8_t   
 
 //Motor decipercent [-1000, 1000]
-#define RC_ARMBOARD_GRIPPER_DATA_ID                                             8008      
-#define RC_ARMBOARD_GRIPPER_DATA_COUNT                                          1         
-#define RC_ARMBOARD_GRIPPER_DATA_TYPE                                           int16_t   
+#define RC_ARMBOARD_SETGRIPPERSPEED_DATA_ID                                     8012      
+#define RC_ARMBOARD_SETGRIPPERSPEED_DATA_COUNT                                  1         
+#define RC_ARMBOARD_SETGRIPPERSPEED_DATA_TYPE                                   int16_t   
 
-//[0-override off, 1-override on]
-#define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_ID                                    8009      
+//[0-override off, 1-override on] (bitmasked)
+#define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_ID                                    8013      
 #define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_COUNT                                 1         
 #define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                  uint8_t   
 
-//[X+, X-, Y1+, Y1-, Y2+, Y2-, Z+, Z-, P+, P-] (0-override off, 1-override on) (bitmasked)
-#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_ID                                 8010      
-#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                              1         
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P] (0-override off, 1-override on) (bitmasked)
+#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_ID                                 8014      
+#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                              9         
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                               uint16_t  
 
-//[X, Y1, Y2, Z, P, R1, R2] (1-calibrate, 0-no action) (bitmasked)
-#define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                                    8011      
-#define RC_ARMBOARD_CALIBRATEENCODER_DATA_COUNT                                 1         
+//[X, J2, J3, J4, P, R] (0-override off, 1-override on) (bitmasked)
+#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_ID                                  8015      
+#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_COUNT                               6         
+#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_TYPE                                uint8_t   
+
+//[X, Roll] (1-calibrate, 0-no action) (bitmasked)
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                                    8016      
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_COUNT                                 2         
 #define RC_ARMBOARD_CALIBRATEENCODER_DATA_TYPE                                  uint8_t   
 
-//Toggle gripper and roll motors controlled by other packets; 0-Gripper1, 1-Gripper2
-#define RC_ARMBOARD_SELECTGRIPPER_DATA_ID                                       8012      
-#define RC_ARMBOARD_SELECTGRIPPER_DATA_COUNT                                    1         
-#define RC_ARMBOARD_SELECTGRIPPER_DATA_TYPE                                     uint8_t   
-
-//[X+, X-, Y1+, Y1-, Y2+, Y2-, Z+, Z-, P+, P-] (0-override off, 1-override on) (bitmasked)
-#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_ID                                   8013      
-#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_COUNT                                1         
-#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_TYPE                                 uint8_t   
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (0-override off, 1-override on) (bitmasked)
+#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_ID                                   8017      
+#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_COUNT                                10        
+#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_TYPE                                 uint16_t  
 
 ////////////////////Telemetry
 //[X, Y1, Y2, Z, Pitch, Roll1, Roll2] (in, in, in, in, deg, deg, deg)
@@ -458,7 +497,7 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_COORDINATES_DATA_COUNT                                      5         
 #define RC_ARMBOARD_COORDINATES_DATA_TYPE                                       float     
 
-//[X+, X-, Y1+, Y1-, Y2+, Y2-, Z+, Z-, Pitch+, Pitch-] (0-off, 1-on) (bitmasked)
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, Pitch] (0-off, 1-on) (bitmasked)
 #define RC_ARMBOARD_LIMITSWITCHTRIGGERED_DATA_ID                                8102      
 #define RC_ARMBOARD_LIMITSWITCHTRIGGERED_DATA_COUNT                             1         
 #define RC_ARMBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE                              uint16_t  
@@ -469,6 +508,8 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_WATCHDOGSTATUS_DATA_COUNT                                   1         
 #define RC_ARMBOARD_WATCHDOGSTATUS_DATA_TYPE                                    uint8_t   
 
+////////////////////Enums
+enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL}; 
 
 
 ///////////////////////////////////////////////////
@@ -541,11 +582,6 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_COUNT                2         
 #define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_TYPE                 int16_t   
 
-//[0-Disable, 1-Enable]
-#define RC_SCIENCEACTUATIONBOARD_ENABLECOOLER_DATA_ID                           9014      
-#define RC_SCIENCEACTUATIONBOARD_ENABLECOOLER_DATA_COUNT                        1         
-#define RC_SCIENCEACTUATIONBOARD_ENABLECOOLER_DATA_TYPE                         uint8_t   
-
 ////////////////////Telemetry
 //[ScoopAxis, SensorAxis] (in)
 #define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_ID                              9100      
@@ -600,22 +636,27 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_AUTONOMYBOARD_ADDPOSITIONLEG_DATA_COUNT                              2         
 #define RC_AUTONOMYBOARD_ADDPOSITIONLEG_DATA_TYPE                               double    
 
-//[Lat, Lon]
+//[Lat, Lon, MarkerID, MarkerRadius (meters)]
 #define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_ID                                   11003     
-#define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_COUNT                                2         
+#define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_COUNT                                4         
 #define RC_AUTONOMYBOARD_ADDMARKERLEG_DATA_TYPE                                 double    
 
-//[Lat, Lon]
+//[Lat, Lon, ObjectRadius (meters)]
 #define RC_AUTONOMYBOARD_ADDOBJECTLEG_DATA_ID                                   11004     
-#define RC_AUTONOMYBOARD_ADDOBJECTLEG_DATA_COUNT                                2         
+#define RC_AUTONOMYBOARD_ADDOBJECTLEG_DATA_COUNT                                3         
 #define RC_AUTONOMYBOARD_ADDOBJECTLEG_DATA_TYPE                                 double    
+
+//[Lat, Lon, ObstacleRadius (meters)]
+#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_ID                                    11008     
+#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_COUNT                                 3         
+#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_TYPE                                  double    
 
 //
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_ID                                 11005     
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_COUNT                              1         
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_TYPE                               uint8_t   
 
-//A mutliplier from 0.0 to 1.0 that will scale the max power effort of Autonomy
+//A multiplier from 0.0 to 1.0 that will scale the max power effort of Autonomy
 #define RC_AUTONOMYBOARD_SETMAXSPEED_DATA_ID                                    11006     
 #define RC_AUTONOMYBOARD_SETMAXSPEED_DATA_COUNT                                 1         
 #define RC_AUTONOMYBOARD_SETMAXSPEED_DATA_TYPE                                  float     
@@ -643,7 +684,7 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 
 ////////////////////Enums
 enum AUTONOMYBOARD_AUTONOMYSTATE {IDLE,NAVIGATING,SEARCHPATTERN,APPROACHINGMARKER,APPROACHINGOBJECT,VERIFYINGGPS,VERIFYINGMARKER,VERIFYINGOBJECT,AVOIDANCE,REVERSING,STUCK}; 
-enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR,CRITICAL}; 
+enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,NOTICE,WARNING,ERROR,CRITICAL}; 
 
 
 ///////////////////////////////////////////////////
@@ -714,6 +755,80 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 
 
 ///////////////////////////////////////////////////
+////////////        CAMERASERVERBOARD   ///////////         
+///////////////////////////////////////////////////
+
+////////////////////Commands
+//Take a picture with the current camera. [0] is the camera to take a picture with.
+#define RC_CAMERASERVERBOARD_TAKEPHOTO_DATA_ID                                  14000     
+#define RC_CAMERASERVERBOARD_TAKEPHOTO_DATA_COUNT                               1         
+#define RC_CAMERASERVERBOARD_TAKEPHOTO_DATA_TYPE                                uint8_t   
+
+//Stop the current camera stream. [0] is the camera to stop streaming. [1] is the action (0 = Shutdown, 1 = Startup, 2 = Restart).
+#define RC_CAMERASERVERBOARD_TOGGLESTREAM_DATA_ID                               14001     
+#define RC_CAMERASERVERBOARD_TOGGLESTREAM_DATA_COUNT                            2         
+#define RC_CAMERASERVERBOARD_TOGGLESTREAM_DATA_TYPE                             uint8_t   
+
+//Adjust brightness level (0-255). [0] is the camera ID, [1] is the brightness level.
+#define RC_CAMERASERVERBOARD_ADJUSTBRIGHTNESS_DATA_ID                           14002     
+#define RC_CAMERASERVERBOARD_ADJUSTBRIGHTNESS_DATA_COUNT                        2         
+#define RC_CAMERASERVERBOARD_ADJUSTBRIGHTNESS_DATA_TYPE                         uint8_t   
+
+//Adjust contrast level (0-255). [0] is the camera ID, [1] is the contrast level.
+#define RC_CAMERASERVERBOARD_ADJUSTCONTRAST_DATA_ID                             14003     
+#define RC_CAMERASERVERBOARD_ADJUSTCONTRAST_DATA_COUNT                          2         
+#define RC_CAMERASERVERBOARD_ADJUSTCONTRAST_DATA_TYPE                           uint8_t   
+
+//Adjust saturation level (0-255). [0] is the camera ID, [1] is the saturation level.
+#define RC_CAMERASERVERBOARD_ADJUSTSATURATION_DATA_ID                           14004     
+#define RC_CAMERASERVERBOARD_ADJUSTSATURATION_DATA_COUNT                        2         
+#define RC_CAMERASERVERBOARD_ADJUSTSATURATION_DATA_TYPE                         uint8_t   
+
+//Adjust hue level (0-255). [0] is the camera ID, [1] is the hue level.
+#define RC_CAMERASERVERBOARD_ADJUSTHUE_DATA_ID                                  14005     
+#define RC_CAMERASERVERBOARD_ADJUSTHUE_DATA_COUNT                               2         
+#define RC_CAMERASERVERBOARD_ADJUSTHUE_DATA_TYPE                                uint8_t   
+
+//Set white balance temperature. [0] is the camera ID, [1] is the white balance level.
+#define RC_CAMERASERVERBOARD_SETWHITEBALANCE_DATA_ID                            14008     
+#define RC_CAMERASERVERBOARD_SETWHITEBALANCE_DATA_COUNT                         2         
+#define RC_CAMERASERVERBOARD_SETWHITEBALANCE_DATA_TYPE                          uint8_t   
+
+//Adjust backlight contrast level (0-255). [0] is the camera ID, [1] is the backlight contrast level.
+#define RC_CAMERASERVERBOARD_ADJUSTBACKLIGHTCONTRAST_DATA_ID                    14009     
+#define RC_CAMERASERVERBOARD_ADJUSTBACKLIGHTCONTRAST_DATA_COUNT                 2         
+#define RC_CAMERASERVERBOARD_ADJUSTBACKLIGHTCONTRAST_DATA_TYPE                  uint8_t   
+
+//Set exposure level. [0] is the camera ID, [1] is the exposure level.
+#define RC_CAMERASERVERBOARD_SETEXPOSURE_DATA_ID                                14010     
+#define RC_CAMERASERVERBOARD_SETEXPOSURE_DATA_COUNT                             2         
+#define RC_CAMERASERVERBOARD_SETEXPOSURE_DATA_TYPE                              int32_t   
+
+////////////////////Telemetry
+//Bitmask values for which cameras are able to stream. LSB is Camera 0, MSB is Camera 7.
+#define RC_CAMERASERVERBOARD_AVAILABLECAMERAS_DATA_ID                           14100     
+#define RC_CAMERASERVERBOARD_AVAILABLECAMERAS_DATA_COUNT                        1         
+#define RC_CAMERASERVERBOARD_AVAILABLECAMERAS_DATA_TYPE                         uint8_t   
+
+//Which cameras the system is currently streaming on each port
+#define RC_CAMERASERVERBOARD_STREAMINGCAMERAS_DATA_ID                           14101     
+#define RC_CAMERASERVERBOARD_STREAMINGCAMERAS_DATA_COUNT                        4         
+#define RC_CAMERASERVERBOARD_STREAMINGCAMERAS_DATA_TYPE                         uint8_t   
+
+//Picture has been taken.
+#define RC_CAMERASERVERBOARD_PICTURETAKEN1_DATA_ID                              14102     
+#define RC_CAMERASERVERBOARD_PICTURETAKEN1_DATA_COUNT                           1         
+#define RC_CAMERASERVERBOARD_PICTURETAKEN1_DATA_TYPE                            uint8_t   
+
+////////////////////Error
+//Camera has errored and stopped streaming. [0] is ID of camera as an integer (not bitmask).
+#define RC_CAMERASERVERBOARD_CAMERAUNAVAILABLE_DATA_ID                          14200     
+#define RC_CAMERASERVERBOARD_CAMERAUNAVAILABLE_DATA_COUNT                       1         
+#define RC_CAMERASERVERBOARD_CAMERAUNAVAILABLE_DATA_TYPE                        uint8_t   
+
+
+
+///////////////////////////////////////////////////
 ////////////        IRSPECTROMETERBOARD ///////////         
 ///////////////////////////////////////////////////
 
@@ -779,6 +894,18 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,WARNING,ERROR
 #define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_ID                                 16106     
 #define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_COUNT                              1         
 #define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_TYPE                               int8_t    
+
+
+
+///////////////////////////////////////////////////
+////////////        ROVESOSIMULATORBOARD///////////         
+///////////////////////////////////////////////////
+
+////////////////////Telemetry
+//Ultrasonic sensor distance reading in centimeters (cm). Value ranges from 0.00 to 500.00 cm
+#define RC_ROVESOSIMULATORBOARD_ULTRASONIC1_DATA_ID                             99100     
+#define RC_ROVESOSIMULATORBOARD_ULTRASONIC1_DATA_COUNT                          2         
+#define RC_ROVESOSIMULATORBOARD_ULTRASONIC1_DATA_TYPE                           float     
 
 
 

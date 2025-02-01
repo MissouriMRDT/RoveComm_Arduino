@@ -4,10 +4,19 @@ import sys
 
 # Define some c specific #defines and file header
 define_prefix = "#define"
-header = """#ifndef RoveCommManifest_h
-#define RoveCommManifest_h
+header = """\
+/*******************************************************************************
+ * NOTICE! 
+ * This file is auto generated and will be overwritten if edited
+ * and committed. To make changes, edit the manifest.json file or
+ * edit manifest_parser.py if it is a formatting issue.
+ ******************************************************************************/
+
+#ifndef ROVECOMM_MANIFEST_H
+#define ROVECOMM_MANIFEST_H
 
 #include <stdint.h>
+#include <IPAddress.h>
 
 """
 
@@ -168,5 +177,5 @@ if __name__ == "__main__":
         # Write a couple of newlines to seperate boards
         this.header_file.write("\n\n")
 
-    this.header_file.write("#endif // RoveCommManifest_h")
+    this.header_file.write("#endif // ROVECOMM_MANIFEST_H")
     this.header_file.close()
