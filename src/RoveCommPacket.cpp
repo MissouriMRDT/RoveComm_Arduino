@@ -71,7 +71,7 @@ bool unpackPacket(RoveCommPacket &dest, const uint8_t *buffer) {
     const uint8_t *data = buffer + ROVECOMM_PACKET_HEADER_SIZE;
     for (int el = 0; el < dest.dataCount; el++) {
         for (size_t b = 0; b < typeSize; b++) {
-            dest.data[el * typeSize + b] = buffer[(el + 1) * typeSize - b - 1];
+            dest.data[el * typeSize + b] = data[(el + 1) * typeSize - b - 1];
         }
     }
     return true;
