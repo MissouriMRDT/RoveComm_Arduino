@@ -41,9 +41,10 @@ size_t packPacket(uint8_t *dest, const uint16_t dataId, const uint16_t dataCount
 
     // RoveComm transmits in network byte order, so we must swap the bytes
     size_t bytesWritten = ROVECOMM_PACKET_HEADER_SIZE;
+    uint8_t *destData = dest + ROVECOMM_PACKET_HEADER_SIZE;
     for (int el = 0; el < dataCount; el++) {
         for (size_t b = 0; b < typeSize; b++) {
-            dest[ROVECOMM_PACKET_HEADER_SIZE + el * typeSize + b] = data[el * typeSize + (typeSize - b - 1)];
+            destData[el * typeSize + b] = data[(el + 1) * typeSize - b - 1];
             bytesWritten += 1;
         }
     }
@@ -67,9 +68,10 @@ bool unpackPacket(RoveCommPacket &dest, const uint8_t *buffer) {
     if (typeSize * dest.dataCount > ROVECOMM_PACKET_MAX_DATA_COUNT) return false;
 
     // RoveComm transmits in network byte order, so we must swap the bytes
+    const uint8_t *data = buffer + ROVECOMM_PACKET_HEADER_SIZE;
     for (int el = 0; el < dest.dataCount; el++) {
         for (size_t b = 0; b < typeSize; b++) {
-            dest.data[el * typeSize + b] = buffer[ROVECOMM_PACKET_HEADER_SIZE + (el * typeSize + 1) - b - 1];
+            dest.data[el * typeSize + b] = buffer[(el + 1) * typeSize - b - 1];
         }
     }
     return true;
