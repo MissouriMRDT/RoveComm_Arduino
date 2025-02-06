@@ -486,6 +486,11 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_COUNT                                10        
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_TYPE                                 uint16_t  
 
+//Shut off all motors (set decipercents to 0 and disable closed loop)
+#define RC_ARMBOARD_ESTOP_DATA_ID                                               8018      
+#define RC_ARMBOARD_ESTOP_DATA_COUNT                                            1         
+#define RC_ARMBOARD_ESTOP_DATA_TYPE                                             uint8_t   
+
 ////////////////////Telemetry
 //[X, Y1, Y2, Z, Pitch, Roll1, Roll2] (in, in, in, in, deg, deg, deg)
 #define RC_ARMBOARD_POSITIONS_DATA_ID                                           8100      
