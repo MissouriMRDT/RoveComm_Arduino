@@ -47,11 +47,11 @@
 #define RC_ARMBOARD_FOURTHOCTET                             107       
 #define RC_ARMBOARD_IPADDRESS                               {192, 168, 2, 107}
 
-#define RC_SCIENCEACTUATIONBOARD_FIRSTOCTET                 192       
-#define RC_SCIENCEACTUATIONBOARD_SECONDOCTET                168       
-#define RC_SCIENCEACTUATIONBOARD_THIRDOCTET                 2         
-#define RC_SCIENCEACTUATIONBOARD_FOURTHOCTET                108       
-#define RC_SCIENCEACTUATIONBOARD_IPADDRESS                  {192, 168, 2, 108}
+#define RC_AUGERBOARD_FIRSTOCTET                            192       
+#define RC_AUGERBOARD_SECONDOCTET                           168       
+#define RC_AUGERBOARD_THIRDOCTET                            2         
+#define RC_AUGERBOARD_FOURTHOCTET                           108       
+#define RC_AUGERBOARD_IPADDRESS                             {192, 168, 2, 108}
 
 #define RC_AUTONOMYBOARD_FIRSTOCTET                         192       
 #define RC_AUTONOMYBOARD_SECONDOCTET                        168       
@@ -83,11 +83,11 @@
 #define RC_IRSPECTROMETERBOARD_FOURTHOCTET                  104       
 #define RC_IRSPECTROMETERBOARD_IPADDRESS                    {192, 168, 3, 104}
 
-#define RC_INSTRUMENTSBOARD_FIRSTOCTET                      192       
-#define RC_INSTRUMENTSBOARD_SECONDOCTET                     168       
-#define RC_INSTRUMENTSBOARD_THIRDOCTET                      3         
-#define RC_INSTRUMENTSBOARD_FOURTHOCTET                     105       
-#define RC_INSTRUMENTSBOARD_IPADDRESS                       {192, 168, 3, 105}
+#define RC_RAMANBOARD_FIRSTOCTET                            192       
+#define RC_RAMANBOARD_SECONDOCTET                           168       
+#define RC_RAMANBOARD_THIRDOCTET                            3         
+#define RC_RAMANBOARD_FOURTHOCTET                           105       
+#define RC_RAMANBOARD_IPADDRESS                             {192, 168, 3, 105}
 
 #define RC_ROVESOSIMULATORBOARD_FIRSTOCTET                  127       
 #define RC_ROVESOSIMULATORBOARD_SECONDOCTET                 0         
@@ -518,106 +518,101 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 
 
 ///////////////////////////////////////////////////
-////////////        SCIENCEACTUATIONBOARD///////////         
+////////////        AUGERBOARD          ///////////         
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
 //Motor decipercent [-1000, 1000]
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_OPENLOOP_DATA_ID                     9000      
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_OPENLOOP_DATA_COUNT                  1         
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_OPENLOOP_DATA_TYPE                   int16_t   
-
-//Motor decipercent [-1000, 1000]
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_OPENLOOP_DATA_ID                    9001      
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_OPENLOOP_DATA_COUNT                 1         
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_OPENLOOP_DATA_TYPE                  int16_t   
+#define RC_AUGERBOARD_AUGERAXIS_OPENLOOP_DATA_ID                                9000      
+#define RC_AUGERBOARD_AUGERAXIS_OPENLOOP_DATA_COUNT                             1         
+#define RC_AUGERBOARD_AUGERAXIS_OPENLOOP_DATA_TYPE                              int16_t   
 
 //Absolute position (in)
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_SETPOSITION_DATA_ID                  9002      
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_SETPOSITION_DATA_COUNT               1         
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_SETPOSITION_DATA_TYPE                float     
-
-//Absolute position (in)
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_SETPOSITION_DATA_ID                 9003      
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_SETPOSITION_DATA_COUNT              1         
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_SETPOSITION_DATA_TYPE               float     
+#define RC_AUGERBOARD_AUGERAXIS_SETPOSITION_DATA_ID                             9001      
+#define RC_AUGERBOARD_AUGERAXIS_SETPOSITION_DATA_COUNT                          1         
+#define RC_AUGERBOARD_AUGERAXIS_SETPOSITION_DATA_TYPE                           float     
 
 //(in)
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_INCREMENTPOSITION_DATA_ID            9004      
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_INCREMENTPOSITION_DATA_COUNT         1         
-#define RC_SCIENCEACTUATIONBOARD_SCOOPAXIS_INCREMENTPOSITION_DATA_TYPE          float     
+#define RC_AUGERBOARD_AUGERAXIS_INCREMENTPOSITION_DATA_ID                       9002      
+#define RC_AUGERBOARD_AUGERAXIS_INCREMENTPOSITION_DATA_COUNT                    1         
+#define RC_AUGERBOARD_AUGERAXIS_INCREMENTPOSITION_DATA_TYPE                     float     
 
-//(in)
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_INCREMENTPOSITION_DATA_ID           9005      
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_INCREMENTPOSITION_DATA_COUNT        1         
-#define RC_SCIENCEACTUATIONBOARD_SENSORAXIS_INCREMENTPOSITION_DATA_TYPE         float     
+//[AugerAxis+, AugerAxis-] (0-override off, 1-override on) (bitmasked)
+#define RC_AUGERBOARD_LIMITSWITCHOVERRIDE_DATA_ID                               9003      
+#define RC_AUGERBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                            1         
+#define RC_AUGERBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                             uint8_t   
 
-//[ScoopAxis+, ScoopAxis-, SensorAxis+, SensorAxis-] (0-override off, 1-override on) (bitmasked)
-#define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHOVERRIDE_DATA_ID                    9006      
-#define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                 1         
-#define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                  uint8_t   
+//Request calibration of the AugerAxis encoder
+#define RC_AUGERBOARD_CALIBRATEENCODER_DATA_ID                                  9004      
+#define RC_AUGERBOARD_CALIBRATEENCODER_DATA_COUNT                               1         
+#define RC_AUGERBOARD_CALIBRATEENCODER_DATA_TYPE                                uint8_t   
 
 //Motor decipercent [-1000, 1000]
-#define RC_SCIENCEACTUATIONBOARD_AUGER_DATA_ID                                  9007      
-#define RC_SCIENCEACTUATIONBOARD_AUGER_DATA_COUNT                               1         
-#define RC_SCIENCEACTUATIONBOARD_AUGER_DATA_TYPE                                int16_t   
-
-//[0-180] (degrees)
-#define RC_SCIENCEACTUATIONBOARD_MICROSCOPE_DATA_ID                             9008      
-#define RC_SCIENCEACTUATIONBOARD_MICROSCOPE_DATA_COUNT                          1         
-#define RC_SCIENCEACTUATIONBOARD_MICROSCOPE_DATA_TYPE                           uint8_t   
+#define RC_AUGERBOARD_AUGER_DATA_ID                                             9005      
+#define RC_AUGERBOARD_AUGER_DATA_COUNT                                          1         
+#define RC_AUGERBOARD_AUGER_DATA_TYPE                                           int16_t   
 
 //[0-override off, 1-override on]
-#define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_ID                       9010      
-#define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_COUNT                    1         
-#define RC_SCIENCEACTUATIONBOARD_WATCHDOGOVERRIDE_DATA_TYPE                     uint8_t   
+#define RC_AUGERBOARD_WATCHDOGOVERRIDE_DATA_ID                                  9006      
+#define RC_AUGERBOARD_WATCHDOGOVERRIDE_DATA_COUNT                               1         
+#define RC_AUGERBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                uint8_t   
 
-//[ScoopAxis, SensorAxis, Proboscis] (1-calibrate, 0-no action) (bitmasked)
-#define RC_SCIENCEACTUATIONBOARD_CALIBRATEENCODER_DATA_ID                       9011      
-#define RC_SCIENCEACTUATIONBOARD_CALIBRATEENCODER_DATA_COUNT                    1         
-#define RC_SCIENCEACTUATIONBOARD_CALIBRATEENCODER_DATA_TYPE                     uint8_t   
+//Request a reading of the temperature at the end of the auger
+#define RC_AUGERBOARD_REQUESTTEMPERATURE_DATA_ID                                9007      
+#define RC_AUGERBOARD_REQUESTTEMPERATURE_DATA_COUNT                             1         
+#define RC_AUGERBOARD_REQUESTTEMPERATURE_DATA_TYPE                              uint8_t   
 
-//Request the humidity of the instrument
-#define RC_SCIENCEACTUATIONBOARD_REQUESTHUMIDITY_DATA_ID                        9012      
-#define RC_SCIENCEACTUATIONBOARD_REQUESTHUMIDITY_DATA_COUNT                     1         
-#define RC_SCIENCEACTUATIONBOARD_REQUESTHUMIDITY_DATA_TYPE                      uint8_t   
+//Request a reading of the humidity at the end of the auger
+#define RC_AUGERBOARD_REQUESTHUMIDITY_DATA_ID                                   9008      
+#define RC_AUGERBOARD_REQUESTHUMIDITY_DATA_COUNT                                1         
+#define RC_AUGERBOARD_REQUESTHUMIDITY_DATA_TYPE                                 uint8_t   
+
+//Ultraviolet LED on AutoFluorescence (0-off, 1-on)
+#define RC_AUGERBOARD_UVLED_DATA_ID                                             9009      
+#define RC_AUGERBOARD_UVLED_DATA_COUNT                                          1         
+#define RC_AUGERBOARD_UVLED_DATA_TYPE                                           uint8_t   
 
 //[Pan, Tilt](degrees -180-180)
-#define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_ID                   9013      
-#define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_COUNT                2         
-#define RC_SCIENCEACTUATIONBOARD_AUGERGIMBALINCREMENT_DATA_TYPE                 int16_t   
+#define RC_AUGERBOARD_AUGERGIMBALINCREMENT_DATA_ID                              9010      
+#define RC_AUGERBOARD_AUGERGIMBALINCREMENT_DATA_COUNT                           2         
+#define RC_AUGERBOARD_AUGERGIMBALINCREMENT_DATA_TYPE                            int16_t   
 
 ////////////////////Telemetry
-//[ScoopAxis, SensorAxis] (in)
-#define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_ID                              9100      
-#define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_COUNT                           2         
-#define RC_SCIENCEACTUATIONBOARD_POSITIONS_DATA_TYPE                            float     
-
-//[ScoopAxis+, ScoopAxis-, SensorAxis+, SensorAxis-] (0-off, 1-on) (bitmasked)
-#define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_ID                   9101      
-#define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_COUNT                1         
-#define RC_SCIENCEACTUATIONBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE                 uint8_t   
-
-//[Humidity] (relative humidity %)
-#define RC_SCIENCEACTUATIONBOARD_HUMIDITY_DATA_ID                               9102      
-#define RC_SCIENCEACTUATIONBOARD_HUMIDITY_DATA_COUNT                            1         
-#define RC_SCIENCEACTUATIONBOARD_HUMIDITY_DATA_TYPE                             float     
+//[AugerAxis] (in)
+#define RC_AUGERBOARD_POSITION_DATA_ID                                          9100      
+#define RC_AUGERBOARD_POSITION_DATA_COUNT                                       1         
+#define RC_AUGERBOARD_POSITION_DATA_TYPE                                        float     
 
 //(in/s)
-#define RC_SCIENCEACTUATIONBOARD_AUGERSPEED_DATA_ID                             9103      
-#define RC_SCIENCEACTUATIONBOARD_AUGERSPEED_DATA_COUNT                          1         
-#define RC_SCIENCEACTUATIONBOARD_AUGERSPEED_DATA_TYPE                           float     
+#define RC_AUGERBOARD_AUGERSPEED_DATA_ID                                        9101      
+#define RC_AUGERBOARD_AUGERSPEED_DATA_COUNT                                     1         
+#define RC_AUGERBOARD_AUGERSPEED_DATA_TYPE                                      float     
+
+//[AugerAxis+, AugerAxis-] (0-off, 1-on) (bitmasked)
+#define RC_AUGERBOARD_LIMITSWITCHTRIGGERED_DATA_ID                              9102      
+#define RC_AUGERBOARD_LIMITSWITCHTRIGGERED_DATA_COUNT                           1         
+#define RC_AUGERBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE                            uint8_t   
+
+//[Temperature] (degrees C)
+#define RC_AUGERBOARD_TEMPERATURE_DATA_ID                                       9103      
+#define RC_AUGERBOARD_TEMPERATURE_DATA_COUNT                                    1         
+#define RC_AUGERBOARD_TEMPERATURE_DATA_TYPE                                     float     
+
+//[Humidity] (relative humidity %)
+#define RC_AUGERBOARD_HUMIDITY_DATA_ID                                          9104      
+#define RC_AUGERBOARD_HUMIDITY_DATA_COUNT                                       1         
+#define RC_AUGERBOARD_HUMIDITY_DATA_TYPE                                        float     
 
 ////////////////////Error
 //(1-Watchdog timeout, 0-OK)
-#define RC_SCIENCEACTUATIONBOARD_WATCHDOGSTATUS_DATA_ID                         9200      
-#define RC_SCIENCEACTUATIONBOARD_WATCHDOGSTATUS_DATA_COUNT                      1         
-#define RC_SCIENCEACTUATIONBOARD_WATCHDOGSTATUS_DATA_TYPE                       uint8_t   
+#define RC_AUGERBOARD_WATCHDOGSTATUS_DATA_ID                                    9200      
+#define RC_AUGERBOARD_WATCHDOGSTATUS_DATA_COUNT                                 1         
+#define RC_AUGERBOARD_WATCHDOGSTATUS_DATA_TYPE                                  uint8_t   
 
 //(1-Stalled, 0-OK)
-#define RC_SCIENCEACTUATIONBOARD_AUGERSTALLED_DATA_ID                           9201      
-#define RC_SCIENCEACTUATIONBOARD_AUGERSTALLED_DATA_COUNT                        1         
-#define RC_SCIENCEACTUATIONBOARD_AUGERSTALLED_DATA_TYPE                         uint8_t   
+#define RC_AUGERBOARD_AUGERSTALLED_DATA_ID                                      9201      
+#define RC_AUGERBOARD_AUGERSTALLED_DATA_COUNT                                   1         
+#define RC_AUGERBOARD_AUGERSTALLED_DATA_TYPE                                    uint8_t   
 
 
 
@@ -840,65 +835,86 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,NOTICE,WARNIN
 
 
 ///////////////////////////////////////////////////
-////////////        INSTRUMENTSBOARD    ///////////         
+////////////        RAMANBOARD          ///////////         
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//[Green, White] [1-Enabled, 0-Disabled] (bitmasked)
-#define RC_INSTRUMENTSBOARD_ENABLELEDS_DATA_ID                                  16000     
-#define RC_INSTRUMENTSBOARD_ENABLELEDS_DATA_COUNT                               1         
-#define RC_INSTRUMENTSBOARD_ENABLELEDS_DATA_TYPE                                uint8_t   
+//Motor decipercent [-1000, 1000]
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_OPENLOOP_DATA_ID                          16000     
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_OPENLOOP_DATA_COUNT                       1         
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_OPENLOOP_DATA_TYPE                        int16_t   
+
+//Absolute position (in)
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_SETPOSITION_DATA_ID                       16001     
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_SETPOSITION_DATA_COUNT                    1         
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_SETPOSITION_DATA_TYPE                     float     
+
+//(in)
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_INCREMENTPOSITION_DATA_ID                 16002     
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_INCREMENTPOSITION_DATA_COUNT              1         
+#define RC_RAMANBOARD_INSTRUMENTSAXIS_INCREMENTPOSITION_DATA_TYPE               float     
+
+//[InstrumentsAxis+, InstrumentsAxis-] (0-override off, 1-override on) (bitmasked)
+#define RC_RAMANBOARD_LIMITSWITCHOVERRIDE_DATA_ID                               16003     
+#define RC_RAMANBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                            1         
+#define RC_RAMANBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                             uint8_t   
+
+//Request calibration of the InstrumentsAxis encoder
+#define RC_RAMANBOARD_CALIBRATEENCODER_DATA_ID                                  16004     
+#define RC_RAMANBOARD_CALIBRATEENCODER_DATA_COUNT                               1         
+#define RC_RAMANBOARD_CALIBRATEENCODER_DATA_TYPE                                uint8_t   
+
+//[0-override off, 1-override on]
+#define RC_RAMANBOARD_WATCHDOGOVERRIDE_DATA_ID                                  16005     
+#define RC_RAMANBOARD_WATCHDOGOVERRIDE_DATA_COUNT                               1         
+#define RC_RAMANBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                uint8_t   
+
+//[0-disable, 1-enable]
+#define RC_RAMANBOARD_LASER_DATA_ID                                             16006     
+#define RC_RAMANBOARD_LASER_DATA_COUNT                                          1         
+#define RC_RAMANBOARD_LASER_DATA_TYPE                                           uint8_t   
 
 //Start a Raman reading, with the provided integration time (milliseconds)
-#define RC_INSTRUMENTSBOARD_REQUESTRAMANREADING_DATA_ID                         16001     
-#define RC_INSTRUMENTSBOARD_REQUESTRAMANREADING_DATA_COUNT                      1         
-#define RC_INSTRUMENTSBOARD_REQUESTRAMANREADING_DATA_TYPE                       uint32_t  
-
-//Start a Reflectance reading, with the provided integration time (milliseconds)
-#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_ID                   16002     
-#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_COUNT                1         
-#define RC_INSTRUMENTSBOARD_REQUESTREFLECTANCEREADING_DATA_TYPE                 uint32_t  
-
-//Request the temperature of the instrument
-#define RC_INSTRUMENTSBOARD_REQUESTTEMPERATURE_DATA_ID                          16003     
-#define RC_INSTRUMENTSBOARD_REQUESTTEMPERATURE_DATA_COUNT                       1         
-#define RC_INSTRUMENTSBOARD_REQUESTTEMPERATURE_DATA_TYPE                        uint8_t   
+#define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_ID                               16007     
+#define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_COUNT                            1         
+#define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_TYPE                             uint32_t  
 
 ////////////////////Telemetry
-//Raman CCD elements 1-500
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART1_DATA_ID                          16100     
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART1_DATA_COUNT                       500       
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART1_DATA_TYPE                        uint16_t  
+//[InstrumentsAxis] (in)
+#define RC_RAMANBOARD_POSITION_DATA_ID                                          16100     
+#define RC_RAMANBOARD_POSITION_DATA_COUNT                                       1         
+#define RC_RAMANBOARD_POSITION_DATA_TYPE                                        float     
 
-//Raman CCD elements 501-1000
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART2_DATA_ID                          16101     
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART2_DATA_COUNT                       500       
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART2_DATA_TYPE                        uint16_t  
+//[InstrumentsAxis+, InstrumentsAxis-] (0-off, 1-on) (bitmasked)
+#define RC_RAMANBOARD_LIMITSWITCHTRIGGERED_DATA_ID                              16101     
+#define RC_RAMANBOARD_LIMITSWITCHTRIGGERED_DATA_COUNT                           1         
+#define RC_RAMANBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE                            uint8_t   
 
-//Raman CCD elements 1001-1500
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART3_DATA_ID                          16102     
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART3_DATA_COUNT                       500       
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART3_DATA_TYPE                        uint16_t  
+//Raman CCD elements 1-512
+#define RC_RAMANBOARD_RAMANREADING_PART1_DATA_ID                                16102     
+#define RC_RAMANBOARD_RAMANREADING_PART1_DATA_COUNT                             512       
+#define RC_RAMANBOARD_RAMANREADING_PART1_DATA_TYPE                              uint16_t  
 
-//Raman CCD elements 1501-2000
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART4_DATA_ID                          16103     
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART4_DATA_COUNT                       500       
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART4_DATA_TYPE                        uint16_t  
+//Raman CCD elements 513-1024
+#define RC_RAMANBOARD_RAMANREADING_PART2_DATA_ID                                16103     
+#define RC_RAMANBOARD_RAMANREADING_PART2_DATA_COUNT                             512       
+#define RC_RAMANBOARD_RAMANREADING_PART2_DATA_TYPE                              uint16_t  
 
-//Raman CCD elements 2001-2048
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART5_DATA_ID                          16104     
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART5_DATA_COUNT                       48        
-#define RC_INSTRUMENTSBOARD_RAMANREADING_PART5_DATA_TYPE                        uint16_t  
+//Raman CCD elements 1025-1536
+#define RC_RAMANBOARD_RAMANREADING_PART3_DATA_ID                                16104     
+#define RC_RAMANBOARD_RAMANREADING_PART3_DATA_COUNT                             512       
+#define RC_RAMANBOARD_RAMANREADING_PART3_DATA_TYPE                              uint16_t  
 
-//Reflectance CCD elements 1-288
-#define RC_INSTRUMENTSBOARD_REFLECTANCEREADING_DATA_ID                          16105     
-#define RC_INSTRUMENTSBOARD_REFLECTANCEREADING_DATA_COUNT                       288       
-#define RC_INSTRUMENTSBOARD_REFLECTANCEREADING_DATA_TYPE                        uint8_t   
+//Raman CCD elements 1537-2048
+#define RC_RAMANBOARD_RAMANREADING_PART4_DATA_ID                                16105     
+#define RC_RAMANBOARD_RAMANREADING_PART4_DATA_COUNT                             512       
+#define RC_RAMANBOARD_RAMANREADING_PART4_DATA_TYPE                              uint16_t  
 
-//[Temperature] (degrees C)
-#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_ID                                 16106     
-#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_COUNT                              1         
-#define RC_INSTRUMENTSBOARD_TEMPERATURE_DATA_TYPE                               int8_t    
+////////////////////Error
+//(1-Watchdog timeout, 0-OK)
+#define RC_RAMANBOARD_WATCHDOGSTATUS_DATA_ID                                    16200     
+#define RC_RAMANBOARD_WATCHDOGSTATUS_DATA_COUNT                                 1         
+#define RC_RAMANBOARD_WATCHDOGSTATUS_DATA_TYPE                                  uint8_t   
 
 
 
