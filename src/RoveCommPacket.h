@@ -12,10 +12,9 @@
 // User can define a different max data count before including RoveComm
 #ifndef ROVECOMM_PACKET_MAX_DATA_COUNT
 #if ROVECOMM_TIVA
-#define ROVECOMM_PACKET_MAX_DATA_COUNT (65535 / 2) // Tiva can only support 21,000 uint8_t at once due to memory issues
+#define ROVECOMM_PACKET_MAX_DATA_COUNT (65535 / 2) // Tiva can only support 21000 uint8_t at once due to memory issues
 #elif ROVECOMM_TEENSY
-#define ROVECOMM_PACKET_MAX_DATA_COUNT                                                                                 \
-    (65535 / 2) // Teensy can only support 32,000 uint8_t at once due to memory issues
+#define ROVECOMM_PACKET_MAX_DATA_COUNT (65535 / 2) // Teensy can only support 32000 uint8_t at once due to memory issues
 #endif
 #endif
 
@@ -33,10 +32,49 @@
 // uint8_t  data type
 //////////////////////////////////////////////////////
 struct RoveCommPacket {
+    // The purpose of this packet
     uint16_t dataId;
+
+    // The number of data elements in this packet
     uint16_t dataCount;
+
+    // The type of this packet. See rovecomm::data_type_t
     uint8_t dataType;
-    uint8_t data[ROVECOMM_PACKET_MAX_DATA_COUNT];
+
+    union {
+        // The raw bytes of the data
+        uint8_t data[ROVECOMM_PACKET_MAX_DATA_COUNT];
+
+
+
+        // Access data as int8_t
+        int8_t i8data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(int8_t)];
+
+        // Access data as uint8_t
+        uint8_t u8data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(uint8_t)];
+
+        // Access data as int16_t
+        int16_t i16data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(int16_t)];
+
+        // Access data as uint16_t
+        uint16_t u16data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(uint16_t)];
+
+        // Access data as int32_t
+        int32_t i32data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(int32_t)];
+
+        // Access data as uint32_t
+        uint32_t u32data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(uint32_t)];
+
+        // Access data as float
+        float fdata[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(float)];
+
+        // Access data as double
+        double ddata[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(double)];
+
+        // Access data as char
+        char cdata[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(char)];
+
+    };
 
     // Prevent electricals from unknowingly copying a large packet buffer
     // Nevermind as of C++ 20 this is no longer allowed
