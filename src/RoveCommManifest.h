@@ -468,22 +468,22 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 
 //[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P] (0-override off, 1-override on) (bitmasked)
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_ID                                 8014      
-#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                              9         
+#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                              1         
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                               uint16_t  
 
 //[X, J2, J3, J4, P, R] (0-override off, 1-override on) (bitmasked)
 #define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_ID                                  8015      
-#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_COUNT                               6         
+#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_COUNT                               1         
 #define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_TYPE                                uint8_t   
 
 //[X, Roll] (1-calibrate, 0-no action) (bitmasked)
 #define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                                    8016      
-#define RC_ARMBOARD_CALIBRATEENCODER_DATA_COUNT                                 2         
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_COUNT                                 1         
 #define RC_ARMBOARD_CALIBRATEENCODER_DATA_TYPE                                  uint8_t   
 
 //[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (0-override off, 1-override on) (bitmasked)
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_ID                                   8017      
-#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_COUNT                                10        
+#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_COUNT                                1         
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_TYPE                                 uint16_t  
 
 //Shut off all motors (set decipercents to 0 and disable closed loop)
@@ -492,17 +492,17 @@ enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS};
 #define RC_ARMBOARD_ESTOP_DATA_TYPE                                             uint8_t   
 
 ////////////////////Telemetry
-//[X, Y1, Y2, Z, Pitch, Roll1, Roll2] (in, in, in, in, deg, deg, deg)
+//[X, J2, J3, J4, P, R] (in, deg, deg, deg, deg, deg)
 #define RC_ARMBOARD_POSITIONS_DATA_ID                                           8100      
-#define RC_ARMBOARD_POSITIONS_DATA_COUNT                                        7         
+#define RC_ARMBOARD_POSITIONS_DATA_COUNT                                        6         
 #define RC_ARMBOARD_POSITIONS_DATA_TYPE                                         float     
 
-//[X, Y, Z, P, R] (in, in, in, deg, deg)
+//[X, Y, Z, J4, P, R] (in, in, in, deg, deg, deg)
 #define RC_ARMBOARD_COORDINATES_DATA_ID                                         8101      
-#define RC_ARMBOARD_COORDINATES_DATA_COUNT                                      5         
+#define RC_ARMBOARD_COORDINATES_DATA_COUNT                                      6         
 #define RC_ARMBOARD_COORDINATES_DATA_TYPE                                       float     
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, Pitch] (0-off, 1-on) (bitmasked)
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P] (0-off, 1-on) (bitmasked)
 #define RC_ARMBOARD_LIMITSWITCHTRIGGERED_DATA_ID                                8102      
 #define RC_ARMBOARD_LIMITSWITCHTRIGGERED_DATA_COUNT                             1         
 #define RC_ARMBOARD_LIMITSWITCHTRIGGERED_DATA_TYPE                              uint16_t  
@@ -621,12 +621,12 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//
+//Start Autonomy_Software
 #define RC_AUTONOMYBOARD_STARTAUTONOMY_DATA_ID                                  11000     
 #define RC_AUTONOMYBOARD_STARTAUTONOMY_DATA_COUNT                               1         
 #define RC_AUTONOMYBOARD_STARTAUTONOMY_DATA_TYPE                                uint8_t   
 
-//
+//Return Autonomy_Software to Idle state
 #define RC_AUTONOMYBOARD_DISABLEAUTONOMY_DATA_ID                                11001     
 #define RC_AUTONOMYBOARD_DISABLEAUTONOMY_DATA_COUNT                             1         
 #define RC_AUTONOMYBOARD_DISABLEAUTONOMY_DATA_TYPE                              uint8_t   
@@ -646,12 +646,7 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 #define RC_AUTONOMYBOARD_ADDOBJECTLEG_DATA_COUNT                                3         
 #define RC_AUTONOMYBOARD_ADDOBJECTLEG_DATA_TYPE                                 double    
 
-//[Lat, Lon, ObstacleRadius (meters)]
-#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_ID                                    11008     
-#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_COUNT                                 3         
-#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_TYPE                                  double    
-
-//
+//Clear queued positions, markers, and objects waypoints.
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_ID                                 11005     
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_COUNT                              1         
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_TYPE                               uint8_t   
@@ -665,6 +660,16 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 #define RC_AUTONOMYBOARD_SETLOGGINGLEVELS_DATA_ID                               11007     
 #define RC_AUTONOMYBOARD_SETLOGGINGLEVELS_DATA_COUNT                            3         
 #define RC_AUTONOMYBOARD_SETLOGGINGLEVELS_DATA_TYPE                             uint8_t   
+
+//[Lat, Lon, ObstacleRadius (meters)]
+#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_ID                                    11008     
+#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_COUNT                                 3         
+#define RC_AUTONOMYBOARD_ADDOBSTACLE_DATA_TYPE                                  double    
+
+//Clear queued permanent obstacles.
+#define RC_AUTONOMYBOARD_CLEAROBSTACLES_DATA_ID                                 11009     
+#define RC_AUTONOMYBOARD_CLEAROBSTACLES_DATA_COUNT                              1         
+#define RC_AUTONOMYBOARD_CLEAROBSTACLES_DATA_TYPE                               uint8_t   
 
 ////////////////////Telemetry
 //Enum (AUTONOMYSTATE)
