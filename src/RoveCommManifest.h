@@ -743,7 +743,7 @@ enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,NOTICE,WARNIN
 ////////////////////Commands
 //Take a picture with the current camera. [0] is the camera to take a picture with. [1] tells the camera whether to restart the stream afterwards.
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_ID                                     13001     
-#define RC_CAMERA2BOARD_TAKEPICTURE_DATA_COUNT                                  1         
+#define RC_CAMERA2BOARD_TAKEPICTURE_DATA_COUNT                                  2         
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
 //Stop the current camera stream. [0] is the camera to stop streaming. [1] is whether to restart the stream.
