@@ -1,6 +1,10 @@
 #include "RoveCommEthernetTCP.h"
 
+#if ROVECOMM_TIVA
+EthernetServer RoveCommEthernetTCP::_TCPServer(RC_ROVECOMM_ETHERNET_TCP_PORT); // will overwrite in begin(port)
+#else
 EthernetServer RoveCommEthernetTCP::_TCPServer;
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MAX_CLIENTS 8
