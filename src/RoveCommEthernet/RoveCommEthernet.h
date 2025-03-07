@@ -11,8 +11,8 @@
 #include <NativeEthernet.h>
 #endif
 
-#include "RoveCommManifest.h"
-#include "RoveCommPacket.h"
+#include "../RoveCommManifest.h"
+#include "../RoveCommPacket.h"
 #include "RoveCommEthernetTCP.h"
 #include "RoveCommEthernetUDP.h"
 
@@ -90,18 +90,18 @@ public:
     void writeTo(uint16_t dataId, char     data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_UDP_PORT) { writeTo(dataId, 1, &data, ip, port); }
 
     /////writeReliable////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Array entry writeReliable which ensures delivery
+    // Array entry write which ensures delivery
     // Overloaded for each data type
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint8_t  *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint16_t *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint32_t *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const int8_t   *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const int16_t  *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const int32_t  *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const float    *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const double   *data) { TCP.writeReliable(dataId, dataCount, data); }
-    void writeReliable(uint16_t dataId, uint16_t dataCount, const char     *data) { TCP.writeReliable(dataId, dataCount, data); }
-    // Single-value writeReliable which ensures delivery
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint8_t  *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint16_t *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const uint32_t *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const int8_t   *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const int16_t  *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const int32_t  *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const float    *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const double   *data) { TCP.write(dataId, dataCount, data); }
+    void writeReliable(uint16_t dataId, uint16_t dataCount, const char     *data) { TCP.write(dataId, dataCount, data); }
+    // Single-value write which ensures delivery
     // Overloaded for each data type
     void writeReliable(uint16_t dataId, uint8_t  data) { writeReliable(dataId, 1, &data); }
     void writeReliable(uint16_t dataId, uint16_t data) { writeReliable(dataId, 1, &data); }
@@ -112,6 +112,30 @@ public:
     void writeReliable(uint16_t dataId, float    data) { writeReliable(dataId, 1, &data); }
     void writeReliable(uint16_t dataId, double   data) { writeReliable(dataId, 1, &data); }
     void writeReliable(uint16_t dataId, char     data) { writeReliable(dataId, 1, &data); }
+    
+    /////writeToReliable////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Array entry write which ensures delivery
+    // Overloaded for each data type
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const uint8_t  *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const uint16_t *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const uint32_t *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const int8_t   *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const int16_t  *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const int32_t  *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const float    *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const double   *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t dataCount, const char     *data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { TCP.writeTo(dataId, dataCount, data, ip, port); }
+    // Single-value writeTo which ensures delivery
+    // Overloaded for each data type
+    void writeToReliable(uint16_t dataId, uint8_t  data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint16_t data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, uint32_t data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, int8_t   data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, int16_t  data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, int32_t  data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, float    data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, double   data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
+    void writeToReliable(uint16_t dataId, char     data, IPAddress ip, uint16_t port=RC_ROVECOMM_ETHERNET_TCP_PORT) { writeToReliable(dataId, 1, &data, ip, port); }
 
     friend class RoveCommEthernetUDP;
     friend class RoveCommEthernetTCP;

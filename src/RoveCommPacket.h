@@ -10,11 +10,13 @@
 //////////////////////////////////////////////////////
 
 // User can define a different max data count before including RoveComm
-#ifndef ROVECOMM_PACKET_MAX_DATA_COUNT
+#ifndef ROVECOMM_PACKET_MAX_DATA_SIZE
 #if ROVECOMM_TIVA
-#define ROVECOMM_PACKET_MAX_DATA_COUNT (65535 / 2) // Tiva can only support 21000 uint8_t at once due to memory issues
+#define ROVECOMM_PACKET_MAX_DATA_SIZE (65535 / 3) // Tiva can only support 21000 uint8_t at once due to memory issues
 #elif ROVECOMM_TEENSY
-#define ROVECOMM_PACKET_MAX_DATA_COUNT (65535 / 2) // Teensy can only support 32000 uint8_t at once due to memory issues
+#define ROVECOMM_PACKET_MAX_DATA_SIZE (65535 / 2) // Teensy can only support 32000 uint8_t at once due to memory issues
+#else
+#define ROVECOMM_PACKET_MAX_DATA_SIZE (65535) // for development
 #endif
 #endif
 
@@ -43,37 +45,34 @@ struct RoveCommPacket {
 
     union {
         // The raw bytes of the data
-        uint8_t data[ROVECOMM_PACKET_MAX_DATA_COUNT];
-
-
+        uint8_t data[ROVECOMM_PACKET_MAX_DATA_SIZE];
 
         // Access data as int8_t
-        int8_t i8data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(int8_t)];
+        int8_t i8data[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(int8_t)];
 
         // Access data as uint8_t
-        uint8_t u8data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(uint8_t)];
+        uint8_t u8data[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(uint8_t)];
 
         // Access data as int16_t
-        int16_t i16data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(int16_t)];
+        int16_t i16data[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(int16_t)];
 
         // Access data as uint16_t
-        uint16_t u16data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(uint16_t)];
+        uint16_t u16data[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(uint16_t)];
 
         // Access data as int32_t
-        int32_t i32data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(int32_t)];
+        int32_t i32data[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(int32_t)];
 
         // Access data as uint32_t
-        uint32_t u32data[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(uint32_t)];
+        uint32_t u32data[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(uint32_t)];
 
         // Access data as float
-        float fdata[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(float)];
+        float fdata[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(float)];
 
         // Access data as double
-        double ddata[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(double)];
+        double ddata[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(double)];
 
         // Access data as char
-        char cdata[ROVECOMM_PACKET_MAX_DATA_COUNT/sizeof(char)];
-
+        char cdata[ROVECOMM_PACKET_MAX_DATA_SIZE / sizeof(char)];
     };
 
     // Prevent electricals from unknowingly copying a large packet buffer
@@ -102,7 +101,8 @@ size_t dataTypeSize(const data_type_t dataType);
 
 // Pack a RoveCommPacket into the given buffer in network byte order
 // Returns the number of bytes packed or 0 if the data is invalid
-size_t packPacket(uint8_t *dest, uint16_t dataId, uint16_t dataCount, data_type_t dataType, const uint8_t *data);
+size_t packPacket(uint8_t *dest, const uint16_t dataId, const uint16_t dataCount, const data_type_t dataType,
+                  const uint8_t *data);
 
 // Unpack a netowrk byte order buffer into a RoveCommPacket
 // Returns true if the packet was successfully read, else false

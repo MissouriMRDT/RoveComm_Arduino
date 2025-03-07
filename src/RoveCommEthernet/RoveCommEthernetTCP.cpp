@@ -1,5 +1,7 @@
 #include "RoveCommEthernetTCP.h"
 
+#include <Arduino.h>
+
 #if ROVECOMM_TIVA
 EthernetServer RoveCommEthernetTCP::_TCPServer(RC_ROVECOMM_ETHERNET_TCP_PORT); // will overwrite in begin(port)
 #else
@@ -23,6 +25,7 @@ void RoveCommEthernetTCP::begin(const uint16_t port) {
 #elif ROVECOMM_TEENSY
     _TCPServer.begin(port);
 #endif
+    delay(1);
 }
 
 bool RoveCommEthernetTCP::read(RoveCommPacket &dest) {
@@ -45,7 +48,7 @@ bool RoveCommEthernetTCP::read(RoveCommPacket &dest) {
 
         // Parse header - this code is duplicated in unpackPacket but we need to parse the header to know how many
         // bytes to read and pass to unpackPacket
-        uint8_t readBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_COUNT];
+        uint8_t readBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_SIZE];
         int bytesRead = client.read(readBuf, ROVECOMM_PACKET_HEADER_SIZE);
         if (bytesRead < ROVECOMM_PACKET_HEADER_SIZE) return false;
         if (readBuf[0] != ROVECOMM_VERSION) {
@@ -59,7 +62,7 @@ bool RoveCommEthernetTCP::read(RoveCommPacket &dest) {
         if (typeSize == 0) return false;
 
         size_t dataSize = typeSize * dataCount;
-        if (dataSize > ROVECOMM_PACKET_MAX_DATA_COUNT) return false;
+        if (dataSize > ROVECOMM_PACKET_MAX_DATA_SIZE) return false;
 
         // TCP works on a stream instead of discrete packets, so we read until we have enough bytes
         uint32_t startTimestamp = millis();
@@ -74,14 +77,20 @@ bool RoveCommEthernetTCP::read(RoveCommPacket &dest) {
 
         // RoveComm transmits in network byte order so we must swap the bytes in place
         if (rovecomm::unpackPacket(dest, readBuf)) return true;
+
+        if (dest.dataId == RC_ROVECOMM_PING_DATA_ID) {
+            // Echo the packet as it came in
+            _writeTo(static_cast<rovecomm::data_type_t>(dest.dataType), RC_ROVECOMM_PING_REPLY_DATA_ID, dest.dataCount,
+                     dest.data, client.remoteIP(), RC_ROVECOMM_ETHERNET_UDP_PORT);
+        }
     }
     // No clients with data were found
     return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void RoveCommEthernetTCP::_writeReliable(const rovecomm::data_type_t dataType, const uint16_t dataId,
-                                         const uint16_t dataCount, const void *data) {
+void RoveCommEthernetTCP::_write(const rovecomm::data_type_t dataType, const uint16_t dataId, const uint16_t dataCount,
+                                 const void *data) {
 
 #if ROVECOMM_TEENSY
     // Teensy implementation is set to not block on startup
@@ -89,7 +98,7 @@ void RoveCommEthernetTCP::_writeReliable(const rovecomm::data_type_t dataType, c
 #endif
 
     // Pack data into a buffer for writing
-    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_COUNT];
+    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_SIZE];
     size_t sendSize =
         rovecomm::packPacket(writeBuf, dataId, dataCount, dataType, reinterpret_cast<const uint8_t *>(data));
     if (sendSize == 0) return;
@@ -100,26 +109,38 @@ void RoveCommEthernetTCP::_writeReliable(const rovecomm::data_type_t dataType, c
     size_t totalBytesSent = 0;
     do {
         size_t bytesSent = _TCPServer.write(writeBuf + totalBytesSent, bytesRemaining);
-        if (bytesSent == 0 || millis() - startTimestamp >= ROVECOMM_PACKET_WRITE_TIMEOUT) return;
+        if (bytesSent == 0 || millis() - startTimestamp >= ROVECOMM_PACKET_WRITE_TIMEOUT) break;
         totalBytesSent += bytesSent;
         bytesRemaining -= bytesSent;
     } while (bytesRemaining > 0);
 }
 
-void RoveCommEthernetTCP::_writeToReliable(const rovecomm::data_type_t dataType, const uint16_t dataId,
-                                           const uint16_t dataCount, const void *data, const IPAddress ip,
-                                           const uint16_t port) {
+void RoveCommEthernetTCP::_writeTo(const rovecomm::data_type_t dataType, const uint16_t dataId,
+                                   const uint16_t dataCount, const void *data, const IPAddress ip,
+                                   const uint16_t port) {
 #if ROVECOMM_TEENSY
     // Teensy implementation is set to not block on startup
     if (Ethernet.linkStatus() != EthernetLinkStatus::LinkON) return;
 #endif
-
-    // Temporarily connect to the given IP
     EthernetClient client;
-    if (!client.connect(ip, port)) return;
+    // Check if connection is already open
+    bool hasConnection = false;
+    for (uint8_t i = 0; i < MAX_CLIENTS; i++) {
+        EthernetClient existing = _TCPServer.available();
+        if (existing.remoteIP() == ip) {
+            client = existing;
+            hasConnection = true;
+            break;
+        }
+    }
+    if (!hasConnection) {
+        // Temporarily connect to the given IP
+        int clientConnected = client.connect(ip, port);
+        if (!clientConnected) return;
+    }
 
     // Pack data into a buffer for writing
-    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_COUNT];
+    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_SIZE];
     size_t sendSize =
         rovecomm::packPacket(writeBuf, dataId, dataCount, dataType, reinterpret_cast<const uint8_t *>(data));
     if (sendSize == 0) return;
@@ -130,11 +151,13 @@ void RoveCommEthernetTCP::_writeToReliable(const rovecomm::data_type_t dataType,
     size_t totalBytesSent = 0;
     do {
         size_t bytesSent = client.write(writeBuf + totalBytesSent, bytesRemaining);
-        if (bytesSent == 0 || millis() - startTimestamp >= ROVECOMM_PACKET_WRITE_TIMEOUT) return;
+        if (bytesSent == 0 || millis() - startTimestamp >= ROVECOMM_PACKET_WRITE_TIMEOUT) break;
         totalBytesSent += bytesSent;
         bytesRemaining -= bytesSent;
     } while (bytesRemaining > 0);
 
     // Close connection
     client.stop();
+
+    // TODO: allow TCP connections to be persisted
 }

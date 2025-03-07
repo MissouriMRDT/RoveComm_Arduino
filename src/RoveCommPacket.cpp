@@ -37,7 +37,7 @@ size_t packPacket(uint8_t *dest, const uint16_t dataId, const uint16_t dataCount
 
     size_t typeSize = dataTypeSize(dataType);
     if (typeSize == 0) return 0;
-    if (typeSize * dataCount > ROVECOMM_PACKET_MAX_DATA_COUNT) return 0;
+    if (typeSize * dataCount > ROVECOMM_PACKET_MAX_DATA_SIZE) return 0;
 
     // RoveComm transmits in network byte order, so we must swap the bytes
     size_t bytesWritten = ROVECOMM_PACKET_HEADER_SIZE;
@@ -65,7 +65,7 @@ bool unpackPacket(RoveCommPacket &dest, const uint8_t *buffer) {
     size_t typeSize = rovecomm::dataTypeSize(static_cast<rovecomm::data_type_t>(dest.dataType));
 
     if (typeSize == 0) return false;
-    if (typeSize * dest.dataCount > ROVECOMM_PACKET_MAX_DATA_COUNT) return false;
+    if (typeSize * dest.dataCount > ROVECOMM_PACKET_MAX_DATA_SIZE) return false;
 
     // RoveComm transmits in network byte order, so we must swap the bytes
     const uint8_t *data = buffer + ROVECOMM_PACKET_HEADER_SIZE;

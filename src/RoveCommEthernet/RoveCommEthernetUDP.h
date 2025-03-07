@@ -11,8 +11,8 @@
 #include <NativeEthernet.h>
 #endif
 
-#include "RoveCommManifest.h"
-#include "RoveCommPacket.h"
+#include "../RoveCommManifest.h"
+#include "../RoveCommPacket.h"
 
 #define ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS 10
 

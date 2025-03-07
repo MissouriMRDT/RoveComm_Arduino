@@ -1,5 +1,7 @@
 #include "RoveCommEthernetUDP.h"
 
+#include <Arduino.h>
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 EthernetUDP RoveCommEthernetUDP::_UDPServer;
 IPAddress RoveCommEthernetUDP::_subscriberIps[ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS];
@@ -28,12 +30,12 @@ bool RoveCommEthernetUDP::read(RoveCommPacket &dest) {
     // Read the most recent UDP packet from the input buffer
     // RoveCommPackets always fit inside single UDP packet so, unlike with TCP, we know how much
     // data we have to parse.
-    uint8_t readBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_COUNT];
+    uint8_t readBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_SIZE];
     int packetSize = _UDPServer.parsePacket();
-    if (packetSize == 0 || packetSize > ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_COUNT) return false;
+    if (packetSize == 0 || packetSize > ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_SIZE) return false;
 
     // Get incoming IP
-    IPAddress readIp = _UDPServer.remoteIP();
+    IPAddress remoteIP = _UDPServer.remoteIP();
     _UDPServer.read(readBuf, packetSize);
 
     // Read data from buffer into RoveCommPacket
@@ -44,12 +46,12 @@ bool RoveCommEthernetUDP::read(RoveCommPacket &dest) {
     if (dest.dataId == RC_ROVECOMM_SUBSCRIBE_DATA_ID) {
         for (int i = 0; i < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; i++) {
             // Break if already subscribed
-            if (_subscriberIps[i] == readIp) {
+            if (_subscriberIps[i] == remoteIP) {
                 break;
             }
             // Add if not subscribed
             else if (_subscriberIps[i] == INADDR_NONE) {
-                _subscriberIps[i] = readIp;
+                _subscriberIps[i] = remoteIP;
                 break;
             }
         }
@@ -58,14 +60,14 @@ bool RoveCommEthernetUDP::read(RoveCommPacket &dest) {
     else if (dest.dataId == RC_ROVECOMM_UNSUBSCRIBE_DATA_ID) {
         for (int i = 0; i < ROVECOMM_ETHERNET_UDP_MAX_SUBSCRIBERS; i++) {
             // Remove from subscriber list
-            if (_subscriberIps[i] == readIp) {
+            if (_subscriberIps[i] == remoteIP) {
                 _subscriberIps[i] = INADDR_NONE; // remove subscriber
             }
         }
     } else if (dest.dataId == RC_ROVECOMM_PING_DATA_ID) {
-        uint8_t pData[1] = {1};
-        this->_writeTo(rovecomm::UINT8_T, RC_ROVECOMM_PING_REPLY_DATA_ID, 1, pData, readIp,
-                       RC_ROVECOMM_ETHERNET_UDP_PORT);
+        // Echo the packet as it came in
+        _writeTo(static_cast<rovecomm::data_type_t>(dest.dataType), RC_ROVECOMM_PING_REPLY_DATA_ID, dest.dataCount,
+                 dest.data, remoteIP, RC_ROVECOMM_ETHERNET_UDP_PORT);
     }
     return true;
 }
@@ -80,7 +82,7 @@ void RoveCommEthernetUDP::_write(const rovecomm::data_type_t dataType, const uin
 #endif
 
     // Pack data into a buffer for writing
-    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_COUNT];
+    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_SIZE];
     size_t sendBytes =
         rovecomm::packPacket(writeBuf, dataId, dataCount, dataType, reinterpret_cast<const uint8_t *>(data));
     if (sendBytes == 0) return;
@@ -106,7 +108,7 @@ void RoveCommEthernetUDP::_writeTo(const rovecomm::data_type_t dataType, const u
 #endif
 
     // Pack data into a buffer for writing
-    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_COUNT];
+    uint8_t writeBuf[ROVECOMM_PACKET_HEADER_SIZE + ROVECOMM_PACKET_MAX_DATA_SIZE];
     size_t sendBytes =
         rovecomm::packPacket(writeBuf, dataId, dataCount, dataType, reinterpret_cast<const uint8_t *>(data));
     if (sendBytes == 0) return;
