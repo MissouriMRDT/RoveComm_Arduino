@@ -590,10 +590,10 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 #define RC_AUGERBOARD_UVLED_DATA_COUNT                                          1         
 #define RC_AUGERBOARD_UVLED_DATA_TYPE                                           uint8_t   
 
-//[Pan, Tilt](degrees -180-180)
-#define RC_AUGERBOARD_AUGERGIMBALINCREMENT_DATA_ID                              9010      
-#define RC_AUGERBOARD_AUGERGIMBALINCREMENT_DATA_COUNT                           2         
-#define RC_AUGERBOARD_AUGERGIMBALINCREMENT_DATA_TYPE                            int16_t   
+//[Position](degrees -180-180)
+#define RC_AUGERBOARD_AUGERMULTIPLEXERSERVO_DATA_ID                             9010      
+#define RC_AUGERBOARD_AUGERMULTIPLEXERSERVO_DATA_COUNT                          1         
+#define RC_AUGERBOARD_AUGERMULTIPLEXERSERVO_DATA_TYPE                           int16_t   
 
 ////////////////////Telemetry
 //[AugerAxis] (in)
