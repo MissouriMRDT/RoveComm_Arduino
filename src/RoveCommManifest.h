@@ -194,24 +194,42 @@
 #define RC_COREBOARD_LEDTEXT_DATA_TYPE                                          char      
 
 ////////////////////Telemetry
-//[LF, LM, LR, RF, RM, RR] (-1, 1)-> (-100%, 100%)
-#define RC_COREBOARD_DRIVESPEEDS_DATA_ID                                        3100      
-#define RC_COREBOARD_DRIVESPEEDS_DATA_COUNT                                     6         
-#define RC_COREBOARD_DRIVESPEEDS_DATA_TYPE                                      float     
+//[FL, ML, BL, FR, MR, BR] (-1, 1)-> (-100%, 100%)
+#define RC_COREBOARD_MOTORSPEEDS_DATA_ID                                        3100      
+#define RC_COREBOARD_MOTORSPEEDS_DATA_COUNT                                     6         
+#define RC_COREBOARD_MOTORSPEEDS_DATA_TYPE                                      float     
+
+//[FL, ML, BL, FR, MR, BR] Motor current draw
+#define RC_COREBOARD_MOTORCURRENTS_DATA_ID                                      3101      
+#define RC_COREBOARD_MOTORCURRENTS_DATA_COUNT                                   6         
+#define RC_COREBOARD_MOTORCURRENTS_DATA_TYPE                                    float     
+
+//[FL, ML, BL, FR, MR, BR] VESC (battery side) current draw
+#define RC_COREBOARD_VESCCURRENTS_DATA_ID                                       3102      
+#define RC_COREBOARD_VESCCURRENTS_DATA_COUNT                                    6         
+#define RC_COREBOARD_VESCCURRENTS_DATA_TYPE                                     float     
 
 //[Roll, Pitch, Yaw] degrees
-#define RC_COREBOARD_IMUDATA_DATA_ID                                            3101      
+#define RC_COREBOARD_IMUDATA_DATA_ID                                            3103      
 #define RC_COREBOARD_IMUDATA_DATA_COUNT                                         3         
 #define RC_COREBOARD_IMUDATA_DATA_TYPE                                          float     
 
 //[xAxis, yAxis, zAxis] Accel in m/s^2
-#define RC_COREBOARD_ACCELEROMETERDATA_DATA_ID                                  3102      
+#define RC_COREBOARD_ACCELEROMETERDATA_DATA_ID                                  3104      
 #define RC_COREBOARD_ACCELEROMETERDATA_DATA_COUNT                               3         
 #define RC_COREBOARD_ACCELEROMETERDATA_DATA_TYPE                                float     
 
+////////////////////Error
+//[MotorID, FaultCode]
+#define RC_COREBOARD_VESCFAULT_DATA_ID                                          3200      
+#define RC_COREBOARD_VESCFAULT_DATA_COUNT                                       2         
+#define RC_COREBOARD_VESCFAULT_DATA_TYPE                                        uint8_t   
+
 ////////////////////Enums
+enum COREBOARD_MOTORS {FRONT_LEFT,MIDDLE_LEFT,BACK_LEFT,FRONT_RIGHT,MIDDLE_RIGHT,BACK_RIGHT}; 
 enum COREBOARD_DISPLAYSTATE {TELEOP,AUTONOMY,REACHED_GOAL}; 
 enum COREBOARD_PATTERNS {MRDT,BELGIUM,MERICA,DIRT,DOTA,MCD,WINDOWS}; 
+enum COREBOARD_VESCFAULTCODE {FAULT_CODE_NONE,FAULT_CODE_OVER_VOLTAGE,FAULT_CODE_UNDER_VOLTAGE,FAULT_CODE_DRV,FAULT_CODE_ABS_OVER_CURRENT,FAULT_CODE_OVER_TEMP_FET,FAULT_CODE_OVER_TEMP_MOTOR,FAULT_CODE_GATE_DRIVER_OVER_VOLTAGE,FAULT_CODE_GATE_DRIVER_UNDER_VOLTAGE,FAULT_CODE_MCU_UNDER_VOLTAGE,FAULT_CODE_BOOTING_FROM_WATCHDOG_RESET,FAULT_CODE_ENCODER_SPI,FAULT_CODE_ENCODER_SINCOS_BELOW_MIN_AMPLITUDE,FAULT_CODE_ENCODER_SINCOS_ABOVE_MAX_AMPLITUDE,FAULT_CODE_FLASH_CORRUPTION,FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_1,FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_2,FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_3,FAULT_CODE_UNBALANCED_CURRENTS,FAULT_CODE_BRK,FAULT_CODE_RESOLVER_LOT,FAULT_CODE_RESOLVER_DOS,FAULT_CODE_RESOLVER_LOS,FAULT_CODE_FLASH_CORRUPTION_APP_CFG,FAULT_CODE_FLASH_CORRUPTION_MC_CFG,FAULT_CODE_ENCODER_NO_MAGNET,FAULT_CODE_ENCODER_MAGNET_TOO_STRONG,FAULT_CODE_PHASE_FILTER}; 
 
 
 ///////////////////////////////////////////////////
@@ -695,7 +713,7 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 ////////////////////Enums
 enum AUTONOMYBOARD_AUTONOMYSTATE {IDLE,NAVIGATING,SEARCHPATTERN,APPROACHINGMARKER,APPROACHINGOBJECT,VERIFYINGGPS,VERIFYINGMARKER,VERIFYINGOBJECT,AVOIDANCE,REVERSING,STUCK}; 
 enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,NOTICE,WARNING,ERROR,CRITICAL}; 
-enum AUTONOMYBOARD_AUTONOMYTHREADS {NOTSET,MAINPROCESS,MAINCAM,LEFTCAM,RIGHTCAM,GROUNDCAM,MAINDETECTOR,LEFTDETECTOR,RIGHTDETECTOR,STATEMACHINE,ROVECOMMUDP,ROVECOMMTCP}; 
+enum AUTONOMYBOARD_AUTONOMYTHREADS {MAINPROCESS,MAINCAM,LEFTCAM,RIGHTCAM,GROUNDCAM,MAINDETECTOR,LEFTDETECTOR,RIGHTDETECTOR,STATEMACHINE,ROVECOMMUDP,ROVECOMMTCP}; 
 
 
 ///////////////////////////////////////////////////
@@ -889,11 +907,6 @@ enum AUTONOMYBOARD_AUTONOMYTHREADS {NOTSET,MAINPROCESS,MAINCAM,LEFTCAM,RIGHTCAM,
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_ID                               16007     
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_COUNT                            1         
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_TYPE                             uint32_t  
-
-//[Pan, Tilt](degrees -180-180)
-#define RC_RAMANBOARD_RAMANGIMBALINCREMENT_DATA_ID                              16008     
-#define RC_RAMANBOARD_RAMANGIMBALINCREMENT_DATA_COUNT                           2         
-#define RC_RAMANBOARD_RAMANGIMBALINCREMENT_DATA_TYPE                            int16_t   
 
 ////////////////////Telemetry
 //[InstrumentsAxis] (in)
