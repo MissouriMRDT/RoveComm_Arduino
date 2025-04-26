@@ -669,7 +669,7 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_COUNT                              1         
 #define RC_AUTONOMYBOARD_CLEARWAYPOINTS_DATA_TYPE                               uint8_t   
 
-//A multiplier from 0.0 to 1.0 that will scale the max power effort of Autonomy
+//A multiplier from 0.0 to 1.0 that will scale the max power effort of Autonomy.
 #define RC_AUTONOMYBOARD_SETMAXSPEED_DATA_ID                                    11006     
 #define RC_AUTONOMYBOARD_SETMAXSPEED_DATA_COUNT                                 1         
 #define RC_AUTONOMYBOARD_SETMAXSPEED_DATA_TYPE                                  float     
@@ -713,7 +713,7 @@ enum ARMBOARD_JOINTS {X,J2,J3,J4,PITCH,ROLL};
 ////////////////////Enums
 enum AUTONOMYBOARD_AUTONOMYSTATE {IDLE,NAVIGATING,SEARCHPATTERN,APPROACHINGMARKER,APPROACHINGOBJECT,VERIFYINGGPS,VERIFYINGMARKER,VERIFYINGOBJECT,AVOIDANCE,REVERSING,STUCK}; 
 enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,NOTICE,WARNING,ERROR,CRITICAL}; 
-enum AUTONOMYBOARD_AUTONOMYTHREADS {MAINPROCESS,MAINCAM,LEFTCAM,RIGHTCAM,GROUNDCAM,MAINDETECTOR,LEFTDETECTOR,RIGHTDETECTOR,STATEMACHINE,ROVECOMMUDP,ROVECOMMTCP}; 
+enum AUTONOMYBOARD_AUTONOMYTHREADS {NOTSET,MAINPROCESS,MAINCAM,GROUNDCAM,MAINDETECTOR,GROUNDDETECTOR,STATEMACHINE,ROVECOMMUDP,ROVECOMMTCP}; 
 
 
 ///////////////////////////////////////////////////
@@ -721,36 +721,31 @@ enum AUTONOMYBOARD_AUTONOMYTHREADS {MAINPROCESS,MAINCAM,LEFTCAM,RIGHTCAM,GROUNDC
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//Change which camera a feed is looking at. [0] is the feed, [1] is the camera to view.
-#define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_ID                                   12000     
-#define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_COUNT                                2         
-#define RC_CAMERA1BOARD_CHANGECAMERAS_DATA_TYPE                                 uint8_t   
-
 //Take a picture with the current camera. [0] is the camera to take a picture with. [1] tells the camera whether to restart the stream afterwards.
-#define RC_CAMERA1BOARD_TAKEPICTURE_DATA_ID                                     12001     
+#define RC_CAMERA1BOARD_TAKEPICTURE_DATA_ID                                     12000     
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_COUNT                                  2         
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
 //Stop the current camera stream. [0] is the camera to stop streaming. [1] is whether to restart the stream.
-#define RC_CAMERA1BOARD_TOGGLESTREAM1_DATA_ID                                   12002     
-#define RC_CAMERA1BOARD_TOGGLESTREAM1_DATA_COUNT                                2         
-#define RC_CAMERA1BOARD_TOGGLESTREAM1_DATA_TYPE                                 uint8_t   
+#define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_ID                                    12001     
+#define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_COUNT                                 2         
+#define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_TYPE                                  uint8_t   
 
 ////////////////////Telemetry
-//Bitmask values for which cameras are able to stream. LSB is Camera 0, MSB is Camera 7.
+//Number of detected cameras.
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_ID                                12100     
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
 
-//Which cameras the system is currently streaming on each port
+//Number of streaming cameras.
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_ID                                12101     
-#define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_COUNT                             4         
+#define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_TYPE                              uint8_t   
 
 //Picture has been taken.
-#define RC_CAMERA1BOARD_PICTURETAKEN1_DATA_ID                                   12102     
-#define RC_CAMERA1BOARD_PICTURETAKEN1_DATA_COUNT                                1         
-#define RC_CAMERA1BOARD_PICTURETAKEN1_DATA_TYPE                                 uint8_t   
+#define RC_CAMERA1BOARD_PICTURETAKEN_DATA_ID                                    12102     
+#define RC_CAMERA1BOARD_PICTURETAKEN_DATA_COUNT                                 1         
+#define RC_CAMERA1BOARD_PICTURETAKEN_DATA_TYPE                                  uint8_t   
 
 ////////////////////Error
 //Camera has errored and stopped streaming. [0] is ID of camera as an integer (not bitmask).
@@ -766,20 +761,30 @@ enum AUTONOMYBOARD_AUTONOMYTHREADS {MAINPROCESS,MAINCAM,LEFTCAM,RIGHTCAM,GROUNDC
 
 ////////////////////Commands
 //Take a picture with the current camera. [0] is the camera to take a picture with. [1] tells the camera whether to restart the stream afterwards.
-#define RC_CAMERA2BOARD_TAKEPICTURE_DATA_ID                                     13001     
+#define RC_CAMERA2BOARD_TAKEPICTURE_DATA_ID                                     13000     
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_COUNT                                  2         
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
 //Stop the current camera stream. [0] is the camera to stop streaming. [1] is whether to restart the stream.
-#define RC_CAMERA2BOARD_TOGGLESTREAM2_DATA_ID                                   13002     
-#define RC_CAMERA2BOARD_TOGGLESTREAM2_DATA_COUNT                                2         
-#define RC_CAMERA2BOARD_TOGGLESTREAM2_DATA_TYPE                                 uint8_t   
+#define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_ID                                    13001     
+#define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_COUNT                                 2         
+#define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_TYPE                                  uint8_t   
 
 ////////////////////Telemetry
+//Number of detected cameras.
+#define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_ID                                13100     
+#define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
+#define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
+
+//Number of streaming cameras.
+#define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_ID                                13101     
+#define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_COUNT                             1         
+#define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_TYPE                              uint8_t   
+
 //Picture has been taken.
-#define RC_CAMERA2BOARD_PICTURETAKEN2_DATA_ID                                   13100     
-#define RC_CAMERA2BOARD_PICTURETAKEN2_DATA_COUNT                                1         
-#define RC_CAMERA2BOARD_PICTURETAKEN2_DATA_TYPE                                 uint8_t   
+#define RC_CAMERA2BOARD_PICTURETAKEN_DATA_ID                                    13102     
+#define RC_CAMERA2BOARD_PICTURETAKEN_DATA_COUNT                                 1         
+#define RC_CAMERA2BOARD_PICTURETAKEN_DATA_TYPE                                  uint8_t   
 
 
 
@@ -907,6 +912,11 @@ enum AUTONOMYBOARD_AUTONOMYTHREADS {MAINPROCESS,MAINCAM,LEFTCAM,RIGHTCAM,GROUNDC
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_ID                               16007     
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_COUNT                            1         
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_TYPE                             uint32_t  
+
+//[Pan, Tilt](degrees -180-180)
+#define RC_RAMANBOARD_RAMANGIMBALINCREMENT_DATA_ID                              16008     
+#define RC_RAMANBOARD_RAMANGIMBALINCREMENT_DATA_COUNT                           2         
+#define RC_RAMANBOARD_RAMANGIMBALINCREMENT_DATA_TYPE                            int16_t   
 
 ////////////////////Telemetry
 //[InstrumentsAxis] (in)
