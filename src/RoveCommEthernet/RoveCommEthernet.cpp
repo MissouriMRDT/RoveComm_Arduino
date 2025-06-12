@@ -41,6 +41,7 @@ void RoveCommEthernet::begin(const IPAddress ip, uint8_t *mac, const uint16_t ud
     // initializing the TCP server with the correct port
     TCP.begin(tcpPort);
 }
+
 void RoveCommEthernet::begin(const IPAddress ip, const uint16_t udpPort, const uint16_t tcpPort) {
     uint8_t mac[6] = {
         (uint8_t)RC_ROVECOMM_SUBNET_MAC_FIRST_BYTE,
