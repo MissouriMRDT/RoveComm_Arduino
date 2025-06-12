@@ -96,5 +96,5 @@ Examples of how to implement RoveComm on the Tiva C Microcontroller and Teensy 4
 
 ## Planned Features
 
-- WiFi compatibility (ESP32 boards only)
+- Wifi compatibility (ESP32 boards only)
 - Send data to IP/port over TCP with `writeReliableTo()`

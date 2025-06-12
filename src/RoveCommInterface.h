@@ -1,12 +1,12 @@
 #ifndef ROVECOMM_INTERFACE_H
 #define ROVECOMM_INTERFACE_H
 
-#include "../RoveCommManifest.h"
-#include "../RoveCommPacket.h"
+#include "RoveCommManifest.h"
+#include "RoveCommPacket.h"
 
 /**
  * @brief An interface used internally by RoveComm to share boilerplate between
- * RoveCommEthernet, RoveCommWiFi, etc
+ * RoveCommEthernet, RoveCommWifi, etc
  * 
  */
 class RoveCommInterface {

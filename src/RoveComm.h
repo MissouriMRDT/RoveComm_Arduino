@@ -3,6 +3,7 @@
 
 #include "Platform.h"
 #include "RoveCommManifest.h"
-#include "RoveCommEthernet/RoveCommEthernet.h"
+#include "Ethernet/RoveCommEthernet.h"
+// #include "Wifi/RoveCommWifiUDP.h"
 
 #endif // ROVECOMM_H
