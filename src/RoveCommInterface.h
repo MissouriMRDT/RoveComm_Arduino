@@ -10,6 +10,7 @@
  * 
  */
 class RoveCommInterface {
+public:
     /**
      * @brief Send data to all subscribers via UDP. Overloaded for each data type.
      * 
