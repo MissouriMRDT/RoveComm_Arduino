@@ -359,93 +359,108 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//[X, J2, J3, J4, P, R] (-32768 - 32767) -> (-100% - 100%)
+//[X, J2, J3, J4, J5, J6] (-32768 - 32767) -> (-100% - 100%)
 #define RC_ARMBOARD_OPENLOOP_DATA_ID                                            8000      
 #define RC_ARMBOARD_OPENLOOP_DATA_COUNT                                         6         
 #define RC_ARMBOARD_OPENLOOP_DATA_TYPE                                          int16_t   
 
-//[X, J2, J3, J4, P, R] (in, deg, deg, deg, deg, deg)
+//[X, J2, J3, J4, J5, J6] (in, deg, deg, deg, deg, deg)
 #define RC_ARMBOARD_TARGETANGLE_DATA_ID                                         8001      
 #define RC_ARMBOARD_TARGETANGLE_DATA_COUNT                                      6         
 #define RC_ARMBOARD_TARGETANGLE_DATA_TYPE                                       float     
 
+//[X, J2, J3, J4, J5, J6] (in, deg, deg, deg, deg, deg)
+#define RC_ARMBOARD_TARGETANGLEINCREMENT_DATA_ID                                8002      
+#define RC_ARMBOARD_TARGETANGLEINCREMENT_DATA_COUNT                             6         
+#define RC_ARMBOARD_TARGETANGLEINCREMENT_DATA_TYPE                              float     
+
 //[Gripper] (-32768 - 32767) -> (-100% - 100%)
-#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_ID                                     8002      
+#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_ID                                     8003      
 #define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_COUNT                                  1         
 #define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_TYPE                                   int16_t   
 
-//[X, Y, Z, J4, P, R] (in, in, in, deg, deg, deg)
-#define RC_ARMBOARD_IKPOSITION_DATA_ID                                          8003      
+//[X, Y, Z, J4, J5, J6] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_IKPOSITION_DATA_ID                                          8004      
 #define RC_ARMBOARD_IKPOSITION_DATA_COUNT                                       6         
 #define RC_ARMBOARD_IKPOSITION_DATA_TYPE                                        float     
 
+//[X, Y, Z, J4, J5, J6] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_ID                                 8005      
+#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_COUNT                              6         
+#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_TYPE                               float     
+
+//[TX, TY, TZ, RX, RY, RZ] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_ID                                     8006      
+#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_COUNT                                  6         
+#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_TYPE                                   float     
+
 //[Enabled]
-#define RC_ARMBOARD_LASER_DATA_ID                                               8004      
+#define RC_ARMBOARD_LASER_DATA_ID                                               8007      
 #define RC_ARMBOARD_LASER_DATA_COUNT                                            1         
 #define RC_ARMBOARD_LASER_DATA_TYPE                                             uint8_t   
 
 //[Position] (0 - 180)
-#define RC_ARMBOARD_LINEARSERVO_DATA_ID                                         8005      
+#define RC_ARMBOARD_LINEARSERVO_DATA_ID                                         8008      
 #define RC_ARMBOARD_LINEARSERVO_DATA_COUNT                                      1         
 #define RC_ARMBOARD_LINEARSERVO_DATA_TYPE                                       uint8_t   
 
 //[Position] (0 - 180)
-#define RC_ARMBOARD_CACHE_DATA_ID                                               8006      
+#define RC_ARMBOARD_CACHE_DATA_ID                                               8009      
 #define RC_ARMBOARD_CACHE_DATA_COUNT                                            1         
 #define RC_ARMBOARD_CACHE_DATA_TYPE                                             uint8_t   
 
 //[Enabled]
-#define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_ID                                    8007      
+#define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_ID                                    8010      
 #define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_COUNT                                 1         
 #define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                  uint8_t   
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask override enabled)
-#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_ID                                 8008      
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask override enabled)
+#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_ID                                 8011      
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                              1         
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                               uint16_t  
 
-//[X, J2, J3, J4, P, R] (bitmask override enabled)
-#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_ID                                  8009      
+//[X, J2, J3, J4, J5, J6] (bitmask override enabled)
+#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_ID                                  8012      
 #define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_COUNT                               1         
 #define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_TYPE                                uint8_t   
 
 //[X, Roll] (bitmask start calibration)
-#define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                                    8010      
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                                    8013      
 #define RC_ARMBOARD_CALIBRATEENCODER_DATA_COUNT                                 1         
 #define RC_ARMBOARD_CALIBRATEENCODER_DATA_TYPE                                  uint8_t   
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask override enabled)
-#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_ID                                   8011      
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask override enabled)
+#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_ID                                   8014      
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_COUNT                                1         
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_TYPE                                 uint16_t  
 
 //[Pan, Tilt] (0 - 180)
-#define RC_ARMBOARD_ARMGIMBAL1_DATA_ID                                          8012      
+#define RC_ARMBOARD_ARMGIMBAL1_DATA_ID                                          8015      
 #define RC_ARMBOARD_ARMGIMBAL1_DATA_COUNT                                       2         
 #define RC_ARMBOARD_ARMGIMBAL1_DATA_TYPE                                        int16_t   
 
 //[Pan, Tilt] (0 - 180)
-#define RC_ARMBOARD_ARMGIMBAL2_DATA_ID                                          8013      
+#define RC_ARMBOARD_ARMGIMBAL2_DATA_ID                                          8016      
 #define RC_ARMBOARD_ARMGIMBAL2_DATA_COUNT                                       2         
 #define RC_ARMBOARD_ARMGIMBAL2_DATA_TYPE                                        int16_t   
 
 ////////////////////Telemetry
-//[X, J2, J3, J4, P, R, Y, Z] (in, deg, deg, deg, deg, deg, in, in)
+//[X, J2, J3, J4, J5, J6, GX, GY, GZ] (in, deg, deg, deg, deg, deg, in, in, in)
 #define RC_ARMBOARD_POSITION_DATA_ID                                            8100      
-#define RC_ARMBOARD_POSITION_DATA_COUNT                                         8         
+#define RC_ARMBOARD_POSITION_DATA_COUNT                                         9         
 #define RC_ARMBOARD_POSITION_DATA_TYPE                                          float     
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask depressed)
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask depressed)
 #define RC_ARMBOARD_LIMITSWITCH_DATA_ID                                         8101      
 #define RC_ARMBOARD_LIMITSWITCH_DATA_COUNT                                      1         
 #define RC_ARMBOARD_LIMITSWITCH_DATA_TYPE                                       uint16_t  
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask triggered)
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask triggered)
 #define RC_ARMBOARD_SOFTLIMIT_DATA_ID                                           8102      
 #define RC_ARMBOARD_SOFTLIMIT_DATA_COUNT                                        1         
 #define RC_ARMBOARD_SOFTLIMIT_DATA_TYPE                                         uint16_t  
 
-//[X, J2, J3, J4, P, R, G] (ping time ms)
+//[X, J2, J3, J4, J5, J6, G] (ping time ms)
 #define RC_ARMBOARD_SMOCOPING_DATA_ID                                           8103      
 #define RC_ARMBOARD_SMOCOPING_DATA_COUNT                                        7         
 #define RC_ARMBOARD_SMOCOPING_DATA_TYPE                                         uint16_t  
