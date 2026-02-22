@@ -6,6 +6,10 @@
 // RoveCommEthernet RoveComm;
 
 void RoveCommEthernet::begin(const IPAddress ip, uint8_t *mac, const uint16_t udpPort, const uint16_t tcpPort) {
+#if ROVECOMM_PI_PICO
+    Ethernet.init(17); // Specify CS pin of W5500 chip
+#endif
+
 #if ROVECOMM_TIVA
     // Set up Ethernet
     Ethernet.enableActivityLed();
@@ -23,11 +27,8 @@ void RoveCommEthernet::begin(const IPAddress ip, uint8_t *mac, const uint16_t ud
 #endif
     // Set IP of this board
     Ethernet.setLocalIP(ip);
-    // Assume the DNS server will be the machine on the same network as the local IP
-    // but with last octet being '1'
-    IPAddress dns = ip;
-    dns[3] = 1;
-    Ethernet.setDnsServerIP(ip);
+    Ethernet.setDnsServerIP({0, 0, 0, 0});
+    Ethernet.setSubnetMask({255, 255, 255, 0});
     // Assume the gateway will be the machine on the same network as the local IP
     // but with last octet being '1'
     IPAddress gateway = ip;
@@ -58,7 +59,7 @@ bool RoveCommEthernet::read(RoveCommPacket &dest) {
     dest.dataId = RC_ROVECOMM_NO_DATA_DATA_ID;
     dest.dataCount = 0;
 
-#if ROVECOMM_TEENSY
+#if ROVECOMM_TEENSY || ROVECOMM_PI_PICO
     // Teensy implementation is set to not block on startup
     if (Ethernet.linkStatus() != EthernetLinkStatus::LinkON) {
         return false;
