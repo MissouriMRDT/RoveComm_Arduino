@@ -9,6 +9,8 @@
 #include <EthernetUdp.h>
 #elif ROVECOMM_TEENSY
 #include <NativeEthernet.h>
+#else
+#include <EthernetUdp.h>
 #endif
 
 #include "../RoveCommManifest.h"

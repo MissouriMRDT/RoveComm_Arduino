@@ -11,7 +11,7 @@
 #define ROVECOMM_ESP32 1
 
 #else
-#error "Warning: RoveComm may not be supported on this platform!"
+#warning "Warning: RoveComm may not be supported on this platform!"
 
 #endif // Platform
 

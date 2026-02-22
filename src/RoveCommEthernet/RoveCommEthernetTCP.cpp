@@ -4,8 +4,10 @@
 
 #if ROVECOMM_TIVA
 EthernetServer RoveCommEthernetTCP::_TCPServer(RC_ROVECOMM_ETHERNET_TCP_PORT); // will overwrite in begin(port)
-#else
+#elif ROVECOMM_TEENSY
 EthernetServer RoveCommEthernetTCP::_TCPServer;
+#else
+EthernetServer RoveCommEthernetTCP::_TCPServer(RC_ROVECOMM_ETHERNET_TCP_PORT); // will overwrite in begin(port)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

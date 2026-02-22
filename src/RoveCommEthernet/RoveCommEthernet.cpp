@@ -1,9 +1,4 @@
 #include "Platform.h"
-#if ROVECOMM_TIVA
-#include <Ethernet.h>
-#elif ROVECOMM_TEENSY
-#include <NativeEthernet.h>
-#endif
 
 #include "RoveCommEthernet.h"
 
@@ -16,12 +11,16 @@ void RoveCommEthernet::begin(const IPAddress ip, uint8_t *mac, const uint16_t ud
     Ethernet.enableActivityLed();
     Ethernet.enableLinkLed();
     Ethernet.begin(mac, ip);
-#elif ROVECOMM_TEENSY
+#else
+#if ROVECOMM_TEENSY
     // We can't use Ethernet.begin(mac, IP); because it is blocking in the Teensy implementation
     // To get around this, we use Ethernet.begin(mac, 0, 0) which does the same thing as the other one
     // but tries to get an IP automatically over DHCP. By setting the timeouts to be 0, we cut it off early.
     // The annoying part is that we have to set the IP, gateway, dns, and subnet mask manually.
     Ethernet.begin(mac, 0, 0);
+#else
+    Ethernet.begin(mac, ip);
+#endif
     // Set IP of this board
     Ethernet.setLocalIP(ip);
     // Assume the DNS server will be the machine on the same network as the local IP
