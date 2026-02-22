@@ -111,37 +111,37 @@
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//[LeftSpeed, RightSpeed] (-1 - 1)-> (-100% - 100%)
+//[LeftSpeed, RightSpeed] (-1 - 1) -> (-100% - 100%)
 #define RC_COREBOARD_DRIVELEFTRIGHT_DATA_ID                                     3000      
 #define RC_COREBOARD_DRIVELEFTRIGHT_DATA_COUNT                                  2         
 #define RC_COREBOARD_DRIVELEFTRIGHT_DATA_TYPE                                   float     
 
-//[LF, LM, LR, RF, RM, RR] (-1 - 1)-> (-100% - 100%)
+//[LF, LM, LR, RF, RM, RR] (-1 - 1) -> (-100% - 100%)
 #define RC_COREBOARD_DRIVEINDIVIDUAL_DATA_ID                                    3001      
 #define RC_COREBOARD_DRIVEINDIVIDUAL_DATA_COUNT                                 6         
 #define RC_COREBOARD_DRIVEINDIVIDUAL_DATA_TYPE                                  float     
 
-//[0-override off, 1-override on]
+//[Enabled]
 #define RC_COREBOARD_WATCHDOGOVERRIDE_DATA_ID                                   3002      
 #define RC_COREBOARD_WATCHDOGOVERRIDE_DATA_COUNT                                1         
 #define RC_COREBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                 uint8_t   
 
-//[Pan, Tilt] (-180deg - 180deg)
+//[Pan, Tilt] (0 - 180)
 #define RC_COREBOARD_LEFTGIMBAL_DATA_ID                                         3003      
 #define RC_COREBOARD_LEFTGIMBAL_DATA_COUNT                                      2         
 #define RC_COREBOARD_LEFTGIMBAL_DATA_TYPE                                       int16_t   
 
-//[Pan, Tilt] (-180deg - 180deg)
+//[Pan, Tilt] (0 - 180)
 #define RC_COREBOARD_RIGHTGIMBAL_DATA_ID                                        3004      
 #define RC_COREBOARD_RIGHTGIMBAL_DATA_COUNT                                     2         
 #define RC_COREBOARD_RIGHTGIMBAL_DATA_TYPE                                      int16_t   
 
-//[Pan, Tilt] (-180deg - 180deg)
+//[Pan, Tilt] (0 - 180)
 #define RC_COREBOARD_BACKGIMBAL_DATA_ID                                         3005      
 #define RC_COREBOARD_BACKGIMBAL_DATA_COUNT                                      2         
 #define RC_COREBOARD_BACKGIMBAL_DATA_TYPE                                       int16_t   
 
-//[R, G, B] (Brightness 0 - 255)
+//[R, G, B] (brightness 0 - 255)
 #define RC_COREBOARD_LEDRGB_DATA_ID                                             3006      
 #define RC_COREBOARD_LEDRGB_DATA_COUNT                                          3         
 #define RC_COREBOARD_LEDRGB_DATA_TYPE                                           uint8_t   
@@ -151,7 +151,7 @@
 #define RC_COREBOARD_BACKIMAGE_DATA_COUNT                                       256       
 #define RC_COREBOARD_BACKIMAGE_DATA_TYPE                                        uint32_t  
 
-//[R, G, B] (Brightness 0 - 255)
+//[R, G, B] (brightness 0 - 255)
 #define RC_COREBOARD_INTERNALRGB_DATA_ID                                        3008      
 #define RC_COREBOARD_INTERNALRGB_DATA_COUNT                                     3         
 #define RC_COREBOARD_INTERNALRGB_DATA_TYPE                                      uint8_t   
@@ -171,18 +171,18 @@
 #define RC_COREBOARD_BRIGHTNESS_DATA_COUNT                                      1         
 #define RC_COREBOARD_BRIGHTNESS_DATA_TYPE                                       uint8_t   
 
-//[Mode] (0: Teleop, 1: Autonomy)
+//[Mode] (0: Teleop 1: Autonomy)
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_ID                                    3012      
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_COUNT                                 1         
 #define RC_COREBOARD_SETWATCHDOGMODE_DATA_TYPE                                  uint8_t   
 
-//[Message] (Null terminated string)
+//[Message] (null terminated string)
 #define RC_COREBOARD_LEDTEXT_DATA_ID                                            3013      
 #define RC_COREBOARD_LEDTEXT_DATA_COUNT                                         256       
 #define RC_COREBOARD_LEDTEXT_DATA_TYPE                                          char      
 
 ////////////////////Telemetry
-//[FL, ML, BL, FR, MR, BR] (-1, 1)-> (-100%, 100%)
+//[FL, ML, BL, FR, MR, BR] (-1 - 1) -> (-100% - 100%)
 #define RC_COREBOARD_MOTORSPEEDS_DATA_ID                                        3100      
 #define RC_COREBOARD_MOTORSPEEDS_DATA_COUNT                                     6         
 #define RC_COREBOARD_MOTORSPEEDS_DATA_TYPE                                      float     
@@ -192,7 +192,7 @@
 #define RC_COREBOARD_MOTORCURRENTS_DATA_COUNT                                   6         
 #define RC_COREBOARD_MOTORCURRENTS_DATA_TYPE                                    float     
 
-//[FL, ML, BL, FR, MR, BR] (A Battery side)
+//[FL, ML, BL, FR, MR, BR] (A battery side)
 #define RC_COREBOARD_VESCCURRENTS_DATA_ID                                       3102      
 #define RC_COREBOARD_VESCCURRENTS_DATA_COUNT                                    6         
 #define RC_COREBOARD_VESCCURRENTS_DATA_TYPE                                     float     
@@ -206,6 +206,11 @@
 #define RC_COREBOARD_ACCELEROMETERDATA_DATA_ID                                  3104      
 #define RC_COREBOARD_ACCELEROMETERDATA_DATA_COUNT                               3         
 #define RC_COREBOARD_ACCELEROMETERDATA_DATA_TYPE                                float     
+
+//[FanSpeed, BoardTemperature, OtherTemperature] (rpm, C, C)
+#define RC_COREBOARD_THERMAL_DATA_ID                                            3105      
+#define RC_COREBOARD_THERMAL_DATA_COUNT                                         3         
+#define RC_COREBOARD_THERMAL_DATA_TYPE                                          float     
 
 ////////////////////Error
 //[MotorID, FaultCode]
@@ -239,17 +244,17 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_PMSBOARD_REBOOT_DATA_COUNT                                           0         
 #define RC_PMSBOARD_REBOOT_DATA_TYPE                                            uint8_t   
 
-//[Motor, Core, Aux] (bitmasked enable)
+//[Motor, Core, Aux] (bitmask enable)
 #define RC_PMSBOARD_ENABLEBUS_DATA_ID                                           4003      
 #define RC_PMSBOARD_ENABLEBUS_DATA_COUNT                                        1         
 #define RC_PMSBOARD_ENABLEBUS_DATA_TYPE                                         uint8_t   
 
-//[Motor, Core, Aux] (bitmasked disable)
+//[Motor, Core, Aux] (bitmask disable)
 #define RC_PMSBOARD_DISABLEBUS_DATA_ID                                          4004      
 #define RC_PMSBOARD_DISABLEBUS_DATA_COUNT                                       1         
 #define RC_PMSBOARD_DISABLEBUS_DATA_TYPE                                        uint8_t   
 
-//[Motor, Core, Aux] (bitmasked enabled)
+//[Motor, Core, Aux] (bitmask enabled)
 #define RC_PMSBOARD_SETBUS_DATA_ID                                              4005      
 #define RC_PMSBOARD_SETBUS_DATA_COUNT                                           1         
 #define RC_PMSBOARD_SETBUS_DATA_TYPE                                            uint8_t   
@@ -260,7 +265,7 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_PMSBOARD_CURRENTANDVOLTAGE_DATA_COUNT                                12        
 #define RC_PMSBOARD_CURRENTANDVOLTAGE_DATA_TYPE                                 float     
 
-//[Motor, Core, Aux, RadioM2, RadioM9, Network] (bitmasked) [1-Enabled, 0-Disabled]
+//[Motor, Core, Aux, RadioM2, RadioM9, Network] (bitmask enabled)
 #define RC_PMSBOARD_BUSSTATUS_DATA_ID                                           4101      
 #define RC_PMSBOARD_BUSSTATUS_DATA_COUNT                                        1         
 #define RC_PMSBOARD_BUSSTATUS_DATA_TYPE                                         uint8_t   
@@ -271,12 +276,12 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_PMSBOARD_PACKOVERCURRENT_DATA_COUNT                                  0         
 #define RC_PMSBOARD_PACKOVERCURRENT_DATA_TYPE                                   uint8_t   
 
-//[C1, C2, C3, C4, C5, C6] (bitmasked undervolt). Rover will EStop automatically
+//[C1, C2, C3, C4, C5, C6] (bitmask undervolt) Rover will EStop automatically
 #define RC_PMSBOARD_CELLUNDERVOLTAGE_DATA_ID                                    4201      
 #define RC_PMSBOARD_CELLUNDERVOLTAGE_DATA_COUNT                                 1         
 #define RC_PMSBOARD_CELLUNDERVOLTAGE_DATA_TYPE                                  uint8_t   
 
-//[C1, C2, C3, C4, C5, C6] (bitmasked critical). Rover will Suicide automatically
+//[C1, C2, C3, C4, C5, C6] (bitmask critical) Rover will Suicide automatically
 #define RC_PMSBOARD_CELLCRITICAL_DATA_ID                                        4202      
 #define RC_PMSBOARD_CELLCRITICAL_DATA_COUNT                                     1         
 #define RC_PMSBOARD_CELLCRITICAL_DATA_TYPE                                      uint8_t   
@@ -293,17 +298,17 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 ///////////////////////////////////////////////////
 
 ////////////////////Telemetry
-//[Lat, Long, Alt, horizontal_accur, vertical_accur, heading_accur, fix_type, is_differential] [degrees, degrees, meters, meters, meters, degrees, ublox_navpvt fix type (http://docs.ros.org/en/noetic/api/ublox_msgs/html/msg/NavPVT.html), boolean]]
+//[Lat, Lon, Alt, HorizontalAccuracy, VerticalAccuracy, HeadingAccuracy, FixType, IsDifferential] (deg, deg, m, m, m, deg, ublox_navpvt fix type http://docs.ros.org/en/noetic/api/ublox_msgs/html/msg/NavPVT.html, bool)
 #define RC_NAVBOARD_GPSLATLONALT_DATA_ID                                        6100      
 #define RC_NAVBOARD_GPSLATLONALT_DATA_COUNT                                     8         
 #define RC_NAVBOARD_GPSLATLONALT_DATA_TYPE                                      double    
 
-//[Heading] [ 0, 360 ]
+//[Heading] (0 - 360)
 #define RC_NAVBOARD_COMPASSDATA_DATA_ID                                         6102      
 #define RC_NAVBOARD_COMPASSDATA_DATA_COUNT                                      1         
 #define RC_NAVBOARD_COMPASSDATA_DATA_TYPE                                       float     
 
-//[Number of satellites]
+//[Satellites]
 #define RC_NAVBOARD_SATELLITECOUNTDATA_DATA_ID                                  6103      
 #define RC_NAVBOARD_SATELLITECOUNTDATA_DATA_COUNT                               1         
 #define RC_NAVBOARD_SATELLITECOUNTDATA_DATA_TYPE                                uint8_t   
@@ -311,7 +316,7 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 ////////////////////Error
 //
 #define RC_NAVBOARD_GPSLOCKERROR_DATA_ID                                        6200      
-#define RC_NAVBOARD_GPSLOCKERROR_DATA_COUNT                                     1         
+#define RC_NAVBOARD_GPSLOCKERROR_DATA_COUNT                                     0         
 #define RC_NAVBOARD_GPSLOCKERROR_DATA_TYPE                                      uint8_t   
 
 
@@ -321,37 +326,31 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//Motor decipercent [-1000, 1000]
+//[Speed] (-1000 - 1000) -> (-100% - 100%)
 #define RC_SIGNALSTACKBOARD_OPENLOOP_DATA_ID                                    7000      
 #define RC_SIGNALSTACKBOARD_OPENLOOP_DATA_COUNT                                 1         
 #define RC_SIGNALSTACKBOARD_OPENLOOP_DATA_TYPE                                  int16_t   
 
-//[Heading] [0, 360)
+//[Heading] (0 - 360)
 #define RC_SIGNALSTACKBOARD_SETANGLETARGET_DATA_ID                              7001      
 #define RC_SIGNALSTACKBOARD_SETANGLETARGET_DATA_COUNT                           1         
 #define RC_SIGNALSTACKBOARD_SETANGLETARGET_DATA_TYPE                            float     
 
-//[Rover Lat, Rover Long, Basestation Lat, Basestation Long] [Lat:(-90, 90), Long:(-180, 180)] (deg)
+//[Rover Lat, Rover Lon, Basestation Lat, Basestation Lon] (-90 - 90, -180 - 180, -90 - 90, -180 - 180)
 #define RC_SIGNALSTACKBOARD_SETGPSTARGET_DATA_ID                                7002      
 #define RC_SIGNALSTACKBOARD_SETGPSTARGET_DATA_COUNT                             4         
 #define RC_SIGNALSTACKBOARD_SETGPSTARGET_DATA_TYPE                              double    
 
-//[0-override off, 1-override on]
+//[Enabled]
 #define RC_SIGNALSTACKBOARD_WATCHDOGOVERRIDE_DATA_ID                            7003      
 #define RC_SIGNALSTACKBOARD_WATCHDOGOVERRIDE_DATA_COUNT                         1         
 #define RC_SIGNALSTACKBOARD_WATCHDOGOVERRIDE_DATA_TYPE                          uint8_t   
 
 ////////////////////Telemetry
-//[Heading] [0, 360)
+//[Heading] (0 - 360)
 #define RC_SIGNALSTACKBOARD_COMPASSANGLE_DATA_ID                                7100      
 #define RC_SIGNALSTACKBOARD_COMPASSANGLE_DATA_COUNT                             1         
 #define RC_SIGNALSTACKBOARD_COMPASSANGLE_DATA_TYPE                              float     
-
-////////////////////Error
-//(1-Watchdog timeout, 0-OK)
-#define RC_SIGNALSTACKBOARD_WATCHDOGSTATUS_DATA_ID                              7200      
-#define RC_SIGNALSTACKBOARD_WATCHDOGSTATUS_DATA_COUNT                           1         
-#define RC_SIGNALSTACKBOARD_WATCHDOGSTATUS_DATA_TYPE                            uint8_t   
 
 
 
@@ -360,95 +359,110 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//[X, J2, J3, J4, P, R] (-32768 - 32767) -> (-100% - 100%)
+//[X, J2, J3, J4, J5, J6] (-32768 - 32767) -> (-100% - 100%)
 #define RC_ARMBOARD_OPENLOOP_DATA_ID                                            8000      
 #define RC_ARMBOARD_OPENLOOP_DATA_COUNT                                         6         
 #define RC_ARMBOARD_OPENLOOP_DATA_TYPE                                          int16_t   
 
-//[X, J2, J3, J4, P, R] (in, deg, deg, deg, deg, deg, deg)
+//[X, J2, J3, J4, J5, J6] (in, deg, deg, deg, deg, deg)
 #define RC_ARMBOARD_TARGETANGLE_DATA_ID                                         8001      
 #define RC_ARMBOARD_TARGETANGLE_DATA_COUNT                                      6         
 #define RC_ARMBOARD_TARGETANGLE_DATA_TYPE                                       float     
 
-//[Gripper] (-32768 - 32767) -> (-100% - 100%)
-#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_ID                                     8002      
-#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_COUNT                                  1         
-#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_TYPE                                   float     
+//[X, J2, J3, J4, J5, J6] (in, deg, deg, deg, deg, deg)
+#define RC_ARMBOARD_TARGETANGLEINCREMENT_DATA_ID                                8002      
+#define RC_ARMBOARD_TARGETANGLEINCREMENT_DATA_COUNT                             6         
+#define RC_ARMBOARD_TARGETANGLEINCREMENT_DATA_TYPE                              float     
 
-//[X, Y, Z, J4, P, R] (in, in, in, deg, deg, deg)
-#define RC_ARMBOARD_IKPOSITION_DATA_ID                                          8003      
+//[Gripper] (-32768 - 32767) -> (-100% - 100%)
+#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_ID                                     8003      
+#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_COUNT                                  1         
+#define RC_ARMBOARD_GRIPPEROPENLOOP_DATA_TYPE                                   int16_t   
+
+//[X, Y, Z, J4, J5, J6] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_IKPOSITION_DATA_ID                                          8004      
 #define RC_ARMBOARD_IKPOSITION_DATA_COUNT                                       6         
 #define RC_ARMBOARD_IKPOSITION_DATA_TYPE                                        float     
 
+//[X, Y, Z, J4, J5, J6] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_ID                                 8005      
+#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_COUNT                              6         
+#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_TYPE                               float     
+
+//[TX, TY, TZ, RX, RY, RZ] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_ID                                     8006      
+#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_COUNT                                  6         
+#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_TYPE                                   float     
+
 //[Enabled]
-#define RC_ARMBOARD_LASER_DATA_ID                                               8004      
+#define RC_ARMBOARD_LASER_DATA_ID                                               8007      
 #define RC_ARMBOARD_LASER_DATA_COUNT                                            1         
 #define RC_ARMBOARD_LASER_DATA_TYPE                                             uint8_t   
 
-//[Position] (-180 - 180)
-#define RC_ARMBOARD_LINEARSERVO_DATA_ID                                         8005      
+//[Position] (0 - 180)
+#define RC_ARMBOARD_LINEARSERVO_DATA_ID                                         8008      
 #define RC_ARMBOARD_LINEARSERVO_DATA_COUNT                                      1         
 #define RC_ARMBOARD_LINEARSERVO_DATA_TYPE                                       uint8_t   
 
-//[Position] (-180 - 180)
-#define RC_ARMBOARD_CACHE_DATA_ID                                               8006      
+//[Position] (0 - 180)
+#define RC_ARMBOARD_CACHE_DATA_ID                                               8009      
 #define RC_ARMBOARD_CACHE_DATA_COUNT                                            1         
 #define RC_ARMBOARD_CACHE_DATA_TYPE                                             uint8_t   
 
 //[Enabled]
-#define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_ID                                    8007      
+#define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_ID                                    8010      
 #define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_COUNT                                 1         
 #define RC_ARMBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                  uint8_t   
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask override enabled)
-#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_ID                                 8008      
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask override enabled)
+#define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_ID                                 8011      
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_COUNT                              1         
 #define RC_ARMBOARD_LIMITSWITCHOVERRIDE_DATA_TYPE                               uint16_t  
 
-//[X, J2, J3, J4, P, R] (bitmasked override enabled)
-#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_ID                                  8009      
+//[X, J2, J3, J4, J5, J6] (bitmask override enabled)
+#define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_ID                                  8012      
 #define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_COUNT                               1         
 #define RC_ARMBOARD_CLOSEDLOOPOVERRIDE_DATA_TYPE                                uint8_t   
 
 //[X, Roll] (bitmask start calibration)
-#define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                                    8010      
+#define RC_ARMBOARD_CALIBRATEENCODER_DATA_ID                                    8013      
 #define RC_ARMBOARD_CALIBRATEENCODER_DATA_COUNT                                 1         
 #define RC_ARMBOARD_CALIBRATEENCODER_DATA_TYPE                                  uint8_t   
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask override enabled)
-#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_ID                                   8011      
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask override enabled)
+#define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_ID                                   8014      
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_COUNT                                1         
 #define RC_ARMBOARD_SOFTLIMITOVERRIDE_DATA_TYPE                                 uint16_t  
 
-//[Pan, Tilt] (-180deg - 180deg)
-#define RC_ARMBOARD_ARMGIMBAL1_DATA_ID                                          8012      
+//[Pan, Tilt] (0 - 180)
+#define RC_ARMBOARD_ARMGIMBAL1_DATA_ID                                          8015      
 #define RC_ARMBOARD_ARMGIMBAL1_DATA_COUNT                                       2         
 #define RC_ARMBOARD_ARMGIMBAL1_DATA_TYPE                                        int16_t   
 
-//[Pan, Tilt] (-180deg - 180deg)
-#define RC_ARMBOARD_ARMGIMBAL2_DATA_ID                                          8013      
+//[Pan, Tilt] (0 - 180)
+#define RC_ARMBOARD_ARMGIMBAL2_DATA_ID                                          8016      
 #define RC_ARMBOARD_ARMGIMBAL2_DATA_COUNT                                       2         
 #define RC_ARMBOARD_ARMGIMBAL2_DATA_TYPE                                        int16_t   
 
 ////////////////////Telemetry
-//[X, J2, J3, J4, P, R, Y, Z] (in, deg, deg, deg, deg, deg, deg, deg, in, in)
+//[X, J2, J3, J4, J5, J6, GX, GY, GZ] (in, deg, deg, deg, deg, deg, in, in, in)
 #define RC_ARMBOARD_POSITION_DATA_ID                                            8100      
-#define RC_ARMBOARD_POSITION_DATA_COUNT                                         8         
+#define RC_ARMBOARD_POSITION_DATA_COUNT                                         9         
 #define RC_ARMBOARD_POSITION_DATA_TYPE                                          float     
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask depressed)
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask depressed)
 #define RC_ARMBOARD_LIMITSWITCH_DATA_ID                                         8101      
 #define RC_ARMBOARD_LIMITSWITCH_DATA_COUNT                                      1         
 #define RC_ARMBOARD_LIMITSWITCH_DATA_TYPE                                       uint16_t  
 
-//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, P+, P-] (bitmask triggered)
+//[X+, X-, J2+, J2-, J3+, J3-, J4+, J4-, J5+, J5-] (bitmask triggered)
 #define RC_ARMBOARD_SOFTLIMIT_DATA_ID                                           8102      
 #define RC_ARMBOARD_SOFTLIMIT_DATA_COUNT                                        1         
 #define RC_ARMBOARD_SOFTLIMIT_DATA_TYPE                                         uint16_t  
 
-//[X, J2, J3, J4, P, R] (Ping Time ms)
+//[X, J2, J3, J4, J5, J6, G] (ping time ms)
 #define RC_ARMBOARD_SMOCOPING_DATA_ID                                           8103      
-#define RC_ARMBOARD_SMOCOPING_DATA_COUNT                                        6         
+#define RC_ARMBOARD_SMOCOPING_DATA_COUNT                                        7         
 #define RC_ARMBOARD_SMOCOPING_DATA_TYPE                                         uint16_t  
 
 
@@ -483,17 +497,17 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_AUGERBOARD_WATCHDOGOVERRIDE_DATA_COUNT                               1         
 #define RC_AUGERBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                uint8_t   
 
-//[White, 365, 405, 500] (0 - 255) -> (Off - Full Brightness)
+//[White, 365, 405, 500] (brightness 0 - 255)
 #define RC_AUGERBOARD_LED_DATA_ID                                               9005      
 #define RC_AUGERBOARD_LED_DATA_COUNT                                            4         
 #define RC_AUGERBOARD_LED_DATA_TYPE                                             uint8_t   
 
-//[AFFilters, SoilTrapdoor] (-180deg - 180deg)
+//[AFFilters, SoilTrapdoor] (0 - 180)
 #define RC_AUGERBOARD_AUGERSERVO_DATA_ID                                        9006      
 #define RC_AUGERBOARD_AUGERSERVO_DATA_COUNT                                     2         
 #define RC_AUGERBOARD_AUGERSERVO_DATA_TYPE                                      int16_t   
 
-//[Pan, Tilt] (-180deg - 180deg)
+//[Pan, Tilt] (0 - 180)
 #define RC_AUGERBOARD_AUGERGIMBAL_DATA_ID                                       9007      
 #define RC_AUGERBOARD_AUGERGIMBAL_DATA_COUNT                                    2         
 #define RC_AUGERBOARD_AUGERGIMBAL_DATA_TYPE                                     int16_t   
@@ -514,9 +528,9 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_AUGERBOARD_LIMITSWITCH_DATA_COUNT                                    1         
 #define RC_AUGERBOARD_LIMITSWITCH_DATA_TYPE                                     uint8_t   
 
-//[Temperature, Humidity, N, P, K, pH] (degrees C, relative humidity %, ?, ?, ?, ?)
+//[Temperature, Humidity] (C, relative %)
 #define RC_AUGERBOARD_ENVIRONMENTAL_DATA_ID                                     9103      
-#define RC_AUGERBOARD_ENVIRONMENTAL_DATA_COUNT                                  6         
+#define RC_AUGERBOARD_ENVIRONMENTAL_DATA_COUNT                                  2         
 #define RC_AUGERBOARD_ENVIRONMENTAL_DATA_TYPE                                   float     
 
 //[AugerCurrent] (A)
@@ -524,7 +538,7 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_AUGERBOARD_AUGERCURRENT_DATA_COUNT                                   1         
 #define RC_AUGERBOARD_AUGERCURRENT_DATA_TYPE                                    float     
 
-//[AugerAxis Ping Time] (ms)
+//[AugerAxis] (ping time ms)
 #define RC_AUGERBOARD_SMOCOPING_DATA_ID                                         9105      
 #define RC_AUGERBOARD_SMOCOPING_DATA_COUNT                                      1         
 #define RC_AUGERBOARD_SMOCOPING_DATA_TYPE                                       uint16_t  
@@ -597,22 +611,17 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_AUTONOMYBOARD_CLEAROBSTACLES_DATA_TYPE                               uint8_t   
 
 ////////////////////Telemetry
-//Enum (AUTONOMYSTATE)
+//[State] (AUTONOMYSTATE)
 #define RC_AUTONOMYBOARD_CURRENTSTATE_DATA_ID                                   11100     
 #define RC_AUTONOMYBOARD_CURRENTSTATE_DATA_COUNT                                1         
 #define RC_AUTONOMYBOARD_CURRENTSTATE_DATA_TYPE                                 uint8_t   
 
-//[Teleop, Autonomy, Reached Goal] (enum)
+//[State] (0: Teleop 1: Autonomy 2: Reached Goal)
 #define RC_AUTONOMYBOARD_STATEDISPLAY_DATA_ID                                   11101     
 #define RC_AUTONOMYBOARD_STATEDISPLAY_DATA_COUNT                                1         
 #define RC_AUTONOMYBOARD_STATEDISPLAY_DATA_TYPE                                 uint8_t   
 
-//String version of most current error log
-#define RC_AUTONOMYBOARD_CURRENTLOG_DATA_ID                                     11102     
-#define RC_AUTONOMYBOARD_CURRENTLOG_DATA_COUNT                                  255       
-#define RC_AUTONOMYBOARD_CURRENTLOG_DATA_TYPE                                   char      
-
-//[Thread Enum ID, FPS Value]
+//[Thread, FPS] (AUTONOMYTHREADS, fps)
 #define RC_AUTONOMYBOARD_THREADFPS_DATA_ID                                      11103     
 #define RC_AUTONOMYBOARD_THREADFPS_DATA_COUNT                                   2         
 #define RC_AUTONOMYBOARD_THREADFPS_DATA_TYPE                                    uint32_t  
@@ -629,53 +638,53 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//Take a picture with the current camera. [0] is the camera to take a picture with. [1] tells the camera whether to restart the stream afterwards.
+//[Camera, Restart]
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_ID                                     12000     
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_COUNT                                  2         
 #define RC_CAMERA1BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
-//Stop the current camera stream. [0] is the camera to stop streaming. [1] is whether to restart the stream.
+//[Camera, Restart]
 #define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_ID                                    12001     
 #define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_COUNT                                 2         
 #define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_TYPE                                  uint8_t   
 
-//0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/ffmpeg_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $ip: output ip, $port: output port, $brightness, $contrast.
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/ffmpeg_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $ip: output ip, $port: output port, $brightness, $contrast)
 #define RC_CAMERA1BOARD_SETFFMPEGARGUMENTS_DATA_ID                              12002     
 #define RC_CAMERA1BOARD_SETFFMPEGARGUMENTS_DATA_COUNT                           16384     
 #define RC_CAMERA1BOARD_SETFFMPEGARGUMENTS_DATA_TYPE                            char      
 
-//0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/picture_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $output: output file without extension, $brightness, $contrast.
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/picture_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $output: output file without extension, $brightness, $contrast)
 #define RC_CAMERA1BOARD_SETPICTUREARGUMENTS_DATA_ID                             12003     
 #define RC_CAMERA1BOARD_SETPICTUREARGUMENTS_DATA_COUNT                          16384     
 #define RC_CAMERA1BOARD_SETPICTUREARGUMENTS_DATA_TYPE                           char      
 
-//Brightness for each camera (-1.0, 1.0)
+//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 1.0)
 #define RC_CAMERA1BOARD_SETBRIGHTNESS_DATA_ID                                   12004     
 #define RC_CAMERA1BOARD_SETBRIGHTNESS_DATA_COUNT                                4         
 #define RC_CAMERA1BOARD_SETBRIGHTNESS_DATA_TYPE                                 float     
 
-//Contrast for each camera (0, 2)
+//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 2.0)
 #define RC_CAMERA1BOARD_SETCONTRAST_DATA_ID                                     12005     
 #define RC_CAMERA1BOARD_SETCONTRAST_DATA_COUNT                                  4         
 #define RC_CAMERA1BOARD_SETCONTRAST_DATA_TYPE                                   float     
 
 ////////////////////Telemetry
-//Number of detected cameras.
+//[AvailableCameras]
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_ID                                12100     
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
 
-//Number of streaming cameras.
+//[StreamingCameras]
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_ID                                12101     
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_TYPE                              uint8_t   
 
 //Picture has been taken.
 #define RC_CAMERA1BOARD_PICTURETAKEN_DATA_ID                                    12102     
-#define RC_CAMERA1BOARD_PICTURETAKEN_DATA_COUNT                                 1         
+#define RC_CAMERA1BOARD_PICTURETAKEN_DATA_COUNT                                 0         
 #define RC_CAMERA1BOARD_PICTURETAKEN_DATA_TYPE                                  uint8_t   
 
-//[cpu0, cpu1, cpu2, cpu3, mem, storage], (% usage)
+//[cpu0, cpu1, cpu2, cpu3, mem, storage] (% usage)
 #define RC_CAMERA1BOARD_UTILIZATION_DATA_ID                                     12103     
 #define RC_CAMERA1BOARD_UTILIZATION_DATA_COUNT                                  6         
 #define RC_CAMERA1BOARD_UTILIZATION_DATA_TYPE                                   uint8_t   
@@ -687,53 +696,53 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//Take a picture with the current camera. [0] is the camera to take a picture with. [1] tells the camera whether to restart the stream afterwards.
+//[Camera, Restart]
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_ID                                     13000     
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_COUNT                                  2         
 #define RC_CAMERA2BOARD_TAKEPICTURE_DATA_TYPE                                   uint8_t   
 
-//Stop the current camera stream. [0] is the camera to stop streaming. [1] is whether to restart the stream.
+//[Camera, Restart]
 #define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_ID                                    13001     
 #define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_COUNT                                 2         
 #define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_TYPE                                  uint8_t   
 
-//0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/ffmpeg_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $ip: output ip, $port: output port, $brightness, $contrast.
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/ffmpeg_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $ip: output ip, $port: output port, $brightness, $contrast)
 #define RC_CAMERA2BOARD_SETFFMPEGARGUMENTS_DATA_ID                              13002     
 #define RC_CAMERA2BOARD_SETFFMPEGARGUMENTS_DATA_COUNT                           16384     
 #define RC_CAMERA2BOARD_SETFFMPEGARGUMENTS_DATA_TYPE                            char      
 
-//0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/picture_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $output: output file without extension, $brightness, $contrast.
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/picture_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $output: output file without extension, $brightness, $contrast)
 #define RC_CAMERA2BOARD_SETPICTUREARGUMENTS_DATA_ID                             13003     
 #define RC_CAMERA2BOARD_SETPICTUREARGUMENTS_DATA_COUNT                          16384     
 #define RC_CAMERA2BOARD_SETPICTUREARGUMENTS_DATA_TYPE                           char      
 
-//Brightness for each camera (-1.0, 1.0)
+//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 1.0)
 #define RC_CAMERA2BOARD_SETBRIGHTNESS_DATA_ID                                   13004     
 #define RC_CAMERA2BOARD_SETBRIGHTNESS_DATA_COUNT                                4         
 #define RC_CAMERA2BOARD_SETBRIGHTNESS_DATA_TYPE                                 float     
 
-//Contrast for each camera (0, 2)
+//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 2.0)
 #define RC_CAMERA2BOARD_SETCONTRAST_DATA_ID                                     13005     
 #define RC_CAMERA2BOARD_SETCONTRAST_DATA_COUNT                                  4         
 #define RC_CAMERA2BOARD_SETCONTRAST_DATA_TYPE                                   float     
 
 ////////////////////Telemetry
-//Number of detected cameras.
+//[AvailableCameras]
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_ID                                13100     
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
 
-//Number of streaming cameras.
+//[StreamingCameras]
 #define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_ID                                13101     
 #define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_TYPE                              uint8_t   
 
 //Picture has been taken.
 #define RC_CAMERA2BOARD_PICTURETAKEN_DATA_ID                                    13102     
-#define RC_CAMERA2BOARD_PICTURETAKEN_DATA_COUNT                                 1         
+#define RC_CAMERA2BOARD_PICTURETAKEN_DATA_COUNT                                 0         
 #define RC_CAMERA2BOARD_PICTURETAKEN_DATA_TYPE                                  uint8_t   
 
-//[cpu0, cpu1, cpu2, cpu3, mem, storage], (% usage)
+//[cpu0, cpu1, cpu2, cpu3, mem, storage] (% usage)
 #define RC_CAMERA2BOARD_UTILIZATION_DATA_ID                                     13103     
 #define RC_CAMERA2BOARD_UTILIZATION_DATA_COUNT                                  6         
 #define RC_CAMERA2BOARD_UTILIZATION_DATA_TYPE                                   uint8_t   
@@ -745,69 +754,69 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 ///////////////////////////////////////////////////
 
 ////////////////////Commands
-//Take a picture with the current camera. [0] is the camera to take a picture with.
+//[Camera]
 #define RC_CAMERASERVERBOARD_TAKEPHOTO_DATA_ID                                  14000     
 #define RC_CAMERASERVERBOARD_TAKEPHOTO_DATA_COUNT                               1         
 #define RC_CAMERASERVERBOARD_TAKEPHOTO_DATA_TYPE                                uint8_t   
 
-//Stop the current camera stream. [0] is the camera to stop streaming. [1] is the action (0 = Shutdown, 1 = Startup, 2 = Restart).
+//[Camera, Action] (id, 0: Shutdown 1: Startup 2: Restart)
 #define RC_CAMERASERVERBOARD_TOGGLESTREAM_DATA_ID                               14001     
 #define RC_CAMERASERVERBOARD_TOGGLESTREAM_DATA_COUNT                            2         
 #define RC_CAMERASERVERBOARD_TOGGLESTREAM_DATA_TYPE                             uint8_t   
 
-//Adjust brightness level (0-255). [0] is the camera ID, [1] is the brightness level.
+//[Camera, Brightness] (id, 0 - 255)
 #define RC_CAMERASERVERBOARD_ADJUSTBRIGHTNESS_DATA_ID                           14002     
 #define RC_CAMERASERVERBOARD_ADJUSTBRIGHTNESS_DATA_COUNT                        2         
 #define RC_CAMERASERVERBOARD_ADJUSTBRIGHTNESS_DATA_TYPE                         uint8_t   
 
-//Adjust contrast level (0-255). [0] is the camera ID, [1] is the contrast level.
+//[Camera, Contrast] (id, 0 - 255)
 #define RC_CAMERASERVERBOARD_ADJUSTCONTRAST_DATA_ID                             14003     
 #define RC_CAMERASERVERBOARD_ADJUSTCONTRAST_DATA_COUNT                          2         
 #define RC_CAMERASERVERBOARD_ADJUSTCONTRAST_DATA_TYPE                           uint8_t   
 
-//Adjust saturation level (0-255). [0] is the camera ID, [1] is the saturation level.
+//[Camera, Saturation] (id, 0 - 255)
 #define RC_CAMERASERVERBOARD_ADJUSTSATURATION_DATA_ID                           14004     
 #define RC_CAMERASERVERBOARD_ADJUSTSATURATION_DATA_COUNT                        2         
 #define RC_CAMERASERVERBOARD_ADJUSTSATURATION_DATA_TYPE                         uint8_t   
 
-//Adjust hue level (0-255). [0] is the camera ID, [1] is the hue level.
+//[Camera, Hue] (id, 0 - 255)
 #define RC_CAMERASERVERBOARD_ADJUSTHUE_DATA_ID                                  14005     
 #define RC_CAMERASERVERBOARD_ADJUSTHUE_DATA_COUNT                               2         
 #define RC_CAMERASERVERBOARD_ADJUSTHUE_DATA_TYPE                                uint8_t   
 
-//Set white balance temperature. [0] is the camera ID, [1] is the white balance level.
+//[Camera, Temperature]
 #define RC_CAMERASERVERBOARD_SETWHITEBALANCE_DATA_ID                            14008     
 #define RC_CAMERASERVERBOARD_SETWHITEBALANCE_DATA_COUNT                         2         
 #define RC_CAMERASERVERBOARD_SETWHITEBALANCE_DATA_TYPE                          uint8_t   
 
-//Adjust backlight contrast level (0-255). [0] is the camera ID, [1] is the backlight contrast level.
+//[Camera, BacklightContrast]
 #define RC_CAMERASERVERBOARD_ADJUSTBACKLIGHTCONTRAST_DATA_ID                    14009     
 #define RC_CAMERASERVERBOARD_ADJUSTBACKLIGHTCONTRAST_DATA_COUNT                 2         
 #define RC_CAMERASERVERBOARD_ADJUSTBACKLIGHTCONTRAST_DATA_TYPE                  uint8_t   
 
-//Set exposure level. [0] is the camera ID, [1] is the exposure level.
+//[Camera, Exposure]
 #define RC_CAMERASERVERBOARD_SETEXPOSURE_DATA_ID                                14010     
 #define RC_CAMERASERVERBOARD_SETEXPOSURE_DATA_COUNT                             2         
 #define RC_CAMERASERVERBOARD_SETEXPOSURE_DATA_TYPE                              int32_t   
 
 ////////////////////Telemetry
-//Bitmask values for which cameras are able to stream. LSB is Camera 0, MSB is Camera 7.
+//[Camera0, Camera1, Camera2, Camera3, Camera4, Camera5, Camera6, Camera7] (bitmask able to stream)
 #define RC_CAMERASERVERBOARD_AVAILABLECAMERAS_DATA_ID                           14100     
 #define RC_CAMERASERVERBOARD_AVAILABLECAMERAS_DATA_COUNT                        1         
 #define RC_CAMERASERVERBOARD_AVAILABLECAMERAS_DATA_TYPE                         uint8_t   
 
-//Which cameras the system is currently streaming on each port
+//[Port0, Port1, Port2, Port3] (currently streaming on each port)
 #define RC_CAMERASERVERBOARD_STREAMINGCAMERAS_DATA_ID                           14101     
 #define RC_CAMERASERVERBOARD_STREAMINGCAMERAS_DATA_COUNT                        4         
 #define RC_CAMERASERVERBOARD_STREAMINGCAMERAS_DATA_TYPE                         uint8_t   
 
-//Picture has been taken.
-#define RC_CAMERASERVERBOARD_PICTURETAKEN1_DATA_ID                              14102     
-#define RC_CAMERASERVERBOARD_PICTURETAKEN1_DATA_COUNT                           1         
-#define RC_CAMERASERVERBOARD_PICTURETAKEN1_DATA_TYPE                            uint8_t   
+//Picture has been taken
+#define RC_CAMERASERVERBOARD_PICTURETAKEN_DATA_ID                               14102     
+#define RC_CAMERASERVERBOARD_PICTURETAKEN_DATA_COUNT                            0         
+#define RC_CAMERASERVERBOARD_PICTURETAKEN_DATA_TYPE                             uint8_t   
 
 ////////////////////Error
-//Camera has errored and stopped streaming. [0] is ID of camera as an integer (not bitmask).
+//[Camera] (id) Camera has errored and stopped streaming
 #define RC_CAMERASERVERBOARD_CAMERAUNAVAILABLE_DATA_ID                          14200     
 #define RC_CAMERASERVERBOARD_CAMERAUNAVAILABLE_DATA_COUNT                       1         
 #define RC_CAMERASERVERBOARD_CAMERAUNAVAILABLE_DATA_TYPE                        uint8_t   
@@ -839,7 +848,7 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 #define RC_RAMANBOARD_WATCHDOGOVERRIDE_DATA_COUNT                               1         
 #define RC_RAMANBOARD_WATCHDOGOVERRIDE_DATA_TYPE                                uint8_t   
 
-//[0-disable, 1-enable]
+//[Enabled]
 #define RC_RAMANBOARD_LASER_DATA_ID                                             16004     
 #define RC_RAMANBOARD_LASER_DATA_COUNT                                          1         
 #define RC_RAMANBOARD_LASER_DATA_TYPE                                           uint8_t   
@@ -850,7 +859,7 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_TYPE                             uint32_t  
 
 ////////////////////Telemetry
-//[InstrumentsAxis, TOF] (mm)
+//[InstrumentsAxis, TOF] (mm, mm)
 #define RC_RAMANBOARD_POSITION_DATA_ID                                          16100     
 #define RC_RAMANBOARD_POSITION_DATA_COUNT                                       2         
 #define RC_RAMANBOARD_POSITION_DATA_TYPE                                        float     
@@ -880,7 +889,7 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 #define RC_RAMANBOARD_RAMANREADING_PART4_DATA_COUNT                             512       
 #define RC_RAMANBOARD_RAMANREADING_PART4_DATA_TYPE                              uint16_t  
 
-//[InstrumentsAxis Ping Time] (ms)
+//[InstrumentsAxis] (ping time ms)
 #define RC_RAMANBOARD_SMOCOPING_DATA_ID                                         16106     
 #define RC_RAMANBOARD_SMOCOPING_DATA_COUNT                                      1         
 #define RC_RAMANBOARD_SMOCOPING_DATA_TYPE                                       uint16_t  
