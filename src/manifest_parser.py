@@ -42,19 +42,10 @@ this.header_file = None
 
 def insert_commit_time():
     # Get time of last commit
-    commit_time = subprocess.run(["git", "log", "-1", "--format=%ci"], capture_output=True, text=True).stdout.strip()
-
-    # Convert string to datetime
-    dt = datetime.strptime(commit_time, "%Y-%m-%d %H:%M:%S %z")
-
-    # Convert to UTC datetime
-    utc_dt = dt.astimezone(timezone.utc)
-
-    # Make it a string for the macro
-    utc_string = f'"{utc_dt}"'
+    commit_time = subprocess.run(["git", "log", "-1", "--format=%ct", "--", "../manifest"], capture_output=True, text=True).stdout.strip()
 
     this.header_file.write(
-        f"{define_prefix + ' RC_MANIFEST_TIME':<60}{utc_string:<10}\n"
+        f"{define_prefix + ' RC_MANIFEST_TIME':<60}{commit_time:<10}\n"
     )
 
 def insert_packets(board, type):
