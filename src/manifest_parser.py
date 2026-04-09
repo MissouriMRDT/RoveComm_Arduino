@@ -1,6 +1,7 @@
 import json
 import sys
-
+import subprocess
+from datetime import datetime, timezone
 
 # Define some c specific #defines and file header
 define_prefix = "#define"
@@ -39,6 +40,22 @@ this.manifest = None
 this.manifest_file = None
 this.header_file = None
 
+def insert_commit_time():
+    # Get time of last commit
+    commit_time = subprocess.run(["git", "log", "-1", "--format=%ci"], capture_output=True, text=True).stdout.strip()
+
+    # Convert string to datetime
+    dt = datetime.strptime(commit_time, "%Y-%m-%d %H:%M:%S %z")
+
+    # Convert to UTC datetime
+    utc_dt = dt.astimezone(timezone.utc)
+
+    # Make it a string for the macro
+    utc_string = f'"{utc_dt}"'
+
+    this.header_file.write(
+        f"{define_prefix + ' RC_MANIFEST_TIME':<60}{utc_string:<10}\n"
+    )
 
 def insert_packets(board, type):
     """
@@ -84,6 +101,8 @@ def insert_enums(board):
             output = output[:-1] #Removing "," from the last element of the enum 
             this.header_file.write(f"{output + '};'} \n")
 
+
+
 if __name__ == "__main__":
     # Load the json file
     this.manifest_file = open("../manifest/manifest.json", "r").read()
@@ -98,6 +117,10 @@ if __name__ == "__main__":
     this.manifest = this.manifest_file["RovecommManifest"]
     this.header_file = open("RoveCommManifest.h", "w")
     this.header_file.write(header)
+
+    insert_commit_time()
+
+
 
     # Write all the Ips and Ports together
     for board in this.manifest:
@@ -122,6 +145,8 @@ if __name__ == "__main__":
             f"{define_prefix + ' RC_'+board.upper()+'BOARD'+'_IPADDRESS':<60}{'{'+ip.replace('.', ', ')+'}':<10}\n"
         )
         this.header_file.write("\n")
+
+    
 
     # A couple of newlines between IP assignments and rovecomm messages
     this.header_file.write("\n\n")
