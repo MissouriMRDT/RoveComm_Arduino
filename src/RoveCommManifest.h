@@ -385,14 +385,14 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_ARMBOARD_IKPOSITION_DATA_TYPE                                        float     
 
 //[X, Y, Z, J4, J5, J6] (in, in, in, deg, deg, deg)
-#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_ID                                 8005      
-#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_COUNT                              6         
-#define RC_ARMBOARD_IKPOSITIONINCREMENT_DATA_TYPE                               float     
+#define RC_ARMBOARD_IKWRISTINCREMENT_DATA_ID                                    8005      
+#define RC_ARMBOARD_IKWRISTINCREMENT_DATA_COUNT                                 6         
+#define RC_ARMBOARD_IKWRISTINCREMENT_DATA_TYPE                                  float     
 
 //[TX, TY, TZ, RX, RY, RZ] (in, in, in, deg, deg, deg)
-#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_ID                                     8006      
-#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_COUNT                                  6         
-#define RC_ARMBOARD_IKPOSEINCREMENT_DATA_TYPE                                   float     
+#define RC_ARMBOARD_IKWORLDINCREMENT_DATA_ID                                    8006      
+#define RC_ARMBOARD_IKWORLDINCREMENT_DATA_COUNT                                 6         
+#define RC_ARMBOARD_IKWORLDINCREMENT_DATA_TYPE                                  float     
 
 //[Enabled]
 #define RC_ARMBOARD_LASER_DATA_ID                                               8007      
@@ -444,6 +444,11 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_ARMBOARD_ARMGIMBAL2_DATA_COUNT                                       2         
 #define RC_ARMBOARD_ARMGIMBAL2_DATA_TYPE                                        int16_t   
 
+//[TX, TY, TZ, RX, RY, RZ] (in, in, in, deg, deg, deg)
+#define RC_ARMBOARD_IKTOOLINCREMENT_DATA_ID                                     80017     
+#define RC_ARMBOARD_IKTOOLINCREMENT_DATA_COUNT                                  6         
+#define RC_ARMBOARD_IKTOOLINCREMENT_DATA_TYPE                                   float     
+
 ////////////////////Telemetry
 //[X, J2, J3, J4, J5, J6, GX, GY, GZ] (in, deg, deg, deg, deg, deg, in, in, in)
 #define RC_ARMBOARD_POSITION_DATA_ID                                            8100      
@@ -464,6 +469,11 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_ARMBOARD_SMOCOPING_DATA_ID                                           8103      
 #define RC_ARMBOARD_SMOCOPING_DATA_COUNT                                        7         
 #define RC_ARMBOARD_SMOCOPING_DATA_TYPE                                         uint16_t  
+
+//[X, J2, J3, J4, J5, J6] (in, deg, deg, deg, deg, deg)
+#define RC_ARMBOARD_TARGET_DATA_ID                                              8104      
+#define RC_ARMBOARD_TARGET_DATA_COUNT                                           6         
+#define RC_ARMBOARD_TARGET_DATA_TYPE                                            float     
 
 
 
@@ -542,6 +552,11 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_AUGERBOARD_SMOCOPING_DATA_ID                                         9105      
 #define RC_AUGERBOARD_SMOCOPING_DATA_COUNT                                      1         
 #define RC_AUGERBOARD_SMOCOPING_DATA_TYPE                                       uint16_t  
+
+//[LEDTimer] (ms)
+#define RC_AUGERBOARD_LEDSTATUS_DATA_ID                                         9106      
+#define RC_AUGERBOARD_LEDSTATUS_DATA_COUNT                                      1         
+#define RC_AUGERBOARD_LEDSTATUS_DATA_TYPE                                       uint16_t  
 
 
 
@@ -626,6 +641,16 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_AUTONOMYBOARD_THREADFPS_DATA_COUNT                                   2         
 #define RC_AUTONOMYBOARD_THREADFPS_DATA_TYPE                                    uint32_t  
 
+//[Lat, Lon, Lat, Lon, ...] (deg, deg, deg, deg, ...)
+#define RC_AUTONOMYBOARD_PATHWAYPOINTS_DATA_ID                                  11104     
+#define RC_AUTONOMYBOARD_PATHWAYPOINTS_DATA_COUNT                               1000      
+#define RC_AUTONOMYBOARD_PATHWAYPOINTS_DATA_TYPE                                double    
+
+//[EstimatedTimeToGoal] (s)
+#define RC_AUTONOMYBOARD_TIMEREMAINING_DATA_ID                                  11105     
+#define RC_AUTONOMYBOARD_TIMEREMAINING_DATA_COUNT                               1         
+#define RC_AUTONOMYBOARD_TIMEREMAINING_DATA_TYPE                                double    
+
 ////////////////////Enums
 enum AUTONOMYBOARD_AUTONOMYSTATE {IDLE,NAVIGATING,SEARCHPATTERN,APPROACHINGMARKER,APPROACHINGOBJECT,VERIFYINGGPS,VERIFYINGMARKER,VERIFYINGOBJECT,REVERSING,STUCK}; 
 enum AUTONOMYBOARD_AUTONOMYLOG {TRACEL3,TRACEL2,TRACEL1,DEBUG,INFO,NOTICE,WARNING,ERROR,CRITICAL}; 
@@ -648,44 +673,29 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 #define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_COUNT                                 2         
 #define RC_CAMERA1BOARD_TOGGLESTREAM_DATA_TYPE                                  uint8_t   
 
-//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/ffmpeg_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $ip: output ip, $port: output port, $brightness, $contrast)
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16383 characters for RPi-Camera/config.toml/ffmpeg_arguments, byte after 0x04 is camera index. See RPI-Camera/config.toml for substitutions)
 #define RC_CAMERA1BOARD_SETFFMPEGARGUMENTS_DATA_ID                              12002     
 #define RC_CAMERA1BOARD_SETFFMPEGARGUMENTS_DATA_COUNT                           16384     
 #define RC_CAMERA1BOARD_SETFFMPEGARGUMENTS_DATA_TYPE                            char      
 
-//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/picture_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $output: output file without extension, $brightness, $contrast)
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16383 characters for RPi-Camera/config.toml/picture_arguments, byte after 0x04 is camera index. See RPI-Camera/config.toml for substitutions)
 #define RC_CAMERA1BOARD_SETPICTUREARGUMENTS_DATA_ID                             12003     
 #define RC_CAMERA1BOARD_SETPICTUREARGUMENTS_DATA_COUNT                          16384     
 #define RC_CAMERA1BOARD_SETPICTUREARGUMENTS_DATA_TYPE                           char      
 
-//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 1.0)
-#define RC_CAMERA1BOARD_SETBRIGHTNESS_DATA_ID                                   12004     
-#define RC_CAMERA1BOARD_SETBRIGHTNESS_DATA_COUNT                                4         
-#define RC_CAMERA1BOARD_SETBRIGHTNESS_DATA_TYPE                                 float     
-
-//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 2.0)
-#define RC_CAMERA1BOARD_SETCONTRAST_DATA_ID                                     12005     
-#define RC_CAMERA1BOARD_SETCONTRAST_DATA_COUNT                                  4         
-#define RC_CAMERA1BOARD_SETCONTRAST_DATA_TYPE                                   float     
-
 ////////////////////Telemetry
-//[AvailableCameras]
+//[Connected, Streaming] (bitmask indexes, bitmask indexes)
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_ID                                12100     
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
 
-//[StreamingCameras]
-#define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_ID                                12101     
-#define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_COUNT                             1         
-#define RC_CAMERA1BOARD_STREAMINGCAMERAS_DATA_TYPE                              uint8_t   
-
 //Picture has been taken.
-#define RC_CAMERA1BOARD_PICTURETAKEN_DATA_ID                                    12102     
+#define RC_CAMERA1BOARD_PICTURETAKEN_DATA_ID                                    12101     
 #define RC_CAMERA1BOARD_PICTURETAKEN_DATA_COUNT                                 0         
 #define RC_CAMERA1BOARD_PICTURETAKEN_DATA_TYPE                                  uint8_t   
 
 //[cpu0, cpu1, cpu2, cpu3, mem, storage] (% usage)
-#define RC_CAMERA1BOARD_UTILIZATION_DATA_ID                                     12103     
+#define RC_CAMERA1BOARD_UTILIZATION_DATA_ID                                     12102     
 #define RC_CAMERA1BOARD_UTILIZATION_DATA_COUNT                                  6         
 #define RC_CAMERA1BOARD_UTILIZATION_DATA_TYPE                                   uint8_t   
 
@@ -706,44 +716,29 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 #define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_COUNT                                 2         
 #define RC_CAMERA2BOARD_TOGGLESTREAM_DATA_TYPE                                  uint8_t   
 
-//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/ffmpeg_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $ip: output ip, $port: output port, $brightness, $contrast)
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16383 characters for RPi-Camera/config.toml/ffmpeg_arguments, byte after 0x04 is camera index. See RPI-Camera/config.toml for substitutions)
 #define RC_CAMERA2BOARD_SETFFMPEGARGUMENTS_DATA_ID                              13002     
 #define RC_CAMERA2BOARD_SETFFMPEGARGUMENTS_DATA_COUNT                           16384     
 #define RC_CAMERA2BOARD_SETFFMPEGARGUMENTS_DATA_TYPE                            char      
 
-//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16384 characters for RPi-Camera/config.toml/picture_arguments. Accepts the following substitutions: $index: camera index, $input: input device file, $output: output file without extension, $brightness, $contrast)
+//[Arguments] (0x1f delimited, 0x04 terminated list with maximum length of 16383 characters for RPi-Camera/config.toml/picture_arguments, byte after 0x04 is camera index. See RPI-Camera/config.toml for substitutions)
 #define RC_CAMERA2BOARD_SETPICTUREARGUMENTS_DATA_ID                             13003     
 #define RC_CAMERA2BOARD_SETPICTUREARGUMENTS_DATA_COUNT                          16384     
 #define RC_CAMERA2BOARD_SETPICTUREARGUMENTS_DATA_TYPE                           char      
 
-//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 1.0)
-#define RC_CAMERA2BOARD_SETBRIGHTNESS_DATA_ID                                   13004     
-#define RC_CAMERA2BOARD_SETBRIGHTNESS_DATA_COUNT                                4         
-#define RC_CAMERA2BOARD_SETBRIGHTNESS_DATA_TYPE                                 float     
-
-//[Camera0, Camera1, Camera2, Camera3] (-1.0 - 2.0)
-#define RC_CAMERA2BOARD_SETCONTRAST_DATA_ID                                     13005     
-#define RC_CAMERA2BOARD_SETCONTRAST_DATA_COUNT                                  4         
-#define RC_CAMERA2BOARD_SETCONTRAST_DATA_TYPE                                   float     
-
 ////////////////////Telemetry
-//[AvailableCameras]
+//[Connected, Streaming] (bitmask indexes, bitmask indexes)
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_ID                                13100     
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
 
-//[StreamingCameras]
-#define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_ID                                13101     
-#define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_COUNT                             1         
-#define RC_CAMERA2BOARD_STREAMINGCAMERAS_DATA_TYPE                              uint8_t   
-
 //Picture has been taken.
-#define RC_CAMERA2BOARD_PICTURETAKEN_DATA_ID                                    13102     
+#define RC_CAMERA2BOARD_PICTURETAKEN_DATA_ID                                    13101     
 #define RC_CAMERA2BOARD_PICTURETAKEN_DATA_COUNT                                 0         
 #define RC_CAMERA2BOARD_PICTURETAKEN_DATA_TYPE                                  uint8_t   
 
 //[cpu0, cpu1, cpu2, cpu3, mem, storage] (% usage)
-#define RC_CAMERA2BOARD_UTILIZATION_DATA_ID                                     13103     
+#define RC_CAMERA2BOARD_UTILIZATION_DATA_ID                                     13102     
 #define RC_CAMERA2BOARD_UTILIZATION_DATA_COUNT                                  6         
 #define RC_CAMERA2BOARD_UTILIZATION_DATA_TYPE                                   uint8_t   
 
@@ -853,7 +848,7 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 #define RC_RAMANBOARD_LASER_DATA_COUNT                                          1         
 #define RC_RAMANBOARD_LASER_DATA_TYPE                                           uint8_t   
 
-//[Integration Time] (ms)
+//[Integration Time, Sample Count] (ms, n)
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_ID                               16005     
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_COUNT                            1         
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_TYPE                             uint32_t  
@@ -869,28 +864,33 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 #define RC_RAMANBOARD_LIMITSWITCH_DATA_COUNT                                    1         
 #define RC_RAMANBOARD_LIMITSWITCH_DATA_TYPE                                     uint8_t   
 
-//Raman CCD elements 1-512
+//Raman CCD elements 0-511
 #define RC_RAMANBOARD_RAMANREADING_PART1_DATA_ID                                16102     
 #define RC_RAMANBOARD_RAMANREADING_PART1_DATA_COUNT                             512       
 #define RC_RAMANBOARD_RAMANREADING_PART1_DATA_TYPE                              uint16_t  
 
-//Raman CCD elements 513-1024
+//Raman CCD elements 512-1023
 #define RC_RAMANBOARD_RAMANREADING_PART2_DATA_ID                                16103     
 #define RC_RAMANBOARD_RAMANREADING_PART2_DATA_COUNT                             512       
 #define RC_RAMANBOARD_RAMANREADING_PART2_DATA_TYPE                              uint16_t  
 
-//Raman CCD elements 1025-1536
+//Raman CCD elements 1024-1535
 #define RC_RAMANBOARD_RAMANREADING_PART3_DATA_ID                                16104     
 #define RC_RAMANBOARD_RAMANREADING_PART3_DATA_COUNT                             512       
 #define RC_RAMANBOARD_RAMANREADING_PART3_DATA_TYPE                              uint16_t  
 
-//Raman CCD elements 1537-2048
+//Raman CCD elements 1536-2047
 #define RC_RAMANBOARD_RAMANREADING_PART4_DATA_ID                                16105     
 #define RC_RAMANBOARD_RAMANREADING_PART4_DATA_COUNT                             512       
 #define RC_RAMANBOARD_RAMANREADING_PART4_DATA_TYPE                              uint16_t  
 
+//Raman CCD elements 2048-2559
+#define RC_RAMANBOARD_RAMANREADING_PART5_DATA_ID                                16106     
+#define RC_RAMANBOARD_RAMANREADING_PART5_DATA_COUNT                             512       
+#define RC_RAMANBOARD_RAMANREADING_PART5_DATA_TYPE                              uint16_t  
+
 //[InstrumentsAxis] (ping time ms)
-#define RC_RAMANBOARD_SMOCOPING_DATA_ID                                         16106     
+#define RC_RAMANBOARD_SMOCOPING_DATA_ID                                         16107     
 #define RC_RAMANBOARD_SMOCOPING_DATA_COUNT                                      1         
 #define RC_RAMANBOARD_SMOCOPING_DATA_TYPE                                       uint16_t  
 
