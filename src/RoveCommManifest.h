@@ -556,7 +556,7 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 //[LEDTimer] (ms)
 #define RC_AUGERBOARD_LEDSTATUS_DATA_ID                                         9106      
 #define RC_AUGERBOARD_LEDSTATUS_DATA_COUNT                                      1         
-#define RC_AUGERBOARD_LEDSTATUS_DATA_TYPE                                       uint16_t  
+#define RC_AUGERBOARD_LEDSTATUS_DATA_TYPE                                       int32_t   
 
 
 
