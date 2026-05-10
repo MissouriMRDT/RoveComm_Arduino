@@ -445,7 +445,7 @@ enum COREBOARD_VESCFAULTCODE {NONE,OVER_VOLTAGE,UNDER_VOLTAGE,DRV,ABS_OVER_CURRE
 #define RC_ARMBOARD_ARMGIMBAL2_DATA_TYPE                                        int16_t   
 
 //[TX, TY, TZ, RX, RY, RZ] (in, in, in, deg, deg, deg)
-#define RC_ARMBOARD_IKTOOLINCREMENT_DATA_ID                                     80017     
+#define RC_ARMBOARD_IKTOOLINCREMENT_DATA_ID                                     8017      
 #define RC_ARMBOARD_IKTOOLINCREMENT_DATA_COUNT                                  6         
 #define RC_ARMBOARD_IKTOOLINCREMENT_DATA_TYPE                                   float     
 
@@ -686,7 +686,7 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 ////////////////////Telemetry
 //[Connected, Streaming] (bitmask indexes, bitmask indexes)
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_ID                                12100     
-#define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
+#define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_COUNT                             2         
 #define RC_CAMERA1BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
 
 //Picture has been taken.
@@ -729,7 +729,7 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 ////////////////////Telemetry
 //[Connected, Streaming] (bitmask indexes, bitmask indexes)
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_ID                                13100     
-#define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_COUNT                             1         
+#define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_COUNT                             2         
 #define RC_CAMERA2BOARD_AVAILABLECAMERAS_DATA_TYPE                              uint8_t   
 
 //Picture has been taken.
@@ -850,7 +850,7 @@ enum AUTONOMYBOARD_AUTONOMYWAYPOINTTYPES {CONTINUOUSNAVIGATE,ROCKPICK,WATERBOTTL
 
 //[Integration Time, Sample Count] (ms, n)
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_ID                               16005     
-#define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_COUNT                            1         
+#define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_COUNT                            2         
 #define RC_RAMANBOARD_REQUESTRAMANREADING_DATA_TYPE                             uint32_t  
 
 ////////////////////Telemetry
