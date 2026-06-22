@@ -65,9 +65,9 @@ bool RoveCommEthernetUDP::read(RoveCommPacket &dest) {
             }
         }
     } else if (dest.dataId == RC_ROVECOMM_PING_DATA_ID) {
-        // Echo the packet as it came in
-        _writeTo(static_cast<rovecomm::data_type_t>(dest.dataType), RC_ROVECOMM_PING_REPLY_DATA_ID, dest.dataCount,
-                 dest.data, remoteIP, RC_ROVECOMM_ETHERNET_UDP_PORT);
+        // Send back the time of last commit of manifest submodule
+        _writeTo(rovecomm::UINT32_T, RC_ROVECOMM_PING_REPLY_DATA_ID, 1,
+                 RC_MANIFEST_TIME, remoteIP, RC_ROVECOMM_ETHERNET_UDP_PORT);
     }
     return true;
 }

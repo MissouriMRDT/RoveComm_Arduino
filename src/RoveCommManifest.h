@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <IPAddress.h>
 
+#define RC_MANIFEST_TIME                                    1771280511
 #define RC_COREBOARD_FIRSTOCTET                             192       
 #define RC_COREBOARD_SECONDOCTET                            168       
 #define RC_COREBOARD_THIRDOCTET                             2         

@@ -81,9 +81,9 @@ bool RoveCommEthernetTCP::read(RoveCommPacket &dest) {
         if (rovecomm::unpackPacket(dest, readBuf)) return true;
 
         if (dest.dataId == RC_ROVECOMM_PING_DATA_ID) {
-            // Echo the packet as it came in
-            _writeTo(static_cast<rovecomm::data_type_t>(dest.dataType), RC_ROVECOMM_PING_REPLY_DATA_ID, dest.dataCount,
-                     dest.data, client.remoteIP(), RC_ROVECOMM_ETHERNET_UDP_PORT);
+            // Send back the time of last commit of manifest submodule
+            _writeTo(rovecomm::UINT32_T, RC_ROVECOMM_PING_REPLY_DATA_ID, 1,
+                     RC_MANIFEST_TIME, client.remoteIP(), RC_ROVECOMM_ETHERNET_UDP_PORT);
         }
     }
     // No clients with data were found
